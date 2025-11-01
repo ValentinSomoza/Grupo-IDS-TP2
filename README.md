@@ -31,33 +31,31 @@ bash entornos.sh
 
 - **(Manual)**
 
-    Crear la siguiente estrutura de para almacenar el proyecto:
-    - `WEP-HOSPEDAJES`
 
-        - `/GRUPO-IDS-TP2`
-
-            - `/Backend`
-
-                - `/.evenv`
-                - `/db`
-                - `app.py`
-
-            - `/Frontend`
-
-                - `/.evenv`
-                - `/static`
-                - `/templates`
-                - `app.py`
-
-
-
-    - Para la descargar del contenido ubícate en el directorio (**/WEP-HOSPEDAJES**) y ejecuta el siguiente comando:
+    - Para la descargar del contenido ubícate en el directorio, abre la **Terminal** y ejecuta el siguiente comando:
 
         ```bash
         git clone https://github.com/ValentinSomoza/Grupo-IDS-TP2.git 
         ```
 
-    - Para instalar flask en el entorno virtual (Backend y Frontend):
+    - Crear los siguientes directorios *.evenv* en la estrutura para el entorno virtual:
+
+        - `/Grupo-IDS-TP2`
+
+            - `/Backend`
+
+                - [X] `/.evenv`
+                - `/db`
+                - `app.py`
+
+            - `/Frontend`
+
+                - [X] `/.evenv`
+                - `/static`
+                - `/templates`
+                - `app.py`
+
+    - Instalar flask en el entorno virtual (Backend y Frontend):
 
          ```bash
         pipenv install flask
