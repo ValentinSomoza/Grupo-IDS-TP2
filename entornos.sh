@@ -1,16 +1,16 @@
 #!bin/bash
 mkdir WEP-HOSPEDAJES
 cd WEP-HOSPEDAJES
-mkdir GRUPO-IDS-TP2
-cd GRUPO-IDS-TP2
-mkdir BACKEND
-mkdir FRONTEND
-cd BACKEND
+mkdir Grupo-IDS-TP2
+cd Grupo-IDS-TP2
+mkdir Backend
+mkdir Frontend
+cd Backend
 mkdir .venv
 mkdir db    
 touch app.py
 cd ..
-cd FRONTEND
+cd Frontend
 mkdir .venv
 mkdir static
 mkdir templates
@@ -19,9 +19,9 @@ cd ..
 cd ..
 git clone https://github.com/ValentinSomoza/Grupo-IDS-TP2.git
 cd Grupo-IDS-TP2
-cd BACKEND
+cd Backend
 pipenv install flask
 cd ..
-cd FRONTEND
+cd Frontend
 pipenv install flask
 cd ..

@@ -23,7 +23,7 @@ Para disponer del sitio web es necesario seguir con los siguientes pasos:
 
 Se puede crear de forma manual o automática:
 
-- **(Automática)** se ejecutará el script [entornos.sh](/entornos.sh):
+- **(Automática)** descargar y ejecutar el script [entornos.sh](/entornos.sh):
 
 ```bash
 bash entornos.sh
@@ -31,7 +31,7 @@ bash entornos.sh
 
 - **(Manual)**
 
-    Se deberá crear la siguiente estrutura de para almacenar el proyecto:
+    Crear la siguiente estrutura de para almacenar el proyecto:
     - `WEP-HOSPEDAJES`
 
         - `/GRUPO-IDS-TP2`
@@ -51,7 +51,7 @@ bash entornos.sh
 
 
 
-    - Para la descarga del contenido deberás ubicarte en el directorio (**/WEP-HOSPEDAJES**) y ejecuta el siguiente comando:
+    - Para la descargar del contenido ubícate en el directorio (**/WEP-HOSPEDAJES**) y ejecuta el siguiente comando:
 
         ```bash
         git clone https://github.com/ValentinSomoza/Grupo-IDS-TP2.git 
@@ -65,7 +65,7 @@ bash entornos.sh
 
 ### 2. Activación del entorno virtual
 
-Esta acción se realiza tanto para el Backend y Fronted (**en diferentes terminales**)
+Esta acción se debe realizar tanto para el Backend y Fronted (**en diferentes terminales**)
 
 ```bash
 pipenv shell
@@ -73,7 +73,7 @@ pipenv shell
 
 ### 3. Instalación de dependecias
 
-- **(Automática)** se instalará todas las [dependencias](/dependencias.txt):
+- **(Automática)** instalar todas las [dependencias](/dependencias.txt):
 
     ```bash
     pip install -r requerimientos.txt
