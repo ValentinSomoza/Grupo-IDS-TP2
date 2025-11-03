@@ -5,7 +5,9 @@
     <head>
         <!-- Titulo de la pestania -->
         <title>{% block title %}Mi Página{% endblock %}</title>
-
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> 
     </head>
 
     <body>
@@ -15,6 +17,7 @@
                 <!-- Unordened List de los items que contendra el navbar con item list -->
                 <li><a href="{{ url_for('index')}}">Inicio</a></li>
                 <li><a href="{{ url_for('galeria')}}">Galeria</a></li>
+                <li><a href="{{ url_for('mapa')}}">Ubicacion</a></li>
             </ul>
         </nav>
 

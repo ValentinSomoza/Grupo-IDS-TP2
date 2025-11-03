@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Mapa de la zona{% endblock %}
+
+{% block content %}
+
+<section id="recorrido" class="main style1">
+    <div class="major-title">Mapa del recorrido</div>
+    <div id="mapContainer">
+        <iframe 
+            src="https://www.google.com/maps/d/u/0/embed?mid=1YT2WJ7-nOauak3aHG-FShfMaM2AACys&ehbc=2E312F"
+            width="100%" 
+            height="600" 
+            style="border:0;" 
+            allowfullscreen>
+        </iframe>
+    </div>
+</section>
+
+{% endblock %}
