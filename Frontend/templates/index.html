@@ -1,122 +1,75 @@
-<!--Inicio-->
-    <section id="inicio">
-        <div class="inner">
-            <h1><strong>Hotel Relax and Flask</strong></h1>
-            <p><strong>Página oficial del Hotel</strong></p>
-        </div>
-    </section>
+{% block title %}Hotel Hilton {% endblock %}
 
-<!-- modalidades -->
-    <section id="modalidades" class="main style1 special">
-        
-        <!-- primer conteiner -->
-        <div class="container"> 
-            <header class="major">
-                <h2>Modalidades de ciclismo</h2>
-                <h3>CROSS-COUNTRY</h3>
-            </header>
-            <p>
-                La disciplina más conocida del ciclismo de montaña que prioriza la velocidad que implica
-                pedaleo a través de montañas que dificultan las subidas empinadas y bajadas con obtaculos,
-                (Cross-country Marathon, Cross-Country Relay ,Cross-country Short Track y Cross-country Eliminator) son algunas variaciones comunes.
-            </p>
-            <div class="row gtr-150">
-                <div class="col-4 col-12-medium">
-                    <div class="cuadroimg">
-                        <span class="image fit"><img src="{{ url_for('static', filename='images/modalidades/ccdif.jpg') }}" alt="img" /></span>
-                        <h3>Resistencia y velocidad</h3>
-                        <p>Los ciclistas deben tener un gran resistencia para cubrir largas distancias y ser rápidos en todas las secciones del recorrido</p>
-                    </div>
-                </div>
+{% block content %}
 
-                <div class="col-4 col-12-medium">
-                    <div class="cuadroimg">
-                        <span class="image fit"><img src="{{ url_for('static', filename='images/modalidades/ccbik.jpeg') }}" alt="bicicletas especial" /></span>
-                        <h3>Bicicletas especializadas</h3>
-                        <p>Una de las caracteristicas del Cross-country son las bicicletas ligeras diseñadas para que las subidas sean más rapidas y tambien ser eficientes para cubrir largas distacias, con suspenciones de bajo recorrido (80-110mm).</p>
-                    </div>    
-                </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Hilton Buenos Aires</title>
+</head>
+<body>
+  <header>
+    <h1>Hilton Buenos Aires</h1>
+    <p>Ubicado en Puerto Madero, Buenos Aires, Argentina</p>
+  </header>
 
-                <div class="col-4 col-12-medium">
-                    <div class="cuadroimg">
-                        <span class="image fit"><img src="{{ url_for('static', filename='images/modalidades/ccolym.jpeg') }}" alt="" /></span>
-                        <h3>Modalidad Olímpica</h3>
-                        <p>Esta es la única modalida de ciclismo de montaña que se practica en los Juegos Olímpicos</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <section>
+    <h2>Información General</h2>
+    <p>Dirección: Av Macacha Güemes 351, C1106BKG, Buenos Aires</p>
+    <p>Teléfono: +54 11 4891-0000</p>
+    <p>Email: reservations.buenosaires@hilton.com</p>
+    <p>Check-in: 15:00 h | Check-out: 12:00 h</p>
+  </section>
 
-        <!-- segundo conteiner -->
-        <div class="container"> 
-            <header class="major">
-            </header>
-            <h3>ALL MONTAIN</h3>
-            <p>
-                Es una modalidad del ciclismo de montaña (MTB) que busca un equilibrio entre la capacidad de subida y la de descenso. A diferencia del enduro, 
-                que se centra más en los descensos, la bicicleta All Mountain está pensada para ser versátil y manejar diversos terrenos, desde subidas empinadas hasta bajadas técnicas con rocas y raíces. 
-                Es ideal para quienes disfrutan de recorrer toda la montaña sin especializarse en una sola área
-            </p>
-            <div class="row gtr-150">
-                <div class="col-4 col-12-medium">
-                    <div class="cuadroimg">
-                        <span class="image fit"><img src="{{ url_for('static', filename='images/modalidades/amterr.jpg') }}" alt="" /></span>
-                        <h3>Terrenos variados</h3>
-                        <p>Rutas que incluyen descensos empinados y senderos técnicos pero tambien ascensos exigentes</p>
-                    </div>
-                </div>
+  <section>
+    <h2>Servicios Destacados</h2>
+    <ul>
+      <li>Habitaciones para no fumadores</li>
+      <li>Conserjería</li>
+      <li>Carga para vehículos eléctricos</li>
+      <li>Lounge ejecutivo</li>
+      <li>Restaurante en el hotel</li>
+      <li>Piscina al aire libre</li>
+      <li>Gimnasio</li>
+      <li>Habitaciones pet-friendly</li>
+      <li>Servicio a la habitación</li>
+      <li>Salas de reuniones</li>
+    </ul>
+  </section>
 
-                <div class="col-4 col-12-medium">
-                    <div class="cuadroimg">
-                        <span class="image fit"><img src="{{ url_for('static', filename='images/modalidades/ambik.jpg') }}" alt="" /></span>
-                        <h3>Bicicletas robustas</h3>
-                        <p>las bicicletas de esta disciplina pueden ser de doble suspenspion y con un recorrido más superior de 150 mm para absorcion equilibrada de los inoactos en los terrenos dificiles</p>
-                    </div>    
-                </div>
+  <section>
+    <h2>Restaurantes</h2>
+    <ul>
+      <li><strong>Alberto’s Lobby Bar:</strong> Cocina argentina e internacional con esculturas de Edgardo Madanes.</li>
+      <li><strong>El Faro:</strong> Restaurante con bodega de vinos, ofrece desayuno, almuerzo y cena.</li>
+    </ul>
+  </section>
 
-                <div class="col-4 col-12-medium">
-                    <div class="cuadroimg">
-                        <span class="image fit"><img src="{{ url_for('static', filename='images/modalidades/ammod.jpg') }}" alt="" /></span>
-                        <h3>Equilibrio y habilidad tecnica</h3>
-                        <p>Es necesario tener destreza para superar obtáculos naturales como raices y rocas, los ciclistas buscan un buen rendimiento tanto en el pedaleo de subida como el de bajada</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <section>
+    <h2>Hilton Honors</h2>
+    <ul>
+      <li>Tarifas especiales</li>
+      <li>Puntos para noches gratis</li>
+      <li>Check-in digital</li>
+      <li>Llave digital</li>
+    </ul>
+  </section>
 
-        <!-- tercer conteiner -->
-        <div class="container"> 
-            <header class="major">
-            </header>
-            <h3>TRAIL</h3>
-            <p>
-                El ciclismo de trail es una disciplina del ciclismo de montaña (MTB) que busca la versatilidad en el pedaleo, abordando tanto ascensos como descensos en diferentes terrenos, 
-                desde senderos suaves hasta áreas más técnicas. Se distingue de otras modalidades, como el cross country (más enfocado en la velocidad) o el enduro y downhill (más centrados en el descenso agresivo).
-            </p>
-            <div class="row gtr-150">
-                <div class="col-4 col-12-medium">
-                    <div class="cuadroimg">
-                        <span class="image fit"><img src="{{ url_for('static', filename='images/modalidades/trailrecre.jpg') }}" alt="" /></span>
-                        <h3>Terreno tranquilo</h3>
-                        <p>Se practica en todo tipo de senderos, desde los más fluidos y con menos dificultad hasta aquellos con raíces, rocas, subidas pronunciadas y descensos técnicos.</p>
-                    </div>
-                </div>
+  <section>
+    <h2>Atracciones Cercanas</h2>
+    <ul>
+      <li>Puerto Madero – 0 km</li>
+      <li>Centro de la ciudad – 1 km</li>
+      <li>Plaza de Mayo – 1 km</li>
+      <li>Obelisco – 1.6 km</li>
+      <li>San Telmo – 2 km</li>
+      <li>Recoleta – 4 km</li>
+    </ul>
+  </section>
 
-                <div class="col-4 col-12-medium">
-                    <div class="cuadroimg">
-                        <span class="image fit"><img src="{{ url_for('static', filename='images/modalidades/trailterr.jpg') }}" alt="" /></span>
-                        <h3>Uso recreativo</h3>
-                        <p>El trail es una de las modalidades más practicadas de forma recreativa, ideal para pasar tiempo en la naturaleza y disfrutar del recorrido sin la presión de la velocidad o la competición.</p>
-                    </div>    
-                </div>
+  <footer>
+    <p>Fuente: <a href="https://www.hilton.com/es/hotels/buehihh-hilton-buenos-aires/" target="_blank">Sitio oficial Hilton Buenos Aires</a></p>
+  </footer>
 
-                <div class="col-4 col-12-medium">
-                    <div class="cuadroimg">
-                        <span class="image fit"><img src="{{ url_for('static', filename='images/modalidades/trailbik.jpg') }}" alt="" /></span>
-                        <h3>Bicicletas modernas</h3>
-                        <p>La geometría está pensada para ser más relajada que la de una bicicleta de XC, lo que ofrece mayor control en descensos técnicos. El ángulo del tubo de dirección es más agresivo, lo que ayuda a absorber mejor los impactos y las piedras.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+{% endblock %}
