@@ -1,30 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> 
-    <title>Galeria de fotos</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <div class="contenedor-galeria">
-        <div class="imagenes">
-            <img src="{{url_for('static', filename='images/Fachada.png') }}" alt="">
-            <img src="{{url_for('static', filename='images/Baño 1.jpg') }}" alt="">
-            <img src="{{url_for('static', filename='images/Baño 2.jpg') }}" alt="">
-            <img src="{{url_for('static', filename='images/Dormitorio 1.jpg') }}" alt="">
-            <img src="{{url_for('static', filename='images/Dormitorio 2.jpg') }}" alt="">
-            <img src="{{url_for('static', filename='images/Patio.jpg') }}" alt="">
-            <img src="{{url_for('static', filename='images/living 1.jpg') }}" alt="">
-            <img src="{{url_for('static', filename='images/living 2.jpg') }}" alt="">
-            <img src="{{url_for('static', filename='images/barra.jpg') }}" alt="">
-            <img src="{{url_for('static', filename='images/Parrilla.jpg') }}" alt="">
-            <img src="{{url_for('static', filename='images/Pileta.webp') }}" alt="">
-            <img src="{{url_for('static', filename='images/cancha de tenis.jpg') }}" alt="">
+{% block title %}Galeria de fotos{% endblock %}
 
-        </div>
+{% block content %}
+
+<div class="contenedor-galeria">
+    <div class="imagenes">
+        <img src="{{url_for('static', filename='images/Fachada.png') }}" alt="">
+        <img src="{{url_for('static', filename='images/Baño 1.jpg') }}" alt="">
+        <img src="{{url_for('static', filename='images/Baño 2.jpg') }}" alt="">
+        <img src="{{url_for('static', filename='images/Dormitorio 1.jpg') }}" alt="">
+        <img src="{{url_for('static', filename='images/Dormitorio 2.jpg') }}" alt="">
+        <img src="{{url_for('static', filename='images/Patio.jpg') }}" alt="">
+        <img src="{{url_for('static', filename='images/living 1.jpg') }}" alt="">
+        <img src="{{url_for('static', filename='images/living 2.jpg') }}" alt="">
+        <img src="{{url_for('static', filename='images/barra.jpg') }}" alt="">
+        <img src="{{url_for('static', filename='images/Parrilla.jpg') }}" alt="">
+        <img src="{{url_for('static', filename='images/Pileta.webp') }}" alt="">
+        <img src="{{url_for('static', filename='images/cancha de tenis.jpg') }}" alt="">
+
     </div>
-    
-</body>
-</html>
+</div>
+
+{% endblock %}
+
+
