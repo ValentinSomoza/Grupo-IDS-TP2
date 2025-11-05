@@ -6,5 +6,73 @@
     
     <div class="form-container">
         <form id="reservaForm" action="{{ url_for('procesar_reserva') }}" method="post">
+            <label for="checkin">Fecha de Entrada (Check-in):</label>
+            <input 
+                type="date" 
+                id="checkin" 
+                name="fecha_entrada" 
+                placeholder="AAAA-MM-DD" 
+                required
+            >
+
+            <label for="checkout">Fecha de Salida (Check-out):</label>
+            <input 
+                type="date" 
+                id="checkout" 
+                name="fecha_salida" 
+                placeholder="AAAA-MM-DD" 
+                required
+            >
+
+            <label for="adults">Número de Adultos:</label>
+            <input 
+                type="number" 
+                id="adults" 
+                name="cant_adultos" 
+                min="1" 
+                value="1"
+                required
+            >
+
+            <label for="children">Número de Niños (Opcional):</label>
+            <input 
+                type="number" 
+                id="children" 
+                name="cant_ninos" 
+                min="0" 
+                value="0"
+            >
+            
+            <label for="room_type">Tipo de Habitación:</label>
+            <select id="room_type" name="tipo_habitacion" required>
+                <option value="" disabled selected>Seleccione el tipo de habitación</option>
+                <option value="king">King Ejecutiva</option>
+                <option value="doble">Doble (2 Camas)</option>
+                <option value="suite">Suite</option>
+            </select>
+            
+            <hr>
+            <h3>Datos del Huésped Principal</h3>
+            
+            <label for="firstname">Nombre del Titular:</label>
+            <input type="text" id="firstname" name="nombre_huesped" placeholder="Nombre" required>
+
+            <label for="lastname">Apellido del Titular:</label>
+            <input type="text" id="lastname" name="apellido_huesped" placeholder="Apellido" required>
+
+            <label for="doc_id">D.N.I o Pasaporte:</label>
+            <input 
+                type="text" 
+                id="doc_id" 
+                name="documento_huesped" 
+                placeholder="D.N.I o Pasaporte" 
+                pattern="[0-9]+" 
+                inputmode="numeric" 
+                oninvalid="this.setCustomValidity('Por favor ingrese solo números en el DNI o Pasaporte')"
+                oninput="this.setCustomValidity('')"
+                required>
+
+            <label for="email">Email de Confirmación:</label>
+            <input type="email" id="email" name="email_huesped" placeholder="Email" required>
 
             
