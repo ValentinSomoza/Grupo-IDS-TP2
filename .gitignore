@@ -1,3 +1,6 @@
+# Ignoro las credenciales de la base de datos
+Backend/.env
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
