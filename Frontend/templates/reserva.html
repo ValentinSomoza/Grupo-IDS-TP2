@@ -7,28 +7,35 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <section id="reserva" class="main style2 special">
+    <section class="pagina-reserva">
         <div class="conteiner-datos">
-            <div class="conteiner-datos-header">
-                <p>Datos del Huésped Principal</p>
+            <div class="conteiner-datos-titulo">
+                <h2>Datos Personales</h2>
             </div>
-            <div class="conteiner-datos-body">
+            <div class="conteiner-datos-cuerpo">
                 <form action="" action="" method="post">
-                    <div class="datos-right">
-                        <label for="firstname">Nombre del Titular:</label>
+                    <div class="datos-center">
+                        <label class="titulo-form" for="firstname">Nombre:</label>
                         <input type="text" id="firstname" name="nombre_huesped" placeholder="Nombre" required>
                     </div>   
                     <div class="datos-center">
-                        <label for="lastname">Apellido del Titular:</label>
+                        <label class="titulo-form" for="lastname">Apellido:</label>
                         <input type="text" id="lastname" name="apellido_huesped" placeholder="Apellido" required>
                     </div>
-                    <div class="datos-left">
-                        <label for="doc_id">D.N.I o Pasaporte:</label>
+                    <div class="datos-center">
+                        <label class="titulo-form" for="doc_id">Documento:</label>
                         <input type="text" id="doc_id" name="documento_huesped" placeholder="D.N.I o Pasaporte" pattern="[0-9]+" inputmode="numeric" oninvalid="this.setCustomValidity('Por favor ingrese solo números en el DNI o Pasaporte')"oninput="this.setCustomValidity('')"required>
+                    </div>
+                    <div class="datos-center">
+                        <label class="titulo-form" for="email">Email:</label>
                         <input type="email" id="email" name="email_huesped" placeholder="Email" required>
-                        <label for="email">Email de Confirmación:</label>
+                    </div>
+                    <div class="datos-center">
+                        <label class="titulo-form" for="phone">Teléfono:</label>
+                        <input type="tel" id="phone" name="telefono_huesped" placeholder="Teléfono" pattern="[0-9]{10,15}" inputmode="numeric" oninvalid="this.setCustomValidity('Por favor ingrese un número de teléfono válido (10-15 dígitos)')" oninput="this.setCustomValidity('')" required>
                     </div>
                 </form>
+                <button type="submit">Guardar Datos</button>
             </div>
         </div>
     </section>

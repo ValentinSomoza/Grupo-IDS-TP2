@@ -5,9 +5,8 @@ body {
     border: 0px;
 }
 
-
 .pagina-reserva {
-    background-color: #d1cbcb;
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
     height: 100vh;
@@ -15,8 +14,9 @@ body {
     padding: 0px;
     border: 0px;
 }
+
 .conteiner-datos {
-    background-color: #f51b1b;
+    background-color: #000000;
     display: block;
     align-content: center;
     width: 860px;
@@ -27,7 +27,7 @@ body {
 }
     
     .conteiner-datos-titulo {
-        background-color: #474141;
+        background-color: #474747;
         color: white;
         height: auto;
         margin: 0px;
@@ -41,7 +41,7 @@ body {
         }
 
     .conteiner-datos-cuerpo {
-        background-color: rgb(216, 130, 119);
+        background-color: rgb(0, 0, 0);
         display: flex;
         height: 100%;
         margin: 0px;
@@ -51,7 +51,7 @@ body {
     }
 
         .datos-right, .datos-center, .datos-left {
-        background-color: #818181;
+        background-color: #808080;
         color: rgb(0, 0, 0);
         width: auto;
         margin: 0px;
@@ -75,19 +75,12 @@ body {
           }
 
           .conteiner-form {
-              background-color: #b95656;
+              background-color: whitesmoke;
               margin: 4px 0px;
               padding: 10px;
               display: flex;
               justify-content: space-around;
           }
-              .descripcion {
-              
-              }
-              .formulario {
-               
-              }
-
               form,
               form input,
               form textarea,
