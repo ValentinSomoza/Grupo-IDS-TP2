@@ -2,142 +2,142 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Estancia Bruno Relax and Flask</title>
+    <title>Estancia Relax and Flask</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/stylereservas.css">
 </head>
 <body>
     <section class="pagina-reserva">
-        <div class="conteiner-datos">
-            <div class="conteiner-datos-titulo">
-                <h2>Datos Personales</h2>
+        <form action="" method="post">
+            <div class="conteiner-datos">
+                <div class="conteiner-datos-titulo">
+                    <h2>Datos Personales</h2>
+                </div>
+                <div class="conteiner-datos-cuerpo">
+                    <div class="datos-right">
+                        <div class="formulario">
+                            <label class="descripcion" for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" name="" placeholder="Nombre" required>
+                        </div>   
+                        <div class="formulario">
+                            <label class="descripcion" for="apellido">Apellido:</label>
+                            <input type="text" id="apellido" name="" placeholder="Apellido" required>
+                        </div>
+                        <div class="formulario">
+                            <label class="descripcion" for="documento">Documento:</label>
+                            <input type="text" id="documento" name="" placeholder="D.N.I o Pasaporte" pattern="[0-9]+" inputmode="numeric" oninvalid="this.setCustomValidity('Por favor ingrese solo números en el DNI o Pasaporte')"oninput="this.setCustomValidity('')"required>
+                        </div>
+                        <div class="formulario">
+                            <label class="descripcion" for="email">Email:</label>
+                            <input type="email" id="email" name="" placeholder="Email" required>
+                        </div>
+                        <div class="formulario">
+                            <label class="descripcion for="telefono">Teléfono:</label>
+                            <input type="tel" id="telefono" name="" placeholder="Teléfono" pattern="[0-9]{10,15}" inputmode="numeric" oninvalid="this.setCustomValidity('Por favor ingrese un número de teléfono válido (10-15 dígitos)')" oninput="this.setCustomValidity('')" required>
+                        </div>
+                    </div>
+                    <div class="datos-left">
+                        <h2>holas podemos colocar un imagen</h2>
+                        <button type="submit">Confirmar datos</button>
+                    </div>
+                </div>
             </div>
-            <div class="conteiner-datos-cuerpo">
-                <form action="" action="" method="post">
-                    <div class="datos-center">
-                        <label class="titulo-form" for="firstname">Nombre:</label>
-                        <input type="text" id="firstname" name="nombre_huesped" placeholder="Nombre" required>
-                    </div>   
-                    <div class="datos-center">
-                        <label class="titulo-form" for="lastname">Apellido:</label>
-                        <input type="text" id="lastname" name="apellido_huesped" placeholder="Apellido" required>
-                    </div>
-                    <div class="datos-center">
-                        <label class="titulo-form" for="doc_id">Documento:</label>
-                        <input type="text" id="doc_id" name="documento_huesped" placeholder="D.N.I o Pasaporte" pattern="[0-9]+" inputmode="numeric" oninvalid="this.setCustomValidity('Por favor ingrese solo números en el DNI o Pasaporte')"oninput="this.setCustomValidity('')"required>
-                    </div>
-                    <div class="datos-center">
-                        <label class="titulo-form" for="email">Email:</label>
-                        <input type="email" id="email" name="email_huesped" placeholder="Email" required>
-                    </div>
-                    <div class="datos-center">
-                        <label class="titulo-form" for="phone">Teléfono:</label>
-                        <input type="tel" id="phone" name="telefono_huesped" placeholder="Teléfono" pattern="[0-9]{10,15}" inputmode="numeric" oninvalid="this.setCustomValidity('Por favor ingrese un número de teléfono válido (10-15 dígitos)')" oninput="this.setCustomValidity('')" required>
-                    </div>
-                </form>
-                <button type="submit">Guardar Datos</button>
-            </div>
-        </div>
+        </form>
     </section>
     <section class="pagina-reserva">
         <div class="conteiner-datos">
-            <div class="conteiner-datos-titulo">
-                <h2>Reservas</h2>
-            </div>
-            <div class="conteiner-datos-cuerpo">
-                <div class="datos-right">
-                    <div class="titulo-form">
-                        <label for="">Seleccionar fechas</label>
-                    </div>
-                    <div class="cuerpo-form">
-                        <p>Calendario</p>
-                        <label for="">Fecha de Entrada:</label>
-                        <input type="date" id="" name="" placeholder="AAAA-MM-DD" required>
-                        <br>
-                        <label for="checkout">Fecha de Salida:</label>
-                        <input type="date" id="" name="" placeholder="AAAA-MM-DD" required>
-                    </div>
-                    <div class="conteiner-form">
-                        <div class="descripcion"">
-                            <label for="">Noches</label>
-                        </div>
-                        <div class="formulario">
-                            <select id="room_type" name="">
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
-                                <option value="">5</option>
-                                <option value="">6</option>
-                                <option value="">7</option>
-                                <option value="">8</option>
-                                <option value="">9</option> 
-                            </select>
-                        </div>
-                    </div>
+            <form action="" method="">    
+                <div class="conteiner-datos-titulo">
+                    <h2>Reservas</h2>
                 </div>
-                <div class="datos-center">
-                    <div class="datos-center-superior">
-                        <div class="titulo-form">
-                            <label for="">Seleccionar ocupación</label>
-                        </div>
-                        <div class="conteiner-form">
+                <div class="conteiner-datos-cuerpo">
 
-                            <div class="descripcion">
-                                <label for="adults">Adultos:</label>
+                    <div class="datos-right">
+                        <div class="titulo-form">
+                            <h2>Seleccionar fechas</h2>
+                        </div>
+                        <div class="cuerpo-fechas">
+                            <label for="fecha-entrada">Fecha de Entrada:</label>
+                            <input type="date" id="fecha-entrada" name="" placeholder="AAAA-MM-DD" required>
+                            <br>
+                            <label for="fecha-salida">Fecha de Salida:</label>
+                            <input type="date" id="fecha-salida" name="" placeholder="AAAA-MM-DD" required>
+                        </div>
+                        <div class="conteiner-form">
+                            <div class="formulario">
+                                <label class="descripcion" for="noches">Noches:</label>
+                                <select id="noches" required>
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                    <option value="">4</option>
+                                    <option value="">5</option>
+                                    <option value="">6</option>
+                                    <option value="">7</option>
+                                    <option value="">8</option>
+                                    <option value="">9</option> 
+                                </select>
+                            </div>
+                        </div>
+                    </div>       
+                    <div class="datos-center">
+                        <div class="datos-center-superior">
+                            <div class="titulo-form">
+                                <h2>Seleccionar ocupación</h2>
+                            </div>
+                            <div class="conteiner-form">
+                                <div class="formulario">
+                                    <label for="adultos" class="descripcion">Adultos:</label>
+                                    <input type="number" id="adultos" name="" min="1" value="1"required>
+                                </div>
+                                <div class="formulario">
+                                    <label for="niños" class="descripcion">Niños:</label>
+                                    <input type="number" id="niños" name="" min="0" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="datos-center-superior">
+                            <div class="titulo-form">
+                                <h2>Habitación</h2>
+                            </div>
+                            <div class="cuerpo-form">
+                                <div class="formulario">
+                                    <label for="tipo" class="descripcion">Tipo</label>
+                                    <select id="tipo" name="" required>
+                                        <option value="" disabled selected>Seleccione el tipo de habitación</option>
+                                        <option value="king">King Ejecutiva</option>
+                                        <option value="doble">Doble (2 Camas)</option>
+                                        <option value="suite">Suite</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="datos-center-superior">
+                            <div class="titulo-form">
+                                <h2>Número:</h2>
                             </div>
                             <div class="formulario">
-                                <form action="">
-                                    <input type="number" id="" name="" min="1" value="1"required>
-                                </form>
-                            </div>
-                            <div class="descripcion">
-                                <label for="adults">Niños:</label>
-                            </div>
-                            <div class="formulario">
-                                <form action="">
-                                    <input type="number" id="" name="" min="0" value="0">
-                                </form>
+                                <label for="habitacion" class="descripcion">Habitación</label>
+                                <select id="habitacion" name="" required>
+                                    <option value="" disabled selected>Seleccione el número de habitación:</option>
+                                    <option value="">H001</option>
+                                    <option value="">H002</option>
+                                    <option value="">H003</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="datos-center-medio">
+                    <div class="datos-left">  
                         <div class="titulo-form">
-                            <label for="">Tipo de Habitación</label>
+                            <h2>Precio total:</h2>
                         </div>
-                        <div class="conteiner-form">
-                            <select id="" name="">
-                                <option value="" disabled selected>Seleccione el tipo de habitación</option>
-                                <option value="king">King Ejecutiva</option>
-                                <option value="doble">Doble (2 Camas)</option>
-                                <option value="suite">Suite</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="datos-center-inferior">
-                        <div class="titulo-form">
-                            <label for="">Número de habitación</label>
-                        </div>
-                        <div class="conteiner-form">
-                            <select id="" name="">
-                                <option value="" disabled selected>Seleccione el número de habitación:</option>
-                                <option value="">H001</option>
-                                <option value="">H002</option>
-                                <option value="">H003</option>
-                            </select>
+                        <div class="cuerpo-form">
+                            <p>200.000 ARS</p>
+                            <button class="formulario" type="submit">Confirmar Reserva</button>
                         </div>
                     </div>
                 </div>
-                <div class="datos-left">
-                     <div class="titulo-form">
-                        <label for="">Resumen de la reserva</label>
-                    </div>
-                    <div class="cuerpo-form">
-                        <p>200.000 ARS</p>
-                        <button type="submit">Confirmar Reserva</button>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </section>
 </body>
