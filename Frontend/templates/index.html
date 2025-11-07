@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Estancia Bruno Relax and Flask</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="stylesindex.css">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Inicio prueba{% endblock %}
+
+{% block content %}
+
   <header>
     <h1>Hilton Buenos Aires</h1>
     <p>Ubicado en Puerto Madero, Buenos Aires, Argentina</p>
   </header>
-
   <section>
     <h2>Información General</h2>
     <p>Dirección: Av Macacha Güemes 351, C1106BKG, Buenos Aires</p>
@@ -19,7 +15,6 @@
     <p>Email: reservations.buenosaires@hilton.com</p>
     <p>Check-in: 15:00 h | Check-out: 12:00 h</p>
   </section>
-
   <section>
     <h2>Servicios Destacados</h2>
     <ul>
@@ -35,7 +30,6 @@
       <li>Salas de reuniones</li>
     </ul>
   </section>
-
   <section>
     <h2>Restaurantes</h2>
     <ul>
@@ -43,7 +37,6 @@
       <li><strong>El Faro:</strong> Restaurante con bodega de vinos, ofrece desayuno, almuerzo y cena.</li>
     </ul>
   </section>
-
   <section>
     <h2>Hilton Honors</h2>
     <ul>
@@ -53,7 +46,6 @@
       <li>Llave digital</li>
     </ul>
   </section>
-
   <section>
     <h2>Atracciones Cercanas</h2>
     <ul>
@@ -65,11 +57,11 @@
       <li>Recoleta – 4 km</li>
     </ul>
   </section>
-
   <section>
     <h2>Reservas</h2>
     <p>¿Listo para tu estadía en Hilton Buenos Aires?</p>
-    <a href="{{ url_for('reserva') }}">
+    <a href="{{ url_for('reserva')}}">
       <button>Hacer una Reserva</button>
     </a>
   </section>
+{% endblock %}

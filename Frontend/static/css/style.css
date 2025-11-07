@@ -1,0 +1,17 @@
+/* LOOLOLOL */
+
+.contenedor-galeria{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 50px;
+}
+
+.imagenes img{
+    height: 34vh;
+    width: 54vh;
+    object-fit:cover;
+    z-index: 1;
+}
+

@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Estancia Relax and Flask</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/stylereservas.css">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Inicio prueba{% endblock %}
+
+{% block content %}
     <section class="pagina-reserva">
         <form action="" method="post">
             <div class="conteiner-datos">
@@ -140,5 +136,5 @@
             </form>
         </div>
     </section>
-</body>
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylereservas.css') }}"> 
+{% endblock %}
