@@ -17,5 +17,10 @@ def galeria():
 def mapa():
     return render_template('mapa.html')
 
+@app.route("/reserva")
+def reserva():
+    return render_template('reserva.html')
+
+
 if __name__ == "__main__":
-    app.run("127.0.0.1", port="5001", debug=True)
+    app.run(host="127.0.0.1", port=5001, debug=True)

@@ -1,0 +1,136 @@
+:root {
+    --color-titulo: rgb(255, 255, 255); 
+    --color-dato: rgb(142, 143, 142); 
+    
+    --fondo-titulo: rgb(97, 97, 97);
+    --fondo-cuerpo: rgb(177, 177, 177);
+    --fondo-formulario: rgb(211, 211, 209);
+    --fondo-calendario: rgb(78, 78, 78);
+}
+.pagina-reserva {
+    display: flex;
+    justify-content: center;
+    height: 600px;
+    width: 100%;
+}
+    .conteiner-datos {
+        background-color: var(--fondo-titulo);
+        display: block;
+        height: 550px;
+        border-radius: 12px;
+    }
+        .conteiner-datos-titulo {
+            color: var(--color-titulo);
+            display: block;
+            width: 100%;
+            height: 60px;
+            text-align: center;
+            align-content: center;
+        }
+            .conteiner-datos-titulo > h2 {
+                margin: 0px;
+                padding: 0px;
+                border: 0px;
+                cursor: default;
+            }
+        .conteiner-datos-cuerpo {
+            background-color: var(--fondo-cuerpo);
+            display: flex;
+            justify-content: space-between;
+            padding: 4px;
+            margin: 0px;
+            border: 0px;
+        }
+        .datos-right {
+            background-color: var(--fondo-cuerpo);
+            color: var(--color-titulo);
+            display: block;
+            margin: 0px;
+            padding: 10px;
+        }
+        .datos-left {
+            background-color: var(--fondo-titulo);
+            color: var(--color-titulo);
+            display: block;
+            text-align: center;
+            font-size: large;
+            margin: 0px;
+            padding: 10px;
+        } 
+            .titulo-form {
+                color: var(--color-titulo);
+                font-size: inherit;
+                flex-direction: column;                
+                padding: 0px;
+                width: 100%;
+                text-align: center;
+                cursor: default;
+            }
+            .cuerpo-fechas {
+                background-color: var(--fondo-calendario);
+                height: auto;
+                padding: 20px;
+                text-align: center;
+            }
+            .conteiner-form {
+                margin: 4px 0px;
+                padding: 0px;
+                display: block;
+                justify-content: space-around;
+            }
+            .descripcion, .formulario{
+                background-color: var(--fondo-formulario);
+                color: var(--color-titulo);
+                margin: 5px;
+                display: flex;
+                font-size: x-large;
+                padding: inherit;
+                cursor: pointer;
+            }
+                .form{
+                    all:unset;
+                }
+                form input,
+                form textarea{
+                    background-color: inherit;
+                    text-align: center;
+                    font: inherit;
+                    width: 100%;
+                    border: none;
+                    outline: none;
+                    align-content: center;
+                    align-items: center;
+                    color: var(--color-dato);
+                }
+                  select{
+                    text-align: center;
+                    font-size: x-large;
+                    width: 100%;
+                    color: var(--color-dato);
+                    cursor: pointer;
+                }
+                button{
+                    background-color: var(--fondo-formulario);
+                    text-align: center;
+                    font-size: x-large;
+                    width: 100%;
+                    border: none;
+                    color: var(--color-dato);
+                    cursor: pointer;
+                    border-radius: 4px;
+                }
+            .datos-center-superior, .datos-center-medio, .datos-center-inferior {
+                background-color: var(--fondo-cuerpo);
+                height: auto;
+                margin: 0px 10px 0px 10px;
+                padding: 0px; 
+            }
+
+
+
+
+
+
+
+
+
