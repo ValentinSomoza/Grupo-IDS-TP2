@@ -4,10 +4,17 @@
 
 {% block content %}
 
+{% if get_flashed_messages() %}
+  <div class="mensajes">
+    {{ get_flashed_messages()[0] }}
+  </div>
+{% endif %}
+
   <header>
     <h1>Estancia Bruno Relax and Flask</h1>
     <p>Ubicado en Puerto Madero, Buenos Aires, Argentina</p>
   </header>
+
   <section>
     <h2>Información General</h2>
     <p>Dirección: Av Macacha Güemes 351, C1106BKG, Buenos Aires</p>
@@ -15,6 +22,7 @@
     <p>Email: reservations.buenosaires@hilton.com</p>
     <p>Check-in: 15:00 h | Check-out: 12:00 h</p>
   </section>
+
   <section>
     <h2>Servicios Destacados</h2>
     <ul>
