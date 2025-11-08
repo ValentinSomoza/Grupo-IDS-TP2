@@ -3,6 +3,8 @@ app = Flask(__name__)
 
 app.secret_key = 'texto-que-debe-existir' 
 
+clientes = [] # Lista donde van los clientes temporal
+
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -37,8 +39,6 @@ def ingreso():
         flash('Usuario o contraseña incorrectos')
         return redirect(url_for('ingreso'))
     return render_template('ingreso.html')
-
-clientes = [] # Lista donde van los clientes temporal
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
