@@ -3,12 +3,12 @@
 <html lang="es">
 
     <head>
-        <!-- Titulo de la pestania -->
         <title>{% block title %}Mi Página{% endblock %}</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> 
-
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/ingreso.css') }}"> 
+        
     </head>
 
     <body>
@@ -19,10 +19,11 @@
             </div>
             <ul class="nav-links">
                 
-                <li><a href="{{ url_for('index')}}">Inicio</a></li>
-                <li><a href="{{ url_for('galeria')}}">Galeria</a></li>
-                <li><a href="{{ url_for('mapa')}}">Ubicacion</a></li>
-                <li><a href="{{ url_for('reserva')}}">Reserva</a></li>
+                <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                <li><a href="{{ url_for('galeria') }}">Galeria</a></li>
+                <li><a href="{{ url_for('mapa') }}">Ubicacion</a></li>
+                <li><a href="{{ url_for('reserva') }}">Reserva</a></li>
+                <li><a href="{{ url_for('ingreso') }}">Ingresar</a></li>
             </ul>
         </nav>
 
