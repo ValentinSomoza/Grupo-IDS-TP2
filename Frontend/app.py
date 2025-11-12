@@ -4,8 +4,10 @@ app = Flask(__name__)
 API_BASE = "http://localhost:5001"
 
 #esta funcion no estoy seguro de que si va bien aca, pero cualquier cosa la movemos al backend
-def agregar_usuario(usuario,contrasenia):
-    response = request.get(f"{API_BASE}/usuario/{usuario}",json={"contrasenia":contrasenia})
+def agregar_usuario(nombre,apellido, email, usuario, contrasenia):
+    response = request.get(f"{API_BASE}/usuario/{usuario}",json={"nombre":nombre,"apellido":apellido,"email":email,"contrasenia":contrasenia})
+    return response.status_code == 201
+#⬆Esto estoy casi seguro que esta mal, pero lo voy a corregir⬆
 
 
 @app.route("/")
