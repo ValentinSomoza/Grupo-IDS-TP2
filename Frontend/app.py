@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+import requests
 app = Flask(__name__)
 
 app.secret_key = 'texto-que-debe-existir' 
 
 clientes = [] # Lista donde van los clientes temporal
+BACKEND_URL = "http://127.0.0.1:5001/reservas"
 
 @app.route("/")
 def index():
@@ -23,6 +25,22 @@ def mapa():
 
 @app.route("/reserva")
 def reserva():
+    return render_template('reserva.html')
+
+@app.route("/reservar", methods=["POST"])
+def reservar():
+    fechaIngreso = request.form["fecha-entrada"]
+    fechaEgreso = request.form["fecha-salida"]
+
+    datosReserva = {
+        "fechaEntrada": fechaIngreso,
+        "fechaSalida": fechaEgreso
+    }
+    try: 
+        respuesta = requests.post(BACKEND_URL, json=datosReserva)
+    except Exception as e:
+        return f"Error de conexion con el backend: {e}"
+
     return render_template('reserva.html')
 
 @app.route("/ingreso", methods=['GET', 'POST'])
@@ -71,4 +89,4 @@ def registro():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5001, debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=True)
