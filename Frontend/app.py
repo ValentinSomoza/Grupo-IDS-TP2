@@ -1,6 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__)
 
+API_BASE = "http://localhost:5001"
+
+#esta funcion no estoy seguro de que si va bien aca, pero cualquier cosa la movemos al backend
+def agregar_usuario(usuario,contrasenia):
+    response = request.get(f"{API_BASE}/usuario/{usuario}",json={"contrasenia":contrasenia})
+
+
 @app.route("/")
 def index():
     return render_template('index.html')

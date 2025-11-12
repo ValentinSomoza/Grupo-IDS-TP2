@@ -5,6 +5,10 @@ clientes_bp = Blueprint("Habitaciones", __name__)
 
 @clientes_bp.route("/")
 def get_clientes():
+    conn = get_conection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("")
+    
     pass
 
 
