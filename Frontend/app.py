@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
+import json
 import requests
 app = Flask(__name__)
 
@@ -22,6 +23,7 @@ def galeria():
 @app.route("/mapa")
 def mapa():
     return render_template('mapa.html')
+
 
 @app.route('/formularioDatos', methods=['GET', 'POST'])
 def formularioDatos():
@@ -78,8 +80,6 @@ def reserva():
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
 
-    
-
     return render_template('reserva.html')
 
 @app.route("/ingreso", methods=['GET', 'POST'])
@@ -126,6 +126,16 @@ def registro():
         return redirect(url_for('registro'))
     return render_template('registro.html')
 
+#clientes para el chechin
+BACKEND_URL = "http://127.0.0.1:5001/"
+
+#pida usuario, contraseña
+idUsuario=int(1)
+@app.route("/checkin")
+def datosCheckin():
+    response=requests.get(f"{BACKEND_URL}/cliente/{idUsuario}")
+    datosUsuario=response.json()
+    return render_template('check-inP1.html',datosUsuario=datosUsuario)
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

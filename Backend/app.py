@@ -6,18 +6,18 @@ import os
 
 app = Flask(__name__)
 
+load_dotenv()
 def conectarBaseDatos():
     try: 
         return mysql.connector.connect(
             host=os.getenv("DB_HOST"),
             user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASS"),
-            database=os.getenv("DB_NAME")
+            password=os.getenv("DB_PASS")
         )
     except Error as e:
         print("Error al conectar con la base de datos ", e)
         return None
-
+    
 def iniciarBaseDeDatos():
     try:
         conexion = conectarBaseDatos()
@@ -68,3 +68,29 @@ def create_app():
         return jsonify({"mensaje": "Reserva guardada con exito !"}), 200
 
     return app
+
+#endpoint listar todos los clientes
+@app.route('/clientes', methods=['GET'])
+def clientes():
+    conexion = conectarBaseDatos()
+    cursor = conexion.cursor(dictionary=True)
+    cursor.execute("USE HotelFAF")
+    cursor.execute("SELECT * FROM clientes")
+    listaClientes = cursor.fetchall()
+    conexion.close()
+    return jsonify(listaClientes),200
+
+#endpoint listar un nombre por id del cliente
+@app.route('/cliente/<id>', methods=['GET'])
+def cliente(id):
+    conexion = conectarBaseDatos()
+    cursor = conexion.cursor(dictionary=True)
+    cursor.execute("USE HotelFAF")
+    cursor.execute(
+        "SELECT nombre, apellido, email, documento FROM clientes WHERE id = %s",(id,))
+    listaClientes = cursor.fetchall()
+    conexion.close()
+    return jsonify(listaClientes),200
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=5001, debug=True)
