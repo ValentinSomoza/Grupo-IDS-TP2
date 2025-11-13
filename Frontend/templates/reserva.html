@@ -3,10 +3,10 @@
 {% block title %}Reserva{% endblock %}
 
 {% block content %}
-    
+
 <section class="pagina-reserva">
     <div class="conteiner-datos">
-        <form action="{{ url_for('reservar') }}" method="POST">    
+        <form action="{{ url_for('reserva') }}" method="POST">    
             <div class="conteiner-datos-titulo">
                 <h2>Reservar estadia</h2>
             </div>
@@ -17,6 +17,7 @@
                         <h2>Seleccione las fechas</h2>
                     </div>
                     <div class="cuerpo-fechas">
+                        <!-- fechas -->
                         <label for="fecha-entrada">Fecha de Ingreso</label>
                         <input type="date" id="fecha-entrada" name="fecha-entrada" placeholder="AAAA-MM-DD" required>
                         <br>
@@ -25,9 +26,10 @@
                     </div>
                     <div class="conteiner-form">
                         <div class="formulario">
+                            <!-- noches -->
                             <label class="descripcion" for="noches">Noches:</label>
-                            <select id="noches">
-                                <option value="" disabled selected>Seleccione una cantidad</option>
+                            <select id="noches" name="noches" required>
+                                <option value="" disabled selected>Seleccione un numero</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -44,6 +46,7 @@
                 <div class="datos-center">
                     <div class="datos-center-superior">
                         <div class="titulo-form">
+                            <!-- numero de personas -->
                             <h2>¿Para cuantas personas?</h2>
                         </div>
                         <div class="conteiner-form">
@@ -59,6 +62,7 @@
                     </div>
                     <div class="datos-center-superior">
                         <div class="titulo-form">
+                            <!-- tipo de habitacion -->
                             <h2>Tipo de habitación:</h2>
                         </div>
                         <div class="cuerpo-form">
@@ -66,8 +70,10 @@
                                 <label for="tipo" class="descripcion">Tipo</label>
                                 <select id="tipo" name="tipo-habitacion" >
                                     <option value="" disabled selected>Seleccione el tipo de habitación</option>
+                                    <option value="simple">simple</option>
+                                    <option value="doble">Doble</option>
+                                    <option value="matrimonial">Matrimonial</option>
                                     <option value="king">King Ejecutiva</option>
-                                    <option value="doble">Doble (2 Camas)</option>
                                     <option value="suite">Suite</option>
                                 </select>
                             </div>
@@ -75,6 +81,7 @@
                     </div>
                     <div class="datos-center-superior">
                         <div class="titulo-form">
+                            <!-- numero de habitaciones -->
                             <h2>Número de habitación:</h2>
                         </div>
                         <div class="formulario">
@@ -104,6 +111,5 @@
 </section>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/stylereservas.css') }}"> 
-<script src="{{ url_for('static', filename='js/reserva.js') }}"></script>
 
 {% endblock %}
