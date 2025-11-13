@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Check-in P1{% endblock %}
+
+{% block content %}
+<section>
+    <div class="conteiner">
+        <span>NOMBRE DE LA ESTANCIA</span>
+        <span>completar el formulario de check-in con los datos requeridos</span>
+        <form action="" method="get">
+            <span>USUARIO</span><br>
+            <label for="DNI">DNI</label>
+            <input id="DNI" type="number" name="DNI" value="96319912" required><br>
+
+            <label for="nombre">nombre</label>
+            <input type="text" id="nombre" name="nombre" value="Ronny" required><br>
+
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" name="apellido" value="Mamani" required><br>
+
+            <label for="sexo">sexo</label>
+            <label for="sexo"><input type="checkbox" name="sexo" id="sexo" value="si" checked>F</label>
+            <label for="sexo"><input type="checkbox" name="sexo" id="sexo" value="no">M</label><br>
+            
+            <label for="fecha-ingreso">fecha de ingreso</label>
+            <input type="date" name="" id="fecha-ingreso" value="2024-10-10" required><br>
+
+            <label for="fecha-salida">fecha de salida</label>
+            <input type="date" name="" id="fecha-salida" value="2024-12-10" required><br>
+            <button type="submit">guardar</button>
+            <a href="{{url_for('checkinP2')}}">siguiente</a>
+        </form>
+    </div>
+</section>
+{% endblock %}
