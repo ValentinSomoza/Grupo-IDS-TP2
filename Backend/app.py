@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from mysql.connector import Error
 import mysql.connector
@@ -6,13 +6,21 @@ import os
 
 app = Flask(__name__)
 
-def iniciarBaseDeDatos():
-    try:
-        conexion = mysql.connector.connect(
+def conectarBaseDatos():
+    try: 
+        return mysql.connector.connect(
             host=os.getenv("DB_HOST"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASS"),
+            database=os.getenv("DB_NAME")
         )
+    except Error as e:
+        print("Error al conectar con la base de datos ", e)
+        return None
+
+def iniciarBaseDeDatos():
+    try:
+        conexion = conectarBaseDatos()
 
         if conexion.is_connected():
             cursor = conexion.cursor()
@@ -37,12 +45,26 @@ def iniciarBaseDeDatos():
         if conexion.is_connected():
             cursor.close()
             conexion.close()
-    
-@app.route("/")
-def home():
-    return "Flask se conecto a MariaDB correctamente !"
 
-if __name__ == "__main__":
-    app.run("127.0.0.1", port="5000", debug=True)
+def create_app():
 
-iniciarBaseDeDatos()
+    app = Flask(__name__)
+
+    reservas = []
+
+    @app.route("/")
+    def home():
+        return "Flask se conectó a MariaDB correctamente!"
+
+    iniciarBaseDeDatos()
+
+    @app.route("/reservas", methods=["POST"])
+    def recibirReserva():
+        data = request.get_json()
+        reservas.append(data)
+        
+        print("Nueva reserva: ", data)
+
+        return jsonify({"mensaje": "Reserva guardada con exito !"}), 200
+
+    return app
