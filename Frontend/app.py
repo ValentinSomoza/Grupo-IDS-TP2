@@ -13,9 +13,12 @@ def agregar_reserva(id_cliente):
         return response.json()
     return None
 
-def agregar_cliente(nombre, apellido, email, dni):
-    #response = requests.post(f"{BACKEND_URL}/clientes/{}")
-    ...
+def agregar_usuario(nombre, apellido, email, dni):
+    response = requests.post(f"{BACKEND_URL}/usuarios/{nombre, apellido, email, dni}")
+    if response.status_code == 200:
+        return response.json()
+    return None
+
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -110,27 +113,26 @@ def ingreso():
 def registro():
     if request.method == 'POST':
 
-        nuevo_cliente = { # temporal
-            'nombre': request.form['nombre'],
-            'apellido': request.form['apellido'],
-            'email': request.form['email'],
-            'usuario': request.form['usuario'],
-            'contraseña': request.form['contraseña']
-        }
+        nombre= request.form['nombre'],
+        apellido= request.form['apellido'],
+        email= request.form['email'],
+        usuario= request.form['usuario'],
+        contraseña= request.form['contraseña']
+
 
         for cliente in clientes:
-            if cliente['usuario'] == nuevo_cliente['usuario']:
+            if cliente['usuario'] == usuario:
                 flash('Ese nombre de usuario ya está registrado! Elige otro por favor')
                 return redirect(url_for('registro'))
-            if cliente['email'] == nuevo_cliente['email']:
+            if cliente['email'] == email:
                 flash('Ese correo electrónico ya está registrado.')
                 return redirect(url_for('registro'))
-
-        clientes.append(nuevo_cliente) # temporal 
+         
         flash('Usuario registrado con exito !') # temporal
 
         print(clientes) # verifico si se registro bien
         # aca se deberian guardar el usuario en la base de datos
+        agregar_usuario(nombre,apellido,email,usuario,contraseña)
 
         return redirect(url_for('registro'))
     return render_template('registro.html')
