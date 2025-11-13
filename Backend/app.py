@@ -12,7 +12,6 @@ def conectarBaseDatos():
             host=os.getenv("DB_HOST"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASS"),
-            database=os.getenv("DB_NAME")
         )
     except Error as e:
         print("Error al conectar con la base de datos ", e)
@@ -50,7 +49,7 @@ def create_app():
 
     app = Flask(__name__)
 
-    reservas = []
+    reservas = [] # TEMPORAL
 
     @app.route("/")
     def home():
@@ -61,7 +60,7 @@ def create_app():
     @app.route("/reservas", methods=["POST"])
     def recibirReserva():
         data = request.get_json()
-        reservas.append(data)
+        reservas.append(data) # TEMPORAL 
         
         print("Nueva reserva: ", data)
 

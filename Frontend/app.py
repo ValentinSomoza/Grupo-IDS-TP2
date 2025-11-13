@@ -78,8 +78,6 @@ def reserva():
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
 
-    
-
     return render_template('reserva.html')
 
 @app.route("/ingreso", methods=['GET', 'POST'])
