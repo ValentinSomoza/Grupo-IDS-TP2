@@ -57,7 +57,7 @@ def create_app():
 
     iniciarBaseDeDatos()
 
-    @app.route("/reservas", methods=["POST"])
+    @app.route("/recibirReserva", methods=["POST"])
     def recibirReserva():
         data = request.get_json()
         reservas.append(data) # TEMPORAL 

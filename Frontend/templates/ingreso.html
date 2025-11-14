@@ -4,6 +4,19 @@
 
 {% block content %}
 
+<div
+    id="g_id_onload"
+    data-client_id="826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com"
+    data-login_uri="http://127.0.0.1:5000/auth/callback/google"
+    data-auto_prompt="false">
+</div>
+
+<div class="g_id_signin"
+     data-type="standard"
+     data-size="large"
+     data-theme="outline">
+</div>
+
 <div class="ingreso-contenedor">
   <form class="ingreso-formulario" method="POST" action="{{ url_for('ingreso') }}">
     <label for="usuario">Usuario:</label>
@@ -14,6 +27,7 @@
 
     <button type="submit">Ingresar</button>
     <a href="{{ url_for('registro') }}" class="boton-registrarme">Registrarme</a>
+    <div id="googleLoginDiv"></div>
   </form>
 </div>
 
