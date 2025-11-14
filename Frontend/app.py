@@ -7,8 +7,9 @@ app.secret_key = 'texto-que-debe-existir'
 clientes = [] # Lista donde van los clientes temporal
 BACKEND_URL = "http://127.0.0.1:5001/reservas"
 
-def agregar_reserva(id_cliente):
-    response = requests.post(f"{BACKEND_URL}/reservas/{id_cliente}")
+def agregar_reserva(datos_reserva):
+    print(datos_reserva)
+    response = requests.post(BACKEND_URL, json=datos_reserva)
     if response.status_code == 200:
         return response.json()
     return None
@@ -68,7 +69,7 @@ def reserva():
         numeroHabitacion = request.form["numero-habitacion"]
         fechaIngreso = request.form["fecha-entrada"]
         fechaEgreso = request.form["fecha-salida"]
-
+    
         datosReserva = {
             "nombre": nombre,
             "apellido": apellido,
@@ -85,7 +86,8 @@ def reserva():
         }
 
         try: 
-            requests.post(BACKEND_URL, json=datosReserva)
+            #requests.post(BACKEND_URL, json=datosReserva)
+            agregar_reserva(datosReserva)
             session.clear()
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
@@ -140,3 +142,4 @@ def registro():
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
+    

@@ -14,4 +14,4 @@ app.register_blueprint(reservas_bp, url_prefix="/reservas")
 app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
 
 if __name__ == "__main__":
-    app.run("127.0.0.1", port="5001", debug=True)
+    app.run("127.0.0.1", port=5001, debug=True)

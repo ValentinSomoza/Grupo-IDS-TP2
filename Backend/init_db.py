@@ -1,6 +1,6 @@
 from db import get_conection
 
-with open("init_db.sql") as f:
+with open("Backend/init_db.sql") as f:
     sql = f.read()
 
 conn = get_conection()
@@ -13,4 +13,5 @@ for statement in sql.split(";"):
         print("Sentencia ejecutada")
 cursor.close()
 conn.close()
+
 
