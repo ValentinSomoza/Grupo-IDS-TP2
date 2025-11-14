@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 import json
 import requests
+import base64
 app = Flask(__name__)
 
 app.secret_key = 'texto-que-debe-existir' 
@@ -126,16 +127,70 @@ def registro():
         return redirect(url_for('registro'))
     return render_template('registro.html')
 
+
+
 #clientes para el chechin
 BACKEND_URL = "http://127.0.0.1:5001/"
 
 #pida usuario, contraseña
 idUsuario=int(1)
-@app.route("/checkin")
-def datosCheckin():
+
+#listado diccionario del checkin
+listCheckin={}
+
+@app.route("/checkinP1", methods=('GET', 'POST'))
+def checkinP1():
+    #precarga los datos con el usuario
     response=requests.get(f"{BACKEND_URL}/cliente/{idUsuario}")
-    datosUsuario=response.json()
-    return render_template('check-inP1.html',datosUsuario=datosUsuario)
+    checkinP1=response.json()
+
+    #validar o cambiar datos personales
+    if request.method == 'POST':
+        listCheckin['nombre'] = request.form["nombre"]
+        listCheckin['apellido'] = request.form["apellido"]
+        listCheckin['tipoHabitacion'] = request.form["tipo-habitacion"]
+        listCheckin['fechaIngreso'] = request.form["fecha-entrada"]
+        listCheckin['fechaEgreso'] = request.form["fecha-salida"]
+        print("Datos personales recibidos del checkin: ", listCheckin)
+        return redirect(url_for('checkinP2'))
+    
+    return render_template('checkinP1.html',checkinP1=checkinP1)
+
+@app.route("/checkinP2", methods=['GET', 'POST'])
+def checkinP2():
+    response=requests.get(f"{BACKEND_URL}/cliente/{idUsuario}")
+    checkinP2=response.json()
+    
+    if request.method == 'POST':
+        #agregar
+        listCheckin['dniPasaporte'] = request.form.get("dniPasaporte")
+        fotoFrontal = request.files.get("fotoFrontal")
+        fotoTracera = request.files.get("fotoTracera")
+        fotoF_base64 = base64.b64encode(fotoFrontal.read()).decode("utf-8")
+        fotoT_base64 = base64.b64encode(fotoTracera.read()).decode("utf-8")
+
+        #validar o cambiar datos personales
+        listCheckin['fotoFrontal'] = fotoF_base64
+        listCheckin['fotoTracera'] = fotoT_base64
+
+        print("Fotos del documento recibidos del checkin: ", listCheckin)
+        return redirect(url_for('checkinP3'))
+
+    return render_template('checkinP2.html',checkinP2=checkinP2)
+
+
+@app.route("/checkinP3", methods=['GET', 'POST'])
+def checkinP3():
+    if request.method == 'POST':
+        
+        fotoFirma = request.files.get("fotoFirma")
+        fotoFirma_base64 = base64.b64encode(fotoFirma.read()).decode("utf-8")
+
+        listCheckin['fotoFirma'] = fotoFirma_base64
+        #validar o cambiar datos personales
+        print("Datos personales recibidos del checkin: ",listCheckin)
+        return render_template('index.html')
+    return render_template('checkinP3.html')
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

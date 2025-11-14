@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Check-in P1{% endblock %}
+
+{% block content %}
+<section>
+    <div class="conteiner">
+        <span>NOMBRE DE LA ESTANCIA</span>
+        <span>completar el formulario de check-in con los datos requeridos</span>
+        <form action="{{ url_for('checkinP1') }}" method="post">
+            <span>USUARIO</span><br>
+            <label for="nombre">nombre</label>
+            <input type="text" id="nombre" name="nombre" value="{{ checkinP1[0].nombre }}" required><br>
+
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" name="apellido" value="{{ checkinP1[0].apellido }}" required><br>
+
+            <label for="tipo-habitacion">Tipo de habitación</label>
+            <input type="text" id="tipo-habitacion" name="tipo-habitacion" value="{{ checkinP1[0].apellido }}" required><br>
+          
+            <label for="fecha-entrada">fecha de ingreso</label>
+            <input type="date" name="fecha-entrada" id="fecha-entrada" value="{{ checkinP1[0].fecha_registro}}" required><br>
+            <input type="text" id="fecha-entrada" name="fecha-entrada" value="{{ checkinP1[0].fecha_registro }}" required><br>
+
+            <label for="fecha-salida">fecha de salida</label>
+            <input type="date" name="fecha-salida" id="fecha-salida" value="{{ checkinP1[0].fecha_registro}}" required><br>
+            <input type="text" id="fecha-entrada" name="fecha-entrada" value="{{ checkinP1[0].fecha_registro }}" required><br>
+
+            <button type="submit">guardar</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

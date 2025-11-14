@@ -7,11 +7,15 @@
     <div class="conteiner">
         <span>NOMBRE DE LA ESTANCIA</span>
         <span>completar el formulario de check-in con los datos requeridos</span>
-        <form action="" method="get">
+
+        <form action="{{ url_for('checkinP3') }}" method="post" enctype="multipart/form-data">
             <span>FIRMA DEL TITULAR</span><br>
             <span>imagen de la firma</span><br>
-            <button type="button">borrar</button><br>
-            <button type="submit">terminar</button>
+
+            <label for="fotoFirma">Cargar foto:</label>
+            <input type="file" name="fotoFirma" id="fotoFirma" required accept="image/*"><br>
+
+            <button type="submit">Subir</button><br>
         </form>
     </div>
 </section>
