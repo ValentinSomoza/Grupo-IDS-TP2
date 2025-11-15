@@ -139,7 +139,6 @@ def registro():
             'apellido': request.form['apellido'],
             'nombreUsuario': request.form['nombreUsuario'],
             'email': request.form['email'],
-            'usuario': request.form['usuario'],
             'contraseña': request.form['contraseña']
         }
         
@@ -152,6 +151,8 @@ def registro():
             flash(info.get("error", "Error en el registro"), "error")
         else:
             flash("Error inesperado al registrar usuario.", "error")
+
+        
         
         print("Frontend: Nuevo registro de usuario enviado al backend: ", nuevoUsuario)
 
