@@ -3,10 +3,7 @@ import requests
 app = Flask(__name__)
 
 app.secret_key = 'texto-que-debe-existir' 
-
 CLIENT_ID = "826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com"
-
-clientes = [] # TEMPORAL
 BACKEND_URL = "http://127.0.0.1:5001"
 
 @app.route("/")
@@ -152,14 +149,11 @@ def registro():
         else:
             flash("Error inesperado al registrar usuario.", "error")
 
-        
-        
         print("Frontend: Nuevo registro de usuario enviado al backend: ", nuevoUsuario)
 
         return redirect(url_for('registro'))
 
     return render_template('registro.html')
-
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
