@@ -8,7 +8,7 @@
         <div class="conteinerTitulo">
             <h2 class="titulo">Formulario Check-in</h2>
         </div>
-        <form action="{{ url_for('checkin') }}" method="post" enctype="multipart/form-data">
+        <form action="http://localhost:5001/checkinFormulario" method="post" enctype="multipart/form-data">
             <div class="titulo">
                 <p>
                     Bienvenido/a a nuetro sistema de Check-in en linea. <br>
@@ -27,7 +27,22 @@
                 </div>
 
                 <div class="conteinerFormulario">
-                    <label for="tipo-habitacion">Tipo de habitación: </label>
+                    <label for="email">Email: </label>
+                    <input type="email" id="email" name="email" value="{{ dataCheckin[0].email }}" required>
+                </div>
+                
+                <div class="conteinerFormulario">
+                    <label for="dniPasaporte">DNI o Pasaporte:</label>
+                    <input id="dniPasaporte" type="text" name="dniPasaporte" value="{{ dataCheckin[0].documento }}" required><br>
+                </div>
+
+                 <div class="conteinerFormulario">
+                    <label for="telefono">Teléfono:</label>
+                    <input id="telefono" type="text" name="telefono" value="{{ dataCheckin[0].telefono }}" required><br>
+                </div>
+
+                <div class="conteinerFormulario">
+                    <label for="tipo-habitacion">Tipo de habitación: {{ dataCheckin[0].apellido }} </label>
                     <input type="text" id="tipo-habitacion" name="tipo-habitacion" value="{{ dataCheckin[0].apellido }}" required>
                 </div>
                 
@@ -40,14 +55,10 @@
                 <div class="conteinerFormulario">
                     <label for="fecha-salida">Fecha de salida: </label>
                     <input type="date" name="fecha-salida" id="fecha-salida" value="{{ dataCheckin[0].fecha_registro}}" required>
-                    <input type="text" id="fecha-entrada" name="fecha-entrada" value="{{ dataCheckin[0].fecha_registro }}" required>
+                    <input type="text" id="fecha-entrada" name="fecha-salida" value="{{ dataCheckin[0].fecha_registro }}" required>
                 </div>
 
-                <div class="conteinerFormulario">
-                    <label for="dniPasaporte">DNI o Pasaporte:</label>
-                    <input id="dniPasaporte" type="text" name="dniPasaporte" value="{{ dataCheckin[0].documento }}" required><br>
-                </div>
-
+          
                 <div class="conteinerFormulario">
                     <label for="fotoFrontal">Imagen frontal del documento:</label>
                     <input type="file" name="fotoFrontal" id="fotoFrontal" required accept="image/*"><br>
@@ -63,7 +74,9 @@
                 </div>                
 
                 <div class="botonCheckin">
-                    <button type="submit">finalizar</button>
+                    <a href="{{url_for('checkinFinalizadoPagina')}}">
+                        <button type="submit">finalizar</button>
+                    </a>
                 </div>
             </div>
         </form>

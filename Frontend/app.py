@@ -137,12 +137,12 @@ idUsuario=int(1)
 #listado diccionario del checkin
 listCheckin={}
 
-@app.route("/checkin", methods=('GET', 'POST'))
-def checkin():
+@app.route("/checkin", methods=["GET"])
+def checkinPagina():
     #precarga los datos con el usuario
     response=requests.get(f"{BACKEND_URL}/cliente/{idUsuario}")
     dataCheckin=response.json()
-
+    """
     #onbtencion de datos del checkin para el correo
     if request.method == 'POST':
         listCheckin['nombre'] = request.form["nombre"]
@@ -164,8 +164,15 @@ def checkin():
 
         print("Datos personales recibidos del checkin: ",listCheckin)
         return render_template('checkinFinalizado.html')
+    """
     
     return render_template('checkin.html',dataCheckin=dataCheckin)
+
+@app.route("/checkinFinalizado")
+def checkinFinalizadoPagina():
+    return render_template('checkinFinalizado.html')
+
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
