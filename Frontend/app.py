@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
-from google.oauth2 import id_token
-from google.auth.transport import requests as grequests
 import requests
 app = Flask(__name__)
 
@@ -88,39 +86,25 @@ def reserva():
 def google_auth():
     token = request.json.get("credential")
 
-    try:
-        info = id_token.verify_oauth2_token(token, grequests.Request(), CLIENT_ID)
+    respuesta = requests.post(BACKEND_URL + "/authGoogle", json={"token": token})
+    info = respuesta.json()
 
-        email = info["email"]
-        nombre = info.get("given_name")
-        apellido = info.get("family_name")
+    print("Ingreso de sesion con Google enviado al backend")
 
-        # aca se valida si ya existe el usuario
-        cliente_existente = None
-        for cliente in clientes:
-            if cliente["email"] == email:
-                cliente_existente = cliente
-                break
-
-        if cliente_existente is None:
-            nuevo_cliente = {
-                "nombre": nombre,
-                "apellido": apellido,
-                "email": email,
-                "usuario": email,
-                "contraseña": None
-            }
-            clientes.append(nuevo_cliente)
-
-        print(f"Ingeso con google exitoso → {email}")
-
+    if respuesta.status_code in (200, 201):
+        flash(info.get("mensaje", "Ingreso con google exitoso"), "success")
         return jsonify({
             "status": "ok",
-            "redirect": url_for("index")
+            "redirect": url_for("index"),
+            "mensaje": info.get("mensaje", "Ingreso con Google exitoso")
         })
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+    else:
+        flash(info.get("error", "Error al iniciar sesion con Google"), "error")
+        return jsonify({
+            "status": "error",
+            "redirect": url_for("ingreso"),
+            "mensaje": info.get("error", "Error al iniciar sesion con Google")
+        })
 
 @app.route("/ingreso", methods=['GET', 'POST'])
 def ingreso():

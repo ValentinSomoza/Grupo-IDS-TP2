@@ -1,7 +1,7 @@
 function handleCredentialResponse(response) {
     console.log("Credential Google:", response.credential);
 
-    fetch("/auth/callback/google", {   // aca se deberia llamar a un endpoint del backend pero hago front por ahora
+    fetch("/auth/callback/google", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
