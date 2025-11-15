@@ -4,6 +4,8 @@ from mysql.connector import Error
 import mysql.connector
 import os
 
+load_dotenv()
+
 app = Flask(__name__)
 
 def conectarBaseDatos():
@@ -12,10 +14,12 @@ def conectarBaseDatos():
             host=os.getenv("DB_HOST"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASS"),
+            database=os.getenv("DB_NAME")  # opcional si definís DB_NAME en .env
         )
     except Error as e:
         print("Error al conectar con la base de datos ", e)
         return None
+
 
 def iniciarBaseDeDatos():
     try:
