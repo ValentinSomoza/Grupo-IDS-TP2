@@ -6,14 +6,17 @@
 
 <div class="ingreso-contenedor">
   <form class="ingreso-formulario" method="POST" action="{{ url_for('registro') }}">
-    Para registrarte por favor completa los siguientes datos:
+    Para registrarte por favor completa el formulario con tus datos:
 
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" required>
 
     <label for="apellido">Apellido:</label>
     <input type="text" id="apellido" name="apellido" required>
-    
+
+    <label for="nombreUsuario">Nombre de usuario:</label>
+    <input type="text" id="nombreUsuario" name="nombreUsuario" required>
+
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required>
 
@@ -26,11 +29,5 @@
     <button type="submit">Registrar</button>
   </form>
 </div>
-
-{% if get_flashed_messages() %}
-  <div class="mensajes">
-    {{ get_flashed_messages()[0] }}
-  </div>
-{% endif %}
 
 {% endblock %}

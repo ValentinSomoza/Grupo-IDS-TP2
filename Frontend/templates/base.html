@@ -9,7 +9,8 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> 
         <link rel="stylesheet" href="{{ url_for('static', filename='css/ingreso.css') }}">
         <script src="https://accounts.google.com/gsi/client" async defer></script>
-        <script src="{{ url_for('static', filename='js/google_oauth.js') }}" defer></script 
+        <script src="{{ url_for('static', filename='js/google_oauth.js') }}" defer></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/flash.css') }}">
         
     </head>
 
@@ -34,6 +35,16 @@
 
         <!-- Footer -->
          <section id="footer">
+
+            {% with mensajes = get_flashed_messages(with_categories=true) %}
+            {% if mensajes %}
+                {% for categoria, mensaje in mensajes %}
+                <div class="flash {{ categoria }}">
+                    {{ mensaje }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
 
          </section>
 
