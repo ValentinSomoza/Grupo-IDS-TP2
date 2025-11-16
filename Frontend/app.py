@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
+import json
 import requests
+import base64
 app = Flask(__name__)
 
 app.secret_key = 'texto-que-debe-existir' 
@@ -21,6 +23,7 @@ def galeria():
 @app.route("/mapa")
 def mapa():
     return render_template('mapa.html')
+
 
 @app.route('/formularioDatos', methods=['GET', 'POST'])
 def formularioDatos():
@@ -154,6 +157,28 @@ def registro():
         return redirect(url_for('registro'))
 
     return render_template('registro.html')
+
+#clientes para el checkin
+BACKEND_URL = "http://127.0.0.1:5001/"
+
+#id usuario es para identificar el usuario en la base de datos
+idUsuario=int(1)
+
+@app.route("/checkin", methods=["GET"])
+def checkinPagina():
+    try:
+        response=requests.get(f"{BACKEND_URL}/cliente/{idUsuario}")
+        dataCheckin=response.json()
+
+        return render_template('checkin.html',dataCheckin=dataCheckin)
+    
+    except Exception as e:
+        return jsonify({"error":"Cliente no encontrado"},idUsuario)
+       
+
+@app.route("/checkinFinalizado")
+def checkinFinalizadoPagina():
+    return render_template('checkinFinalizado.html')
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

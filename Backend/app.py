@@ -19,7 +19,7 @@ def conectarBaseDatos():
     except Error as e:
         print("Error al conectar con la base de datos ", e)
         return None
-
+    
 def iniciarBaseDeDatos():
     try:
         conexion = conectarBaseDatos()
@@ -180,4 +180,83 @@ def create_app():
             print("Error en el Login con Google: ", str(e))
             return jsonify({"error": "Token invalido"}), 400
 
+    @app.route('/clientes', methods=['GET'])
+    def ListaClientesBack():
+
+        try:
+            conexion = conectarBaseDatos()
+            cursor = conexion.cursor(dictionary=True)
+            cursor.execute("USE HotelFAF")
+            cursor.execute("SELECT * FROM clientes")
+            listaClientes = cursor.fetchall()
+            conexion.close()
+            return jsonify({"mensaje": "Lista de clientes obtenida"}, listaClientes),200
+        
+        except Exception as e:
+            print("Backend: Lista de clientes obtenida")
+            return jsonify({"error": "No se pudo obtener datos del clientes desde la base de datos"}), 400
+
+    @app.route('/cliente/<id>', methods=['GET'])
+    def clientePorID(id):
+
+        try:
+            conexion = conectarBaseDatos()
+            cursor = conexion.cursor(dictionary=True)
+            cursor.execute("USE HotelFAF")
+            cursor.execute(
+                "SELECT nombre, apellido, email,fecha_registro, documento, telefono FROM clientes WHERE id = %s",(id,))
+            clienteID = cursor.fetchall()
+            conexion.close()
+            print("Bacnkend: se obtuvo datos del usuario de la base de datos ")
+            return jsonify(clienteID), 200
+        
+        except Exception as e:
+            return jsonify({"error":"No se pudo obtener los datos del cliente desde la base de datos"})
+   
+    mailCheckin = Mail(app)
+
+    @app.route("/checkinFormulario", methods=["POST"])
+    def checkinFormulario():
+
+        try:
+            if request.method == "POST":
+
+                nombre = request.form.get("nombre")
+                apellido = request.form.get("apellido")
+                documento = request.form.get("dniPasaporte")
+                tipoHabitacion = request.form.get("tipo-habitacion")
+                fechaEntrada = request.form.get("fecha-entrada")
+                fechaSalida = request.form.get("fecha-salida")
+                emailUsuario = request.form.get("email")
+                telefono = request.form.get("telefono")
+                print(f"El backend recibió un nuevo checkin:\n Nombre:{nombre}\n,Apellido:{apellido}") 
+
+                emailEstancia = "estanciabruno@gmail.com" #gmail de la Estancia
+
+                msg = Message(
+                    "Check-in Estancia Bruno",
+                    recipients=[emailUsuario, emailEstancia])
+                
+                msg.body = (
+                    f"Estimado {nombre},\n"
+                    f"Gracias por preferirnos, Estos son los detalles del checkin\n"
+                    f"DATOS DEL TITULAR:\n"
+                    f"Nombre: {nombre}, {apellido}\n"
+                    f"Documento: {documento}\n"
+                    f"Email: {emailUsuario}\n" 
+                    f"Teléfono: {telefono}\n" 
+                    f"ESTADIA:\n"
+                    f"Habitacion: {tipoHabitacion}\n"
+                    f"Fecha de entrada: {fechaEntrada}\n"
+                    f"Fecha de salida: {fechaSalida}\n"
+                )
+
+                mailCheckin.send(msg)
+
+                return jsonify({"mesanje": "Check-in completado, correo enviado"}), 200
+            
+        except Exception as e:
+            return jsonify({"error": str(e), "mensaje":"No se completo el formulario"}), 400
+        
+        
     return app
