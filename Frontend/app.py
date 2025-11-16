@@ -68,11 +68,12 @@ def reserva():
             "tipoHabitacion": tipoHabitacion,
             "numeroHabitacion": numeroHabitacion,
             "fechaEntrada": fechaIngreso,
-            "fechaSalida": fechaEgreso
+            "fechaSalida": fechaEgreso,
+            "fecha_registro": "2012-12-01"
         }
 
         try: 
-            requests.post(BACKEND_URL + "/Reserva", json=datosReserva)
+            requests.post(f"{BACKEND_URL}/reservas/",json=datosReserva)
             session.clear()
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
