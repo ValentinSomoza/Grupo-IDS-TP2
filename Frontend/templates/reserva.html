@@ -6,7 +6,12 @@
 
 <section class="pagina-reserva">
     <div class="conteiner-datos">
-        <form action="{{ url_for('reserva') }}" method="POST">    
+        <form action="{{ url_for('reserva') }}" method="POST">
+            <input type="hidden" name="nombre" value="{{ datosPersonales.nombre }}">
+            <input type="hidden" name="apellido" value="{{ datosPersonales.apellido }}">
+            <input type="hidden" name="dniPasaporte" value="{{ datosPersonales.dniPasaporte }}">
+            <input type="hidden" name="telefono" value="{{ datosPersonales.telefono }}">
+            <input type="hidden" name="email" value="{{ datosPersonales.email }}">
             <div class="conteiner-datos-titulo">
                 <h2>Reservar estadia</h2>
             </div>

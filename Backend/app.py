@@ -160,7 +160,15 @@ def create_app():
             for cliente in clientes:
                 if cliente.get("email") == email:
                     print("Backend: Login con Google exitoso con el mail: ", email)
-                    return jsonify({"mensaje": "Inicio de sesion exitoso con Google"}), 200
+
+                    return jsonify({
+                        "mensaje": "Inicio de sesión con Google exitoso",
+                        "usuario": {
+                            "nombre": cliente.get("nombre"),
+                            "apellido": cliente.get("apellido"),
+                            "email": email
+                        }
+                    }), 200
 
             nuevoCliente = {
                 "nombre": nombre,
@@ -174,7 +182,10 @@ def create_app():
             print("Backend: Usuario creado con Google: ", email)
             enviarMail(email, nombre)
 
-            return jsonify({"mensaje": "Cuenta creada con Google e inicio exitoso"}), 200
+            return jsonify({
+                "mensaje": "Cuenta creada con Google e inicio de sesion exitoso",
+                "usuario": nuevoCliente
+            }), 200
 
         except Exception as e:
             print("Error en el Login con Google: ", str(e))

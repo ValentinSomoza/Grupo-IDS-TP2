@@ -24,20 +24,18 @@ def galeria():
 def mapa():
     return render_template('mapa.html')
 
-
 @app.route('/formularioDatos', methods=['GET', 'POST'])
 def formularioDatos():
-
     if request.method == 'POST':
-        session['nombre'] = request.form["nombre"]
-        session['apellido'] = request.form["apellido"]
-        session['dniPasaporte'] = request.form["dni-pasaporte"]
-        session['telefono'] = request.form["telefono"]
-        session['email'] = request.form["email"]
-        print("Datos personales recibidos: ", session)
-
-        return redirect(url_for('reserva'))
-
+        datosPersonales = {
+            "nombre": request.form["nombre"],
+            "apellido": request.form["apellido"],
+            "dniPasaporte": request.form["dniPasaporte"],
+            "telefono": request.form["telefono"],
+            "email": request.form["email"]
+        }
+        print("Datos personales: ", datosPersonales)
+        return render_template('reserva.html', datosPersonales=datosPersonales)
     return render_template('formularioDatos.html')
 
 @app.route("/reserva", methods=['GET', 'POST'])
@@ -45,11 +43,11 @@ def reserva():
 
     if request.method == 'POST':
 
-        nombre = session.get('nombre')
-        apellido = session.get("apellido")
-        dniPasaporte = session.get("dniPasaporte")
-        telefono = session.get("telefono")
-        email = session.get("email")
+        nombre = request.form["nombre"]
+        apellido = request.form["apellido"]
+        dniPasaporte = request.form["dniPasaporte"]
+        telefono = request.form["telefono"]
+        email = request.form["email"]
 
         noches = request.form["noches"]
         adultos = request.form["adultos"]
@@ -74,25 +72,48 @@ def reserva():
             "fechaSalida": fechaEgreso
         }
 
+
         try: 
             requests.post(BACKEND_URL + "/recibirReserva", json=datosReserva)
             session.clear()
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
 
-    return render_template('reserva.html')
+        flash("Reserva realizada satisfactoriamente !", "success")
+        return redirect(url_for("index"))
 
-@app.route("/auth/callback/google", methods=["POST"])
+    datosPersonales = {
+        "nombre": "",
+        "apellido": "",
+        "dniPasaporte": "",
+        "telefono": "",
+        "email": ""
+    }
+    return render_template('reserva.html', datosPersonales=datosPersonales)
+
+@app.route("/auth/callback/google", methods=['GET', 'POST'])
 def google_auth():
-    token = request.json.get("credential")
+    token = None
+
+    if request.is_json:
+        token = request.json.get("credential")
+    if not token:
+        token = request.args.get("credential")
+    if not token:
+        return jsonify({"status": "error", "mensaje": "Token no recibido"}), 400
 
     respuesta = requests.post(BACKEND_URL + "/authGoogle", json={"token": token})
     info = respuesta.json()
 
-    print("Ingreso de sesion con Google enviado al backend")
+    print("Frontend: Ingreso de sesion con Google enviado al backend con el nombre: ", info.get("usuario", {}).get("nombre"))
 
     if respuesta.status_code in (200, 201):
         flash(info.get("mensaje", "Ingreso con google exitoso"), "success")
+
+        usuario = info.get("usuario", {})
+        session['logueado'] = True
+        session['nombreUsuario'] = usuario.get("nombre") or usuario.get("email")
+        print("Frontend: Usuario: ", session.get("nombreUsuario"), " logeado correctamente")
         return jsonify({
             "status": "ok",
             "redirect": url_for("index"),
@@ -120,6 +141,9 @@ def ingreso():
 
         if respuesta.status_code == 200:
             flash(info.get("mensaje", "Inicio de sesion exitoso"), "success")
+            session['nombreUsuario'] = usuarioIngresado['nombreUsuario']
+            session['logueado'] = True
+            return redirect(url_for('index'))
         elif respuesta.status_code == 409:
             flash(info.get("error", "Error al iniciar sesion"), "error")
         else:
@@ -154,15 +178,9 @@ def registro():
 
         print("Frontend: Nuevo registro de usuario enviado al backend: ", nuevoUsuario)
 
-        return redirect(url_for('registro'))
+        return redirect(url_for('index'))
 
     return render_template('registro.html')
-
-#clientes para el checkin
-BACKEND_URL = "http://127.0.0.1:5001/"
-
-#id usuario es para identificar el usuario en la base de datos
-idUsuario=int(1)
 
 @app.route("/checkin", methods=["GET"])
 def checkinPagina():
@@ -179,6 +197,13 @@ def checkinPagina():
 @app.route("/checkinFinalizado")
 def checkinFinalizadoPagina():
     return render_template('checkinFinalizado.html')
+
+@app.route("/cerrarSesion") # No posee .html
+def cerrarSesion():
+    print("Frontend: Cerrando la sesion: ", session["nombreUsuario"])
+    session.clear()
+    flash("Sesion cerrada correctamente.", "info")
+    return redirect(url_for("index"))
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
