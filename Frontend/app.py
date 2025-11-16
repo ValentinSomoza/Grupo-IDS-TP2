@@ -188,10 +188,10 @@ def checkinPagina():
         response=requests.get(f"{BACKEND_URL}/cliente/{idUsuario}")
         dataCheckin=response.json()
 
-        return render_template('checkin.html',dataCheckin=dataCheckin)
+        return render_template('checkin.html', dataCheckin=dataCheckin)
     
     except Exception as e:
-        return jsonify({"error":"Cliente no encontrado"},idUsuario)
+        return jsonify({"error":"Cliente no encontrado"})
        
 
 @app.route("/checkinFinalizado")
