@@ -8,7 +8,36 @@ from flask_mail import Mail, Message
 from email.mime.image import MIMEImage
 import mysql.connector
 import os
+from flask_cors import CORS
+from Backend.routes.clientes import clientes_bp
+from Backend.routes.habitaciones import habitaciones_bp
+from Backend.routes.reservas import reservas_bp
+from Backend.routes.usuarios import usuarios_bp
+#from Backend.routes.usuarios import usuarios_bp
+from Backend.db import get_conection
 
+
+
+def init_db():
+    path = "db"
+    path_absoluto = os.path.join(path,"init_db_prueba_juan.sql")
+    with open(path_absoluto) as f:
+        sql = f.read()
+        print(sql)
+
+        conn = get_conection()
+        cursor = conn.cursor()
+        for statement in sql.split(";"):
+            if statement.strip():
+                print(statement)
+                cursor.execute(statement)
+                conn.commit()
+                print("Sentencia ejecutada")
+        cursor.close()
+        conn.close()
+
+
+init_db()
 def conectarBaseDatos():
     try: 
         return mysql.connector.connect(
@@ -19,7 +48,8 @@ def conectarBaseDatos():
     except Error as e:
         print("Error al conectar con la base de datos ", e)
         return None
-    
+
+
 def iniciarBaseDeDatos():
     try:
         conexion = conectarBaseDatos()
@@ -39,14 +69,15 @@ def iniciarBaseDeDatos():
             
             conexion.commit()
             print("Base de datos inicializada !")
+            cursor.close()
+            conexion.close()
     
     except Error as e:
         print("Base de datos no pudo inicializarse debido al error ", e)
     
-    finally:
-        if conexion.is_connected():
-            cursor.close()
-            conexion.close()
+    #finally:
+        #if conexion.is_connected():
+        
 
 
 mail = Mail()
@@ -86,6 +117,14 @@ def create_app():
 
     app = Flask(__name__)
 
+    CORS(app)
+    #No estoy seguro de que esos prefix sean correctos, cualquier cosa despues los cambiamos
+    app.register_blueprint(clientes_bp, url_prefix="/clientes")
+    app.register_blueprint(habitaciones_bp, url_prefix="/habitaciones")
+    app.register_blueprint(reservas_bp, url_prefix="/reservas")
+    app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
+
+
     reservas = [] # TEMPORAL
     clientes = [] # TEMPORAL
     CLIENT_ID = "826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com"
@@ -104,7 +143,8 @@ def create_app():
     def home():
         return "Flask se conectó a MariaDB correctamente!"
 
-    iniciarBaseDeDatos()
+    #iniciarBaseDeDatos()
+
 
     @app.route("/recibirReserva", methods=["POST"])
     def recibirReserva():

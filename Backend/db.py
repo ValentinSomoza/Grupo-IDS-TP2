@@ -5,5 +5,5 @@ def get_conection():
         host = "localhost",
         user = "root",
         password = "admin",
-        #database = "HotelFAF"
+        database = "HotelFAF"
     )
