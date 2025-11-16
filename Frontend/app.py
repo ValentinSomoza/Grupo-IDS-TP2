@@ -72,7 +72,7 @@ def reserva():
         }
 
         try: 
-            requests.post(BACKEND_URL + "/recibirReserva", json=datosReserva)
+            requests.post(BACKEND_URL + "/Reserva", json=datosReserva)
             session.clear()
         except Exception as e:
             return f"Error de conexion con el backend: {e}"

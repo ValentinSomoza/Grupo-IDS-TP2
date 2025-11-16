@@ -8,6 +8,12 @@ from flask_mail import Mail, Message
 from email.mime.image import MIMEImage
 import mysql.connector
 import os
+from flask_cors import CORS
+from Backend.routes.clientes import clientes_bp
+from Backend.routes.habitaciones import habitaciones_bp
+from Backend.routes.reservas import reservas_bp
+from Backend.routes.usuarios import usuarios_bp
+
 
 def conectarBaseDatos():
     try: 
@@ -19,6 +25,8 @@ def conectarBaseDatos():
     except Error as e:
         print("Error al conectar con la base de datos ", e)
         return None
+
+
 
 def iniciarBaseDeDatos():
     try:
@@ -85,6 +93,14 @@ def enviarMail(emailDestino, nombre):
 def create_app():
 
     app = Flask(__name__)
+
+    CORS(app)
+    #No estoy seguro de que esos prefix sean correctos, cualquier cosa despues los cambiamos
+    app.register_blueprint(clientes_bp, url_prefix="/clientes")
+    app.register_blueprint(habitaciones_bp, url_prefix="/habitaciones")
+    app.register_blueprint(reservas_bp, url_prefix="/reservas")
+    app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
+
 
     reservas = [] # TEMPORAL
     clientes = [] # TEMPORAL
