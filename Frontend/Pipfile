@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 flask = "*"
+google-auth = "*"
 
 [dev-packages]
 
