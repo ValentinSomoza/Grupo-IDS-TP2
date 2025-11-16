@@ -9,10 +9,10 @@ from email.mime.image import MIMEImage
 import mysql.connector
 import os
 from flask_cors import CORS
-from routes.clientes import clientes_bp
-from routes.habitaciones import habitaciones_bp
-from routes.reservas import reservas_bp
-from routes.usuarios import usuarios_bp
+from Backend.routes.clientes import clientes_bp
+from Backend.routes.habitaciones import habitaciones_bp
+from Backend.routes.reservas import reservas_bp
+from Backend.routes.usuarios import usuarios_bp
 #from Backend.routes.usuarios import usuarios_bp
 
 
