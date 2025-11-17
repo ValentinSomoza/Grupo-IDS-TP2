@@ -19,8 +19,8 @@
 
 <div class="ingreso-contenedor">
   <form class="ingreso-formulario" method="POST" action="{{ url_for('ingreso') }}">
-    <label for="usuario">Usuario:</label>
-    <input type="text" id="usuario" name="usuario" required>
+    <label for="usuario">Nombre de usuario:</label>
+    <input type="text" id="nombreUsuario" name="nombreUsuario" required>
 
     <label for="contraseña">Contraseña:</label>
     <input type="password" id="contraseña" name="contraseña" required>
@@ -30,11 +30,5 @@
     <div id="googleLoginDiv"></div>
   </form>
 </div>
-
-{% if get_flashed_messages() %}
-  <div class="mensajes">
-    {{ get_flashed_messages()[0] }}
-  </div>
-{% endif %}
 
 {% endblock %}

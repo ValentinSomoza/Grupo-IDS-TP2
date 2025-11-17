@@ -1,15 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
-from google.oauth2 import id_token
-from google.auth.transport import requests as grequests
+import json
 import requests
+import base64
 app = Flask(__name__)
 
 app.secret_key = 'texto-que-debe-existir' 
-
 CLIENT_ID = "826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com"
-
-clientes = [] # Lista donde van los clientes temporal
-BACKEND_URL = "http://127.0.0.1:5001/"
+BACKEND_URL = "http://127.0.0.1:5001"
 
 @app.route("/")
 def index():
@@ -29,17 +26,16 @@ def mapa():
 
 @app.route('/formularioDatos', methods=['GET', 'POST'])
 def formularioDatos():
-
     if request.method == 'POST':
-        session['nombre'] = request.form["nombre"]
-        session['apellido'] = request.form["apellido"]
-        session['dniPasaporte'] = request.form["dni-pasaporte"]
-        session['telefono'] = request.form["telefono"]
-        session['email'] = request.form["email"]
-        print("Datos personales recibidos: ", session)
-
-        return redirect(url_for('reserva'))
-
+        datosPersonales = {
+            "nombre": request.form["nombre"],
+            "apellido": request.form["apellido"],
+            "dniPasaporte": request.form["dniPasaporte"],
+            "telefono": request.form["telefono"],
+            "email": request.form["email"]
+        }
+        print("Datos personales: ", datosPersonales)
+        return render_template('reserva.html', datosPersonales=datosPersonales)
     return render_template('formularioDatos.html')
 
 @app.route("/reserva", methods=['GET', 'POST'])
@@ -47,11 +43,11 @@ def reserva():
 
     if request.method == 'POST':
 
-        nombre = session.get('nombre')
-        apellido = session.get("apellido")
-        dniPasaporte = session.get("dniPasaporte")
-        telefono = session.get("telefono")
-        email = session.get("email")
+        nombre = request.form["nombre"]
+        apellido = request.form["apellido"]
+        dniPasaporte = request.form["dniPasaporte"]
+        telefono = request.form["telefono"]
+        email = request.form["email"]
 
         noches = request.form["noches"]
         adultos = request.form["adultos"]
@@ -73,67 +69,89 @@ def reserva():
             "tipoHabitacion": tipoHabitacion,
             "numeroHabitacion": numeroHabitacion,
             "fechaEntrada": fechaIngreso,
-            "fechaSalida": fechaEgreso
+            "fechaSalida": fechaEgreso,
+            "fecha_registro": "2012-12-01"
         }
 
+
         try: 
-            requests.post(BACKEND_URL + "recibirReserva", json=datosReserva)
+            requests.post(f"{BACKEND_URL}/reservas/",json=datosReserva)
             session.clear()
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
 
-    return render_template('reserva.html')
+        flash("Reserva realizada satisfactoriamente !", "success")
+        return redirect(url_for("index"))
 
-@app.route("/auth/callback/google", methods=["POST"])
+    datosPersonales = {
+        "nombre": "",
+        "apellido": "",
+        "dniPasaporte": "",
+        "telefono": "",
+        "email": ""
+    }
+    return render_template('reserva.html', datosPersonales=datosPersonales)
+
+@app.route("/auth/callback/google", methods=['GET', 'POST'])
 def google_auth():
-    token = request.json.get("credential")
+    token = None
 
-    try:
-        info = id_token.verify_oauth2_token(token, grequests.Request(), CLIENT_ID)
+    if request.is_json:
+        token = request.json.get("credential")
+    if not token:
+        token = request.args.get("credential")
+    if not token:
+        return jsonify({"status": "error", "mensaje": "Token no recibido"}), 400
 
-        email = info["email"]
-        nombre = info.get("given_name")
-        apellido = info.get("family_name")
+    respuesta = requests.post(BACKEND_URL + "/authGoogle", json={"token": token})
+    info = respuesta.json()
 
-        # aca se valida si ya existe el usuario
-        cliente_existente = None
-        for cliente in clientes:
-            if cliente["email"] == email:
-                cliente_existente = cliente
-                break
+    print("Frontend: Ingreso de sesion con Google enviado al backend con el nombre: ", info.get("usuario", {}).get("nombre"))
 
-        if cliente_existente is None:
-            nuevo_cliente = {
-                "nombre": nombre,
-                "apellido": apellido,
-                "email": email,
-                "usuario": email,
-                "contraseña": None
-            }
-            clientes.append(nuevo_cliente)
+    if respuesta.status_code in (200, 201):
+        flash(info.get("mensaje", "Ingreso con google exitoso"), "success")
 
-        print(f"Ingeso con google exitoso → {email}")
-
+        usuario = info.get("usuario", {})
+        session['logueado'] = True
+        session['nombreUsuario'] = usuario.get("nombre") or usuario.get("email")
+        print("Frontend: Usuario: ", session.get("nombreUsuario"), " logeado correctamente")
         return jsonify({
             "status": "ok",
-            "redirect": url_for("index")
+            "redirect": url_for("index"),
+            "mensaje": info.get("mensaje", "Ingreso con Google exitoso")
         })
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+    else:
+        flash(info.get("error", "Error al iniciar sesion con Google"), "error")
+        return jsonify({
+            "status": "error",
+            "redirect": url_for("ingreso"),
+            "mensaje": info.get("error", "Error al iniciar sesion con Google")
+        })
 
 @app.route("/ingreso", methods=['GET', 'POST'])
 def ingreso():
     if request.method == 'POST':
-        usuario = request.form['usuario']
-        contraseña = request.form['contraseña']
 
-        for cliente in clientes:
-            if cliente['usuario'] == usuario and cliente['contraseña'] == contraseña:
-                flash (f' Bienvenido, {cliente["nombre"]} !')
-                return redirect(url_for('index'))
-        
-        flash('Usuario o contraseña incorrectos')
+        usuarioIngresado = {
+            'nombreUsuario': request.form['nombreUsuario'],
+            'contraseña': request.form['contraseña']
+        }
+
+        respuesta = requests.post(BACKEND_URL + "/logearUsuario", json=usuarioIngresado)
+        info = respuesta.json()
+
+        if respuesta.status_code == 200:
+            flash(info.get("mensaje", "Inicio de sesion exitoso"), "success")
+            session['nombreUsuario'] = usuarioIngresado['nombreUsuario']
+            session['logueado'] = True
+            return redirect(url_for('index'))
+        elif respuesta.status_code == 409:
+            flash(info.get("error", "Error al iniciar sesion"), "error")
+        else:
+            flash("Error inesperado al iniciar sesion. Por favor intente nuevamente.", "error")
+
+        print("Frontend: Nuevo ingreso de usuario enviado al backend: ", usuarioIngresado)
+
         return redirect(url_for('ingreso'))
     return render_template('ingreso.html')
 
@@ -141,31 +159,59 @@ def ingreso():
 def registro():
     if request.method == 'POST':
 
-        nuevo_cliente = { # temporal
+        nuevoUsuario = { 
             'nombre': request.form['nombre'],
             'apellido': request.form['apellido'],
+            'nombreUsuario': request.form['nombreUsuario'],
             'email': request.form['email'],
-            'usuario': request.form['usuario'],
             'contraseña': request.form['contraseña']
         }
+        
+        respuesta = requests.post(BACKEND_URL + "/registrarUsuario", json=nuevoUsuario)
+        info = respuesta.json()
 
-        for cliente in clientes:
-            if cliente['usuario'] == nuevo_cliente['usuario']:
-                flash('Ese nombre de usuario ya está registrado! Elige otro por favor')
-                return redirect(url_for('registro'))
-            if cliente['email'] == nuevo_cliente['email']:
-                flash('Ese correo electrónico ya está registrado.')
-                return redirect(url_for('registro'))
+        if respuesta.status_code == 200:
+            flash(info.get("mensaje", "Registrado correctamente"), "success")
+        elif respuesta.status_code == 409:
+            flash(info.get("error", "Error en el registro"), "error")
+        else:
+            flash("Error inesperado al registrar usuario.", "error")
 
-        clientes.append(nuevo_cliente) # temporal 
-        flash('Usuario registrado con exito !') # temporal
+        print("Frontend: Nuevo registro de usuario enviado al backend: ", nuevoUsuario)
 
-        print(clientes) # verifico si se registro bien
-        # aca se deberian guardar el usuario en la base de datos
+        return redirect(url_for('index'))
 
-        return redirect(url_for('registro'))
     return render_template('registro.html')
 
+@app.route("/checkin", methods=["GET"])
+def checkinPagina():
+    idUsuario = request.args.get('idUsuario') or session.get('idUsuario')
+    if not idUsuario:
+        return jsonify({"error":"idUsuario no proporcionado"}), 400
+
+    try:
+        response = requests.get(f"{BACKEND_URL}/cliente/{idUsuario}")
+        response.raise_for_status()
+        dataCheckin = response.json()
+
+        return render_template('checkin.html', dataCheckin=dataCheckin)
+    
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": f"Error de conexion con el backend: {e}"}), 502
+    except ValueError:
+        return jsonify({"error":"Respuesta del backend no es JSON"}), 502
+       
+
+@app.route("/checkinFinalizado")
+def checkinFinalizadoPagina():
+    return render_template('checkinFinalizado.html')
+
+@app.route("/cerrarSesion") # No posee .html
+def cerrarSesion():
+    print("Frontend: Cerrando la sesion: ", session["nombreUsuario"])
+    session.clear()
+    flash("Sesion cerrada correctamente.", "info")
+    return redirect(url_for("index"))
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

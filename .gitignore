@@ -1,6 +1,5 @@
 # Ignoro las credenciales de la base de datos
 Backend/.env
-Backend/.flaskenv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

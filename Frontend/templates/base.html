@@ -9,7 +9,19 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> 
         <link rel="stylesheet" href="{{ url_for('static', filename='css/ingreso.css') }}">
         <script src="https://accounts.google.com/gsi/client" async defer></script>
-        <script src="{{ url_for('static', filename='js/google_oauth.js') }}" defer></script 
+        <script src="{{ url_for('static', filename='js/google_oauth.js') }}" defer></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/flash.css') }}">
+
+        <nav>
+            {% if session.get('logueado') %}
+                <span>Bienvenido {{ session.get('nombreUsuario') }} </span>
+                <a href="{{ url_for('cerrarSesion') }}">Cerrar sesión</a>
+            {% else %}
+                <a href="{{ url_for('ingreso') }}">Ingresar</a>
+                <a href="{{ url_for('registro') }}">Registrarse</a>
+            {% endif %}
+        </nav>
+        <hr>
         
     </head>
 
@@ -25,7 +37,6 @@
                 <li><a href="{{ url_for('galeria') }}">Galeria</a></li>
                 <li><a href="{{ url_for('mapa') }}">Ubicacion</a></li>
                 <li><a href="{{ url_for('formularioDatos') }}">Reserva</a></li>
-                <li><a href="{{ url_for('ingreso') }}">Ingresar</a></li>
             </ul>
         </nav>
 
@@ -34,6 +45,16 @@
 
         <!-- Footer -->
          <section id="footer">
+
+            {% with mensajes = get_flashed_messages(with_categories=true) %}
+            {% if mensajes %}
+                {% for categoria, mensaje in mensajes %}
+                <div class="flash {{ categoria }}">
+                    {{ mensaje }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
 
          </section>
 
