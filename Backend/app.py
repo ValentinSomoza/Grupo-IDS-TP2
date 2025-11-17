@@ -41,7 +41,7 @@ init_db()
 def conectarBaseDatos():
     try: 
         return mysql.connector.connect(
-            host=os.getenv("DB_HOST"),
+            host="mysql",
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASS"),
         )
