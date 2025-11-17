@@ -3,6 +3,7 @@
   margin: 10px 0;
   border-radius: 6px;
   font-weight: bold;
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .flash.success {
@@ -23,4 +24,9 @@
 .flash.info {
   background-color: #dbeafe;
   color: #1e3a8a;
+}
+
+.flash.hide {
+    opacity: 0;
+    transform: translateY(-10px);
 }

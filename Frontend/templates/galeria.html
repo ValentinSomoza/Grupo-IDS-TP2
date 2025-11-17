@@ -1,27 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}Galeria de fotos{% endblock %}
+{% block title %}Galería{% endblock %}
 
 {% block content %}
 
-<div class="contenedor-galeria">
-    <div class="imagenes">
-        <img src="{{url_for('static', filename='images/Fachada.png') }}" alt="">
-        <img src="{{url_for('static', filename='images/Baño 1.jpg') }}" alt="">
-        <img src="{{url_for('static', filename='images/Baño 2.jpg') }}" alt="">
-        <img src="{{url_for('static', filename='images/Dormitorio 1.jpg') }}" alt="">
-        <img src="{{url_for('static', filename='images/Dormitorio 2.jpg') }}" alt="">
-        <img src="{{url_for('static', filename='images/Patio.jpg') }}" alt="">
-        <img src="{{url_for('static', filename='images/living 1.jpg') }}" alt="">
-        <img src="{{url_for('static', filename='images/living 2.jpg') }}" alt="">
-        <img src="{{url_for('static', filename='images/barra.jpg') }}" alt="">
-        <img src="{{url_for('static', filename='images/Parrilla.jpg') }}" alt="">
-        <img src="{{url_for('static', filename='images/Pileta.webp') }}" alt="">
-        <img src="{{url_for('static', filename='images/cancha de tenis.jpg') }}" alt="">
+<h2>Galería de imágenes</h2>
 
-    </div>
+<div class="galeria">
+    {% for imagen in imagenes %}
+        <img src="{{ url_for('static', filename='images/' ~ imagen) }}" 
+             class="miniatura" alt="Foto" data-index="{{ loop.index0 }}">
+    {% endfor %}
 </div>
 
+<!-- Modal -->
+<div id="modal" class="modal">
+    <span id="cerrar" class="cerrar">&times;</span>
+    <span id="flecha-izq" class="flecha izquierda">&#10094;</span>
+    <span id="flecha-der" class="flecha derecha">&#10095;</span>
+
+    <img id="modal-img" class="modal-contenido">
+</div>
+
+<script src="{{ url_for('static', filename='js/galeria.js') }}"></script>
+
 {% endblock %}
-
-
