@@ -16,8 +16,6 @@ from Backend.routes.usuarios import usuarios_bp
 #from Backend.routes.usuarios import usuarios_bp
 from Backend.db import get_conection
 
-
-
 def init_db():
     path = "db"
     path_absoluto = os.path.join(path,"init_db_prueba_juan.sql")
@@ -36,8 +34,8 @@ def init_db():
         cursor.close()
         conn.close()
 
-
 init_db()
+
 def conectarBaseDatos():
     try: 
         return mysql.connector.connect(
@@ -49,7 +47,6 @@ def conectarBaseDatos():
     except Error as e:
         print("Error al conectar con la base de datos ", e)
         return None
-
 
 def iniciarBaseDeDatos():
     try:
@@ -79,8 +76,6 @@ def iniciarBaseDeDatos():
     #finally:
         #if conexion.is_connected():
         
-
-
 mail = Mail()
 
 def enviarMail(emailDestino, nombre):
@@ -119,12 +114,10 @@ def create_app():
     app = Flask(__name__)
 
     CORS(app)
-    #No estoy seguro de que esos prefix sean correctos, cualquier cosa despues los cambiamos
     app.register_blueprint(clientes_bp, url_prefix="/clientes")
     app.register_blueprint(habitaciones_bp, url_prefix="/habitaciones")
     app.register_blueprint(reservas_bp, url_prefix="/reservas")
     app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
-
 
     reservas = [] # TEMPORAL
     clientes = [] # TEMPORAL
@@ -146,7 +139,6 @@ def create_app():
 
     #iniciarBaseDeDatos()
 
-
     @app.route("/recibirReserva", methods=["POST"])
     def recibirReserva():
         data = request.get_json()
@@ -163,7 +155,18 @@ def create_app():
         for cliente in clientes:
             if cliente.get("nombreUsuario") == usuarioIngresado.get("nombreUsuario") and cliente.get("contraseña") == usuarioIngresado.get("contraseña"):
                 print("Backend: Ingreso de usuario exitoso: ", usuarioIngresado)
-                return jsonify({"mensaje": "Ingreso de sesion exitoso"}), 200
+                
+                return jsonify({
+                    "mensaje": "Ingreso de sesion exitoso",
+                    "usuario": {
+                        "nombre": cliente.get("nombre"),
+                        "apellido": cliente.get("apellido"),
+                        "email": cliente.get("email"),
+                        "telefono": cliente.get("telefono"),
+                        "dniPasaporte": cliente.get("dniPasaporte"),
+                        "nombreUsuario": cliente.get("nombreUsuario")
+                    }
+                }), 200
 
         print("Backend: Ingreso de usuario fallido: ", usuarioIngresado)
         return jsonify({"error": "El usuario o la contraseña son incorrectos"}), 409
@@ -207,7 +210,10 @@ def create_app():
                         "usuario": {
                             "nombre": cliente.get("nombre"),
                             "apellido": cliente.get("apellido"),
-                            "email": email
+                            "email": cliente.get("email"),
+                            "telefono": cliente.get("telefono"),
+                            "dniPasaporte": cliente.get("dniPasaporte"),
+                            "nombreUsuario": cliente.get("nombreUsuario")
                         }
                     }), 200
 
@@ -216,6 +222,8 @@ def create_app():
                 "apellido": apellido,
                 "email": email,
                 "nombreUsuario": email,
+                "telefono": None,
+                "dniPasaporte": None,
                 "contraseña": None
             }
             clientes.append(nuevoCliente)
@@ -309,6 +317,5 @@ def create_app():
             
         except Exception as e:
             return jsonify({"error": str(e), "mensaje":"No se completo el formulario"}), 400
-        
         
     return app

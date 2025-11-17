@@ -4,27 +4,61 @@
 
 {% block content %}
 
-<div class="ingreso-contenedor">
-  <form class="ingreso-formulario" method="POST" action="{{ url_for('registro') }}">
-    Para registrarte por favor completa el formulario con tus datos:
+<section class="login-section d-flex align-items-center justify-content-center">
+    <div class="login-card shadow-lg p-4 rounded-4">
 
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" required>
+        <h2 class="text-center mb-4 fw-bold">Crear Cuenta</h2>
 
-    <label for="apellido">Apellido:</label>
-    <input type="text" id="apellido" name="apellido" required>
+        <p class="text-center text-muted mb-4">
+            Completá el formulario con tus datos para registrarte
+        </p>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+        <form class="registro-form" method="POST" action="{{ url_for('registro') }}">
 
-    <label for="nombreUsuario">Nombre de usuario:</label>
-    <input type="text" id="nombreUsuario" name="nombreUsuario" required>
+            <div class="form-group mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" required>
+            </div>
 
-    <label for="contraseña">Contraseña:</label>
-    <input type="password" id="contraseña" name="contraseña" required>
+            <div class="form-group mb-3">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input type="text" id="apellido" name="apellido" class="form-control" required>
+            </div>
 
-    <button type="submit">Registrar</button>
-  </form>
-</div>
+            <div class="form-group mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="nombre" class="form-label">Telefono</label>
+                <input type="tel" id="nombre" name="telefono" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="nombre" class="form-label">D.N.I/Pasaporte</label>
+                <input type="tel" id="nombre" name="dniPasaporte" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="nombreUsuario" class="form-label">Nombre de usuario</label>
+                <input type="text" id="nombreUsuario" name="nombreUsuario" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="contraseña" class="form-label">Contraseña</label>
+                <input type="password" id="contraseña" name="contraseña" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 mb-3">Registrarme</button>
+
+            <div class="text-center">
+                ¿Ya tenés una cuenta?
+                <a href="{{ url_for('ingreso') }}" class="fw-semibold">Iniciar sesión</a>
+            </div>
+        </form>
+
+    </div>
+</section>
 
 {% endblock %}

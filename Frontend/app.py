@@ -18,7 +18,12 @@ def page_not_found(e):
 
 @app.route("/galeria")
 def galeria():
-    return render_template('galeria.html')
+    imagenes = [
+        'Fachada.png', 'Baño 1.jpg', 'Baño 2.jpg', 'Dormitorio 1.jpg',
+        'Dormitorio 2.jpg', 'Patio.jpg', 'living 1.jpg', 'living 2.jpg',
+        'barra.jpg', 'Parrilla.jpg', 'Pileta.webp', 'cancha de tenis.jpg'
+    ]
+    return render_template("galeria.html", imagenes=imagenes)
 
 @app.route("/mapa")
 def mapa():
@@ -73,7 +78,6 @@ def reserva():
             "fecha_registro": "2012-12-01"
         }
 
-
         try: 
             requests.post(f"{BACKEND_URL}/reservas/",json=datosReserva)
             session.clear()
@@ -114,6 +118,12 @@ def google_auth():
         usuario = info.get("usuario", {})
         session['logueado'] = True
         session['nombreUsuario'] = usuario.get("nombre") or usuario.get("email")
+        session['nombre'] = usuario.get("nombre")
+        session['apellido'] = usuario.get("apellido")
+        session['email'] = usuario.get("email")
+        session['telefono'] = usuario.get("telefono")
+        session['dniPasaporte'] = usuario.get("dniPasaporte")
+        
         print("Frontend: Usuario: ", session.get("nombreUsuario"), " logeado correctamente")
         return jsonify({
             "status": "ok",
@@ -143,8 +153,19 @@ def ingreso():
         if respuesta.status_code == 200:
             flash(info.get("mensaje", "Inicio de sesion exitoso"), "success")
             session['nombreUsuario'] = usuarioIngresado['nombreUsuario']
+            usuario = info.get("usuario", {})
+
             session['logueado'] = True
+            session['nombreUsuario'] = usuario.get("nombreUsuario")
+            session['nombre'] = usuario.get("nombre")
+            session['apellido'] = usuario.get("apellido")
+            session['email'] = usuario.get("email")
+            session['telefono'] = usuario.get("telefono")
+            session['dniPasaporte'] = usuario.get("dniPasaporte")
+
+            print("Frontend: Datos de sesión guardados correctamente:", session)
             return redirect(url_for('index'))
+
         elif respuesta.status_code == 409:
             flash(info.get("error", "Error al iniciar sesion"), "error")
         else:
@@ -164,6 +185,8 @@ def registro():
             'apellido': request.form['apellido'],
             'nombreUsuario': request.form['nombreUsuario'],
             'email': request.form['email'],
+            'telefono':request.form['telefono'],
+            'dniPasaporte':request.form['dniPasaporte'],
             'contraseña': request.form['contraseña']
         }
         
@@ -179,15 +202,18 @@ def registro():
 
         print("Frontend: Nuevo registro de usuario enviado al backend: ", nuevoUsuario)
 
-        return redirect(url_for('index'))
+        return redirect(url_for('ingreso'))
 
     return render_template('registro.html')
 
 @app.route("/checkin", methods=["GET"])
 def checkinPagina():
-    idUsuario = request.args.get('idUsuario') or session.get('idUsuario')
+    idUsuario = request.args.get('nombreUsuario') or session.get('nombreUsuario')
+        
     if not idUsuario:
-        return jsonify({"error":"idUsuario no proporcionado"}), 400
+        flash("⚠️ Debes iniciar sesión antes de acceder al Check-In", "warning")
+        return redirect(url_for('ingreso'))
+        #return jsonify({"error":"nombreUsuario no proporcionado"}), 400
 
     try:
         response = requests.get(f"{BACKEND_URL}/cliente/{idUsuario}")
@@ -201,7 +227,6 @@ def checkinPagina():
     except ValueError:
         return jsonify({"error":"Respuesta del backend no es JSON"}), 502
        
-
 @app.route("/checkinFinalizado")
 def checkinFinalizadoPagina():
     return render_template('checkinFinalizado.html')
@@ -212,6 +237,25 @@ def cerrarSesion():
     session.clear()
     flash("Sesion cerrada correctamente.", "info")
     return redirect(url_for("index"))
+
+@app.route("/miCuenta")
+def miCuenta():
+    idUsuario = request.args.get('nombreUsuario') or session.get('nombreUsuario')
+
+    if not idUsuario:
+        flash("Debes iniciar sesión para acceder a tu cuenta", "warning")
+        return redirect(url_for('ingreso')) 
+    
+    dataUsuario = {
+        "nombre": session.get("nombre"),
+        "apellido": session.get("apellido"),
+        "email": session.get("email"),
+        "telefono": session.get("telefono"),
+        "dniPasaporte": session.get("dniPasaporte"),
+        "usuario": session.get("nombreUsuario")
+    }
+
+    return render_template('miCuenta.html', usuario=dataUsuario)
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

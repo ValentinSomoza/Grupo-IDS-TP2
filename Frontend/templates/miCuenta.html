@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Mi cuenta{% endblock %}
+
+{% block content %}
+
+<main class="container">
+    <h2>Mi Perfil</h2>
+    <p class="info-note">⚠ Es posible que algunos datos no estén disponibles si iniciaste sesión con Google.</p>
+
+    <div class="card perfil-card">
+
+        <div class="perfil-info-row">
+            <i class="fa-solid fa-user"></i>
+            <span>
+                <strong>Nombre:</strong>
+                {{ usuario.nombre or '<span class="no-data"><i class="fa-solid fa-triangle-exclamation"></i> Dato no disponible</span>' | safe }}
+            </span>
+        </div>
+
+        <div class="perfil-info-row">
+            <i class="fa-solid fa-user-tag"></i>
+            <span>
+                <strong>Apellido:</strong>
+                {{ usuario.apellido or '<span class="no-data"><i class="fa-solid fa-triangle-exclamation"></i> Dato no disponible</span>' | safe }}
+            </span>
+        </div>
+
+        <div class="perfil-info-row">
+            <i class="fa-solid fa-envelope"></i>
+            <span>
+                <strong>Email:</strong>
+                {{ usuario.email or '<span class="no-data"><i class="fa-solid fa-triangle-exclamation"></i> Dato no disponible</span>' | safe }}
+            </span>
+        </div>
+
+        <div class="perfil-info-row">
+            <i class="fa-solid fa-phone"></i>
+            <span>
+                <strong>Teléfono:</strong>
+                {{ usuario.telefono or '<span class="no-data"><i class="fa-solid fa-triangle-exclamation"></i> Dato no disponible</span>' | safe }}
+            </span>
+        </div>
+
+        <div class="perfil-info-row">
+            <i class="fa-solid fa-id-card"></i>
+            <span>
+                <strong>DNI / Pasaporte:</strong>
+                {{ usuario.dniPasaporte or '<span class="no-data"><i class="fa-solid fa-triangle-exclamation"></i> Dato no disponible</span>' | safe }}
+            </span>
+        </div>
+
+        <div class="perfil-info-row">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>
+                <strong>Nombre de usuario:</strong>
+                {{ usuario.usuario or '<span class="no-data"><i class="fa-solid fa-triangle-exclamation"></i> Dato no disponible</span>' | safe }}
+            </span>
+        </div>
+
+    </div>
+</main>
+
+{% endblock %}
