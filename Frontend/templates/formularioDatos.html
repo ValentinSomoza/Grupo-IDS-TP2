@@ -1,45 +1,51 @@
 {% extends "base.html" %}
 
-{% block title %}Formulario personal{% endblock %}
+{% block title %}Formulario Personal{% endblock %}
 
 {% block content %}
 
- <section class="pagina-reserva">
-    <form action="{{ url_for('formularioDatos') }}" method="post">
-        <div class="conteiner-datos">
-            <div class="conteiner-datos-titulo">
-                <h2>Datos Personales</h2>
-            </div>
-            <div class="conteiner-datos-cuerpo">
-                <div class="datos-right">
-                    <div class="formulario">
-                        <label class="descripcion" for="nombre">Nombre:</label>
+<section class="pagina-reserva">
+    <div class="reserva-container">
+        <div class="reserva-header">
+            <h2>Datos Personales</h2>
+            <p>Completa tus datos para continuar con la reserva. Todos los campos son obligatorios.</p>
+        </div>
+
+        <form action="{{ url_for('formularioDatos') }}" method="post" class="reserva-form">
+            <div class="reserva-grid">
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
                         <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-                    </div>   
-                    <div class="formulario">
-                        <label class="descripcion" for="apellido">Apellido:</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
                         <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
                     </div>
-                    <div class="formulario">
-                        <label class="descripcion" for="documento">Documento:</label>
-                        <input type="tel" id="documento" name="dniPasaporte" placeholder="D.N.I o Pasaporte" pattern="[0-9]+" inputmode="numeric" oninvalid="this.setCustomValidity('Por favor ingrese solo números en el DNI o Pasaporte')"oninput="this.setCustomValidity('')"required>
+                    <div class="form-group">
+                        <label for="documento">Documento</label>
+                        <input type="tel" id="documento" name="dniPasaporte" placeholder="D.N.I o Pasaporte"
+                               pattern="[0-9]+" inputmode="numeric"
+                               oninvalid="this.setCustomValidity('Por favor ingrese solo números en el DNI o Pasaporte')"
+                               oninput="this.setCustomValidity('')" required>
                     </div>
-                    <div class="formulario">
-                        <label class="descripcion" for="email">Email:</label>
+                    <div class="form-group">
+                        <label for="email">Email</label>
                         <input type="email" id="email" name="email" placeholder="Email" required>
                     </div>
-                    <div class="formulario">
-                        <label class="descripcion for="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" name="telefono" placeholder="Teléfono" pattern="[0-9]{10,15}" inputmode="numeric" oninvalid="this.setCustomValidity('Por favor ingrese un número de teléfono válido (10-15 dígitos)')" oninput="this.setCustomValidity('')" required>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono" placeholder="Teléfono"
+                               pattern="[0-9]{10,15}" inputmode="numeric"
+                               oninvalid="this.setCustomValidity('Por favor ingrese un número válido (10-15 dígitos)')"
+                               oninput="this.setCustomValidity('')" required>
                     </div>
-                </div>
-                <div class="datos-left">
-                    <img src="{{ url_for('static', filename='images/LOGO.png') }}" alt="" class="" width="">
-                    <button type="submit">Confirmar datos</button>
+
+                    <button type="submit" class="btn-confirmar">Confirmar Datos</button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </section>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/stylereservas.css') }}"> 
