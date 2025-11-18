@@ -148,7 +148,7 @@ def ingreso():
             'contraseña': request.form['contraseña']
         }
 
-        respuesta = requests.post(BACKEND_URL + "/logearUsuario", json=usuarioIngresado)
+        respuesta = requests.post(BACKEND_URL + "/usuarios/logearUsuario", json=usuarioIngresado)
         info = respuesta.json()
 
         if respuesta.status_code == 200:
@@ -191,7 +191,7 @@ def registro():
             'contraseña': request.form['contraseña']
         }
         
-        respuesta = requests.post(BACKEND_URL + "/registrarUsuario", json=nuevoUsuario)
+        respuesta = requests.post(BACKEND_URL + "/usuarios/registrarUsuario", json=nuevoUsuario)
         info = respuesta.json()
 
         if respuesta.status_code == 200:
@@ -217,7 +217,7 @@ def checkinPagina():
         #return jsonify({"error":"nombreUsuario no proporcionado"}), 400
 
     try:
-        response = requests.get(f"{BACKEND_URL}/cliente/{idUsuario}")
+        response = requests.get(f"{BACKEND_URL}/clientes/cliente/{idUsuario}")
         response.raise_for_status()
         dataCheckin = response.json()
 
