@@ -1,0 +1,124 @@
+.contenedor-reservas {
+    width: 100%;
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.titulo-reservas {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.tabla-wrapper {
+    width: 100%;
+    overflow-x: auto; 
+    border-radius: 10px;
+    border: 2px solid #d4d4d4;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.tabla-reservas {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.tabla-reservas thead th {
+    background-color: #004aad;
+    color: #fff;
+    padding: 14px;
+    font-size: 1rem;
+    text-align: left;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.tabla-reservas td {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #e6e6e6;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.tabla-reservas tr:nth-child(even) {
+    background-color: #f8faff;
+}
+
+.tabla-reservas tr:hover {
+    background-color: #e9f1ff;
+    cursor: pointer;
+}
+
+.btn-reserva {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.btn-info {
+    background-color: #00a8ff;
+    color: #fff;
+}
+
+.btn-info:hover {
+    background-color: #0087cc;
+}
+
+.btn-danger {
+    background-color: #ff4d4d;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #cc0000;
+}
+
+@media (max-width: 992px) {
+    .titulo-reservas {
+        font-size: 1.7rem;
+    }
+
+    .tabla-reservas th,
+    .tabla-reservas td {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .contenedor-reservas {
+        padding: 10px;
+    }
+
+    .titulo-reservas {
+        font-size: 1.5rem;
+    }
+
+    .tabla-wrapper {
+        border-radius: 6px;
+    }
+
+    .tabla-reservas th,
+    .tabla-reservas td {
+        font-size: 0.85rem;
+        padding: 8px;
+    }
+
+    .btn-reserva {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+}

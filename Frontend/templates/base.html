@@ -62,7 +62,9 @@
                 <ul>
                 <li><a href="{{ url_for('formularioDatos') }}">Hacer una reserva</a></li>
                 <li><a href="{{ url_for('checkinPagina') }}">Hacer Check-in</a></li>
-                <li><a href="{{ url_for('index') }}">Mis reservas</a></li>
+                 {% if session.get('logueado') %}
+                <li><a href="{{ url_for('misReservas') }}">Mis reservas</a></li>
+                {% endif %}
                 </ul>
             </li>
             <li><a href="{{ url_for('index') }}">Contacto</a></li>

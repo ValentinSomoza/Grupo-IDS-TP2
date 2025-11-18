@@ -1,12 +1,13 @@
 from flask import Blueprint, jsonify, request
-from Backend.db import get_conection
+from db import get_conection
 
 usuarios_bp = Blueprint("usuarios", __name__)
 
 @usuarios_bp.route("/")
 def add_usuario():
-    conn = get_conection()
+    conn = get_server_conection()
     cursor = conn.cursor(dictionary=True)
+
     data = request.json
     usuario = data.get("usuario")
     email = data.get("email")

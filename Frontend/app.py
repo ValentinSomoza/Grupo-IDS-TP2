@@ -31,6 +31,13 @@ def mapa():
 
 @app.route('/formularioDatos', methods=['GET', 'POST'])
 def formularioDatos():
+
+    idUsuario = request.args.get('nombreUsuario') or session.get('nombreUsuario')
+        
+    if not idUsuario:
+        flash("⚠️ Debes iniciar sesión antes de hacer una reserva", "warning")
+        return redirect(url_for('ingreso'))
+
     if request.method == 'POST':
         datosPersonales = {
             "nombre": request.form["nombre"],
@@ -79,11 +86,11 @@ def reserva():
         }
 
         try: 
-            requests.post(f"{BACKEND_URL}/reservas/",json=datosReserva)
-            session.clear()
+            requests.post(f"{BACKEND_URL}/reservas/agregar_reserva",json=datosReserva)
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
 
+        print("Frontend: Reserva enviada al back: ", datosReserva)
         flash("Reserva realizada satisfactoriamente !", "success")
         return redirect(url_for("index"))
 
@@ -213,7 +220,6 @@ def checkinPagina():
     if not idUsuario:
         flash("⚠️ Debes iniciar sesión antes de acceder al Check-In", "warning")
         return redirect(url_for('ingreso'))
-        #return jsonify({"error":"nombreUsuario no proporcionado"}), 400
 
     try:
         response = requests.get(f"{BACKEND_URL}/cliente/{idUsuario}")
@@ -256,6 +262,18 @@ def miCuenta():
     }
 
     return render_template('miCuenta.html', usuario=dataUsuario)
+
+@app.route("/misReservas")
+def misReservas():
+    dni = session.get("dniPasaporte")
+    respuesta = requests.get(f"{BACKEND_URL}/reservas/listar_reservas/{dni}")
+
+    if respuesta.status_code == 200:
+            reservas = respuesta.json() 
+    else:
+        reservas = []
+
+    return render_template('misReservas.html', reservas=reservas)
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

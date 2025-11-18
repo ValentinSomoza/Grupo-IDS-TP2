@@ -9,73 +9,30 @@ from email.mime.image import MIMEImage
 import mysql.connector
 import os
 from flask_cors import CORS
-from Backend.routes.clientes import clientes_bp
-from Backend.routes.habitaciones import habitaciones_bp
-from Backend.routes.reservas import reservas_bp
-from Backend.routes.usuarios import usuarios_bp
-#from Backend.routes.usuarios import usuarios_bp
-from Backend.db import get_conection
+from routes.clientes import clientes_bp
+from routes.habitaciones import habitaciones_bp
+from routes.reservas import reservas_bp
+from routes.usuarios import usuarios_bp
+from db import get_conection
 
-def init_db():
+CLIENT_ID = "826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com"
+
+def iniciar_base_de_datos():
     path = "db"
     path_absoluto = os.path.join(path,"init_db_prueba_juan.sql")
     with open(path_absoluto) as f:
         sql = f.read()
-        print(sql)
+        print("Backend: SQL leido")
 
-        conn = get_conection()
-        cursor = conn.cursor()
-        for statement in sql.split(";"):
-            if statement.strip():
-                print(statement)
-                cursor.execute(statement)
-                conn.commit()
-                print("Sentencia ejecutada")
-        cursor.close()
-        conn.close()
+    conn = get_conection()
+    cursor = conn.cursor()
+    for statement in sql.split(";"):
+        if statement.strip():
+            cursor.execute(statement)
+            conn.commit()
+    cursor.close()
+    conn.close()
 
-init_db()
-
-def conectarBaseDatos():
-    try: 
-        return mysql.connector.connect(
-            host="mysql",
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASS"),
-            database=os.getenv("DB_NAME")  # opcional si definís DB_NAME en .env
-        )
-    except Error as e:
-        print("Error al conectar con la base de datos ", e)
-        return None
-
-def iniciarBaseDeDatos():
-    try:
-        conexion = conectarBaseDatos()
-
-        if conexion.is_connected():
-            cursor = conexion.cursor()
-
-            sql_path = os.path.join(os.path.dirname(__file__), "db", "init_db.sql")
-
-            with open(sql_path, "r") as f:
-                sql_script = f.read()
-            
-            for statement in sql_script.split(";"):
-                stmt = statement.strip()
-                if stmt:
-                    cursor.execute(stmt)
-            
-            conexion.commit()
-            print("Base de datos inicializada !")
-            cursor.close()
-            conexion.close()
-    
-    except Error as e:
-        print("Base de datos no pudo inicializarse debido al error ", e)
-    
-    #finally:
-        #if conexion.is_connected():
-        
 mail = Mail()
 
 def enviarMail(emailDestino, nombre):
@@ -111,17 +68,16 @@ def enviarMail(emailDestino, nombre):
 
 def create_app():
 
+    iniciar_base_de_datos()
     app = Flask(__name__)
-
     CORS(app)
+
     app.register_blueprint(clientes_bp, url_prefix="/clientes")
     app.register_blueprint(habitaciones_bp, url_prefix="/habitaciones")
     app.register_blueprint(reservas_bp, url_prefix="/reservas")
     app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
 
-    reservas = [] # TEMPORAL
     clientes = [] # TEMPORAL
-    CLIENT_ID = "826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com"
 
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
@@ -136,17 +92,6 @@ def create_app():
     @app.route("/")
     def home():
         return "Flask se conectó a MariaDB correctamente!"
-
-    #iniciarBaseDeDatos()
-
-    @app.route("/recibirReserva", methods=["POST"])
-    def recibirReserva():
-        data = request.get_json()
-        reservas.append(data) # TEMPORAL 
-        
-        print("Nueva reserva: ", data)
-
-        return jsonify({"mensaje": "Reserva guardada con exito !"}), 200
     
     @app.route("/logearUsuario", methods=["POST"])
     def logearUsuario():
