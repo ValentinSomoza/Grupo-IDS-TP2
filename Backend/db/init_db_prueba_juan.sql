@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS reservas (
 );
 
 CREATE TABLE IF NOT EXISTS checkin (
-    id VARCHAR(10) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50),
     apellido VARCHAR(50),
     email VARCHAR(100),
-    documento VARCHAR(20),
+    dniPasaporte VARCHAR(20),
     telefono VARCHAR(20),
     tipoHabitacionC VARCHAR(10),
     numeroHabitacionC VARCHAR(20), 
