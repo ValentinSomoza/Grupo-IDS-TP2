@@ -1,5 +1,4 @@
-DROP DATABASE IF EXISTS HotelFAF_Test;
-CREATE DATABASE HotelFAF_Test;
+CREATE DATABASE IF NOT EXISTS HotelFAF_Test;
 USE HotelFAF_Test;
 
 CREATE TABLE IF NOT EXISTS habitaciones (
@@ -28,13 +27,3 @@ CREATE TABLE IF NOT EXISTS reservas (
     FOREIGN KEY (id_habitacion) REFERENCES habitaciones(id) ON DELETE CASCADE
 );
 
-INSERT INTO habitaciones (id, numero, precio, estado, capacidad, descripcion)
-VALUES 
-('H001', 101, 150.00, TRUE, 2, 'Habitación doble con vista al mar'),
-('H002', 102, 200.00, TRUE, 4, 'Suite familiar con balcón'),
-('H003', 103, 100.00, FALSE, 1, 'Habitación individual');
-
-
-INSERT INTO reservas (nombre, apellido, email, documento, fecha_registro, telefono, noches, ninios, adultos, id_habitacion, fecha_entrada, fecha_salida)
-VALUES 
-('Manolo','Perez','ManoloPerez@Gatorade.com',12123123,'2002-12-03',123456,3,4,1,'H001','2023-05-01','2023-05-05');
