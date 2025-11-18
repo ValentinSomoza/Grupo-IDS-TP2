@@ -1,13 +1,18 @@
 from flask import Blueprint, jsonify, request
-from Backend.db import get_conection
-from app import enviarMail, clientes,grequests,id_token,CLIENT_ID
+from db import get_conection
+from app import grequests, id_token
+from flask_mail import Mail
+from herramientas import enviarMail
+from constantes import CLIENT_ID
 
 usuarios_bp = Blueprint("usuarios", __name__)
+clientes = [] # TEMPORAL
 
 @usuarios_bp.route("/")
 def add_usuario():
-    conn = get_conection()
+    conn = get_server_conection()
     cursor = conn.cursor(dictionary=True)
+
     data = request.json
     usuario = data.get("usuario")
     email = data.get("email")
@@ -116,4 +121,3 @@ def authGoogle():
     except Exception as e:
         print("Error en el Login con Google: ", str(e))
         return jsonify({"error": "Token invalido"}), 400
-

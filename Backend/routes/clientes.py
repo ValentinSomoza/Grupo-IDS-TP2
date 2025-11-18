@@ -1,12 +1,11 @@
 from flask import Blueprint, jsonify, request
-from Backend.db import get_conection
-from app import conectarBaseDatos
+from db import get_server_conection
 
 clientes_bp = Blueprint("clientes", __name__)
 
 @clientes_bp.route("/")
 def get_clientes(id_cliente):
-    conn = get_conection()
+    conn = get_server_conection()
     cursor = conn.cursor(dictionary=True)
     data = request.json
     nombre = data.get("Nombre")
@@ -25,11 +24,11 @@ def get_clientes(id_cliente):
     return ("Cliente agregado correctamente")
 
 
-@clientes_bp.route('/clientes', methods=['GET'])
+@clientes_bp.route('/clientes', methods=['GET']) # A chequear
 def ListaClientesBack():
 
     try:
-        conexion = conectarBaseDatos()
+        conexion = get_server_conection()
         cursor = conexion.cursor(dictionary=True)
         cursor.execute("USE HotelFAF")
         cursor.execute("SELECT * FROM clientes")
@@ -41,11 +40,11 @@ def ListaClientesBack():
         print("Backend: Lista de clientes obtenida")
         return jsonify({"error": "No se pudo obtener datos del clientes desde la base de datos"}), 400
 
-@clientes_bp.route('/cliente/<id>', methods=['GET'])
+@clientes_bp.route('/cliente/<id>', methods=['GET']) # A chequear
 def clientePorID(id):
 
     try:
-        conexion = conectarBaseDatos()
+        conexion = get_server_conection()
         cursor = conexion.cursor(dictionary=True)
         cursor.execute("USE HotelFAF")
         cursor.execute(

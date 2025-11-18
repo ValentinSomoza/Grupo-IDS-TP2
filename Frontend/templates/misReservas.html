@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Reservas{% endblock %}
+
+{% block content %}
+
+<div class="contenedor-reservas">
+
+    <h2 class="titulo-reservas">Mis Reservas</h2>
+
+    {% if reservas %}
+        <div class="tabla-wrapper">
+            <table class="tabla-reservas">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th>DNI</th>
+                        <th>Fecha Registro</th>
+                        <th>Teléfono</th>
+                        <th>Noches</th>
+                        <th>Niños</th>
+                        <th>Adultos</th>
+                        <th>Habitación</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reserva in reservas %}
+                    <tr>
+                        <td>{{ reserva.id }}</td>
+                        <td>{{ reserva.nombre }}</td>
+                        <td>{{ reserva.apellido }}</td>
+                        <td>{{ reserva.email }}</td>
+                        <td>{{ reserva.documento }}</td>
+                        <td>{{ reserva.fecha_registro }}</td>
+                        <td>{{ reserva.telefono }}</td>
+                        <td>{{ reserva.noches }}</td>
+                        <td>{{ reserva.ninios }}</td>
+                        <td>{{ reserva.adultos }}</td>
+                        <td>{{ reserva.id_habitacion }}</td>
+                        <td>{{ reserva.fecha_entrada }}</td>
+                        <td>{{ reserva.fecha_salida }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% else %}
+        <div class="no-reservas">
+            <p>No tenés reservas actualmente.</p>
+        </div>
+    {% endif %}
+
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleMisReservas.css') }}">
+
+{% endblock %}

@@ -1,10 +1,8 @@
 from flask import Blueprint, jsonify, request
-from app import Message,mailCheckin
-
 
 checkin_bp = Blueprint("check-in", __name__)
 
-@checkin_bp.route("/checkinFormulario", methods=["POST"])
+@checkin_bp.route("/checkinFormulario", methods=["POST"]) # falta modularizar
 def checkinFormulario():
 
     try:
@@ -40,7 +38,7 @@ def checkinFormulario():
                 f"Fecha de salida: {fechaSalida}\n"
             )
 
-            mailCheckin.send(msg)
+            mailCheckin.send(msg) # Capaz se rompe en esta linea porque el mailCheckin esta en el app
 
             return jsonify({"mesanje": "Check-in completado, correo enviado"}), 200
         

@@ -15,15 +15,13 @@ CREATE TABLE IF NOT EXISTS reservas (
     nombre VARCHAR(50),
     apellido VARCHAR(50),
     email VARCHAR(50),
-    documento INT(7),
+    documento VARCHAR(20),
     fecha_registro DATE,
-    telefono INT,
+    telefono VARCHAR(20),
     noches INT,
     ninios INT,
     adultos INT,
     fecha_entrada DATE,
     fecha_salida DATE,
-    id_habitacion VARCHAR(10),
-    FOREIGN KEY (id_habitacion) REFERENCES habitaciones(id) ON DELETE CASCADE
+    id_habitacion VARCHAR(10)
 );
-
