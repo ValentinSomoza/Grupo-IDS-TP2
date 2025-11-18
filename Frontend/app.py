@@ -215,29 +215,44 @@ def registro():
 
     return render_template('registro.html')
 
-@app.route("/checkin", methods=["GET"])
+@app.route("/checkin", methods=["GET", "POST"])
 def checkinPagina():
-    idUsuario = request.args.get('nombreUsuario') or session.get('nombreUsuario')
+
+    nombreUsuario = request.args.get('nombreUsuario') or session.get('nombreUsuario')
         
-    if not idUsuario:
+    if not nombreUsuario:
         flash("⚠️ Debes iniciar sesión antes de acceder al Check-In", "warning")
         return redirect(url_for('ingreso'))
 
-    try:
-        response = requests.get(f"{BACKEND_URL}/clientes/cliente/{idUsuario}")
+    if request.method == 'POST':
+        nombre = request.form["nombre"]
+        apellido = request.form["apellido"]
+        documento = request.form["dniPasaporte"]
+        emailUsuario = request.form["email"]
+        telefono = request.form["telefono"]
+
+        datosCheckin = {
+            "nombre": nombre,
+            "apellido": apellido,
+            "dniPasaporte": documento,
+            "telefono": telefono,
+            "email": emailUsuario,
+        }
+    else:
+        response = requests.get(f"{BACKEND_URL}/check-in/listar_reserva/{nombreUsuario}")
         response.raise_for_status()
         dataCheckin = response.json()
-
         return render_template('checkin.html', dataCheckin=dataCheckin)
-    
-    except requests.exceptions.RequestException as e:
-        return jsonify({"error": f"Error de conexion con el backend: {e}"}), 502
-    except ValueError:
-        return jsonify({"error":"Respuesta del backend no es JSON"}), 502
-       
-@app.route("/checkinFinalizado")
-def checkinFinalizadoPagina():
-    return render_template('checkinFinalizado.html')
+
+    try: 
+        requests.post(f"{BACKEND_URL}/check-in/agregarCheckin", json=datosCheckin)
+        print("Frontend: Checkin enviada al back: ", datosCheckin)
+        flash("Check-in completado!", "success")
+
+    except Exception as e:
+        return f"Error de conexion con el backend: {e}"
+
+    return redirect(url_for("index"))
 
 @app.route("/cerrarSesion") # No posee .html
 def cerrarSesion():

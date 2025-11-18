@@ -25,3 +25,17 @@ CREATE TABLE IF NOT EXISTS reservas (
     fecha_salida DATE,
     id_habitacion VARCHAR(10)
 );
+
+CREATE TABLE IF NOT EXISTS checkin (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50),
+    apellido VARCHAR(50),
+    email VARCHAR(100),
+    dniPasaporte VARCHAR(20),
+    telefono VARCHAR(20),
+    tipoHabitacionC VARCHAR(10),
+    numeroHabitacionC VARCHAR(20), 
+    fechaEntradaC DATE,
+    fechaSalidaC DATE,
+    reserva_id VARCHAR(10)
+);

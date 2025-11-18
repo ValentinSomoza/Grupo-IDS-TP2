@@ -1,46 +1,48 @@
 from flask import Blueprint, jsonify, request
+from db import get_server_conection
+
 
 checkin_bp = Blueprint("check-in", __name__)
 
-@checkin_bp.route("/checkinFormulario", methods=["POST"]) # falta modularizar
-def checkinFormulario():
+@checkin_bp.route("/agregarCheckin", methods=["POST"]) # falta modularizar
+def agregarCheckin():
 
-    try:
-        if request.method == "POST":
+    conn = get_server_conection()
+    cursor = conn.cursor(dictionary=True)
 
-            nombre = request.form.get("nombre")
-            apellido = request.form.get("apellido")
-            documento = request.form.get("dniPasaporte")
-            tipoHabitacion = request.form.get("tipo-habitacion")
-            fechaEntrada = request.form.get("fecha-entrada")
-            fechaSalida = request.form.get("fecha-salida")
-            emailUsuario = request.form.get("email")
-            telefono = request.form.get("telefono")
-            print(f"El backend recibió un nuevo checkin:\n Nombre:{nombre}\n,Apellido:{apellido}") 
+    data = request.get_json()
 
-            emailEstancia = "estanciabruno@gmail.com" #gmail de la Estancia
+    print("Backend: Check-in obtenido desde el formulario: ", data)
 
-            msg = Message(
-                "Check-in Estancia Bruno",
-                recipients=[emailUsuario, emailEstancia])
-            
-            msg.body = (
-                f"Estimado {nombre},\n"
-                f"Gracias por preferirnos, Estos son los detalles del checkin\n"
-                f"DATOS DEL TITULAR:\n"
-                f"Nombre: {nombre}, {apellido}\n"
-                f"Documento: {documento}\n"
-                f"Email: {emailUsuario}\n" 
-                f"Teléfono: {telefono}\n" 
-                f"ESTADIA:\n"
-                f"Habitacion: {tipoHabitacion}\n"
-                f"Fecha de entrada: {fechaEntrada}\n"
-                f"Fecha de salida: {fechaSalida}\n"
-            )
+    nombre = data.get("nombre")
+    apellido = data.get("apellido")
+    dniPasaporte = data.get("dniPasaporte")
+    telefono = data.get("telefono")
+    emailUsuario = data.get("email")
 
-            mailCheckin.send(msg) # Capaz se rompe en esta linea porque el mailCheckin esta en el app
+    cursor.execute("""
+                INSERT INTO checkin (nombre, apellido, email, dniPasaporte, telefono) 
+                VALUES (%s, %s, %s, %s, %s)
+                    """, (nombre, apellido, emailUsuario, dniPasaporte, telefono))
+    conn.commit()
+    cursor.close()
+    conn.close()
 
-            return jsonify({"mesanje": "Check-in completado, correo enviado"}), 200
-        
-    except Exception as e:
-        return jsonify({"error": str(e), "mensaje":"No se completo el formulario"}), 400
+    return jsonify({"mesanje": "Check-in completado, correo enviado"}), 200
+
+
+
+@checkin_bp.route("/listar_reserva/<nombre>", methods=["GET"])
+def listar_reserva(nombre):
+
+    conn = get_server_conection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT nombre, apellido, documento, telefono, fecha_entrada, fecha_salida, email FROM reservas WHERE nombre= %s",(nombre,))
+
+
+    reserva = cursor.fetchall()
+    cursor.close()
+
+    if not reserva:
+        return jsonify({"mensaje": "No posees ninguna reserva"}), 404
+    return jsonify(reserva)
