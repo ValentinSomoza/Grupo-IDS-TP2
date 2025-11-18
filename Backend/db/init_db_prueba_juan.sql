@@ -27,6 +27,3 @@ CREATE TABLE IF NOT EXISTS reservas (
     FOREIGN KEY (id_habitacion) REFERENCES habitaciones(id) ON DELETE CASCADE
 );
 
-
-INSERT INTO reservas (nombre, apellido, email, documento, fecha_registro, telefono, noches, ninios, adultos,id_habitacion, fecha_entrada, fecha_salida) VALUES
-('Manolo','Perez','ManoloPerez@Gatorade.com',12123123,'2002-12-3',123456,3,4,1, 'H001', '2023-05-01', '2023-05-05');
