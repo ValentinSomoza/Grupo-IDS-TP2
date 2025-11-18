@@ -217,14 +217,14 @@ def registro():
 
 @app.route("/checkin", methods=["GET"])
 def checkinPagina():
-    idUsuario = request.args.get('nombreUsuario') or session.get('nombreUsuario')
+    nombreUsuario = request.args.get('nombreUsuario') or session.get('nombreUsuario')
         
-    if not idUsuario:
+    if not nombreUsuario:
         flash("⚠️ Debes iniciar sesión antes de acceder al Check-In", "warning")
         return redirect(url_for('ingreso'))
 
     try:
-        response = requests.get(f"{BACKEND_URL}/clientes/cliente/{idUsuario}")
+        response = requests.get(f"{BACKEND_URL}/check-in/listar_reserva{nombreUsuario}")
         response.raise_for_status()
         dataCheckin = response.json()
 

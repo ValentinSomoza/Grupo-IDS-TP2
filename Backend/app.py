@@ -42,7 +42,7 @@ def create_app():
     app.register_blueprint(habitaciones_bp, url_prefix="/habitaciones")
     app.register_blueprint(reservas_bp, url_prefix="/reservas")
     app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
-    app.register_blueprint(checkin_bp,url_prefix="/check-in")
+    app.register_blueprint(checkin_bp, url_prefix="/check-in")
 
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
