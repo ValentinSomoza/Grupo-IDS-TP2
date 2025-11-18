@@ -21,13 +21,11 @@ def init_db():
     path_absoluto = os.path.join(path,"init_db_prueba_juan.sql")
     with open(path_absoluto) as f:
         sql = f.read()
-        print(sql)
 
         conn = get_conection()
         cursor = conn.cursor()
         for statement in sql.split(";"):
             if statement.strip():
-                print(statement)
                 cursor.execute(statement)
                 conn.commit()
                 print("Sentencia ejecutada")
