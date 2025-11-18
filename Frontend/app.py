@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 import json
 import requests
+from datetime import date
 import base64
 app = Flask(__name__)
 
@@ -75,7 +76,7 @@ def reserva():
             "numeroHabitacion": numeroHabitacion,
             "fechaEntrada": fechaIngreso,
             "fechaSalida": fechaEgreso,
-            "fecha_registro": "2012-12-01"
+            "fecha_registro": date.today()
         }
 
         try: 

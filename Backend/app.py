@@ -16,6 +16,8 @@ from Backend.routes.usuarios import usuarios_bp
 #from Backend.routes.usuarios import usuarios_bp
 from Backend.db import get_conection
 
+
+
 def init_db():
     path = "db"
     path_absoluto = os.path.join(path,"init_db_prueba_juan.sql")
