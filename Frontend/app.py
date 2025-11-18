@@ -20,10 +20,11 @@ def page_not_found(e):
 @app.route("/galeria")
 def galeria():
     imagenes = [
-        'Fachada.png', 'Baño 1.jpg', 'Baño 2.jpg', 'Dormitorio 1.jpg',
-        'Dormitorio 2.jpg', 'Patio.jpg', 'living 1.jpg', 'living 2.jpg',
-        'barra.jpg', 'Parrilla.jpg', 'Pileta.webp', 'cancha de tenis.jpg'
-    ]
+        'living1.jpg', 'living2.jpg', 'salon.jpg','ejecutivo.jpg' , 'bar.jpg', 
+        'balcon.jpg', 'comedor.jpg', 'entrada.jpg', 'Baño 1.jpg', 'Baño 2.jpg',              
+        'Dormitorio1.jpg', 'Dormitorio2.jpg', 
+ ]
+
     return render_template("galeria.html", imagenes=imagenes)
 
 @app.route("/mapa")
