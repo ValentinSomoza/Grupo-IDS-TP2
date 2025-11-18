@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: HotelFAF
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  backend:
+    build: ./Backend
+    container_name: backend_container
+    restart: always
+    ports:
+      - "5001:5001"
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: admin
+      DB_NAME: HotelFAF
+    depends_on:
+      - mysql
+    volumes:
+      - ./Backend:/app
+
+  frontend:
+    build: ./Frontend
+    container_name: frontend_container
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      BACKEND_URL: http://backend:5000
+    depends_on:
+      - backend
+    volumes:
+      - ./Frontend:/app
+
+volumes:
+  db_data:

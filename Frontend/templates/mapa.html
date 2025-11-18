@@ -1,20 +1,25 @@
 {% extends "base.html" %}
 
-{% block title %}Mapa de la zona{% endblock %}
+{% block title %}Ubicación{% endblock %}
 
 {% block content %}
 
-<section id="recorrido" class="main style1">
-    <div class="major-title">Mapa del recorrido</div>
-    <div id="mapContainer">
-        <iframe 
-            src="https://www.google.com/maps/d/u/0/embed?mid=1YT2WJ7-nOauak3aHG-FShfMaM2AACys&ehbc=2E312F"
-            width="100%" 
-            height="600" 
-            style="border:0;" 
-            allowfullscreen>
-        </iframe>
+<section class="pagina-mapa">
+    <div class="mapa-container">
+        <div class="mapa-header">
+            <h2>Ubicación del Hotel</h2>
+            <p>Descubrí dónde estamos y cómo llegar fácilmente</p>
+        </div>
+        <div class="mapa-iframe-container">
+            <iframe 
+                src="https://www.google.com/maps/d/u/0/embed?mid=1YT2WJ7-nOauak3aHG-FShfMaM2AACys&ehbc=2E312F"
+                allowfullscreen
+                loading="lazy">
+            </iframe>
+        </div>
     </div>
 </section>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mapa.css') }}">
 
 {% endblock %}

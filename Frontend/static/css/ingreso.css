@@ -1,0 +1,49 @@
+.ingreso-contenedor {
+  border: 1px solid black;
+  padding: 10px;
+  width: fit-content;
+  margin: 50px auto; 
+}
+
+.ingreso-formulario {
+  display: flex;
+  flex-direction: column;
+}
+
+.ingreso-formulario label {
+  margin-bottom: 5px;
+}
+
+.ingreso-formulario input {
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.ingreso-formulario button {
+  padding: 5px;
+  margin-top: 5px;
+}
+
+.boton-registrarme {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.boton-registrarme:hover {
+  background-color: #0056b3;
+}
+
+.mensajes {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+}

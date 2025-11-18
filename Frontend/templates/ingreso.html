@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Ingreso{% endblock %}
+
+{% block content %}
+
+<section class="login-section d-flex align-items-center justify-content-center">
+    <div class="login-card shadow-lg p-4 rounded-4">
+        <h2 class="text-center mb-4 fw-bold">Iniciar Sesión</h2>
+
+        <!-- inicio de sesion con google -->
+        <div id="g_id_onload"
+            data-client_id="826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com"
+            data-login_uri="http://127.0.0.1:5000/auth/callback/google"
+            data-auto_prompt="false">
+        </div>
+
+        <div class="g_id_signin w-100 mb-4 d-flex justify-content-center"
+            data-type="standard"
+            data-size="large"
+            data-theme="outline">
+        </div>
+
+        <!-- el boton de google -->
+        <div id="googleLoginDiv" class="mb-4 text-center"></div>
+
+        <div class="separator">
+            <span>o</span>
+        </div>
+
+        <!-- inicio de sesion convencional -->
+        <form class="ingreso-form" method="POST" action="{{ url_for('ingreso') }}">
+
+            <div class="form-group mb-3">
+                <label for="nombreUsuario" class="form-label">Nombre de usuario</label>
+                <input type="text" id="nombreUsuario" name="nombreUsuario" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="contraseña" class="form-label">Contraseña</label>
+                <input type="password" id="contraseña" name="contraseña" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-3">Ingresar</button>
+
+            <div class="text-center">
+                ¿No tenés cuenta?
+                <a href="{{ url_for('registro') }}" class="fw-semibold">Registrarme</a>
+            </div>
+        </form>
+
+    </div>
+</section>
+
+{% endblock %}

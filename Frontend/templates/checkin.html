@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Check-In{% endblock %}
+
+{% block content %}
+
+
+<main class="main">
+
+  <section id="booking" class="booking section">
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+      <div class="reservation-wrapper" style="max-width: 900px; margin: auto;">
+
+        <div class="reservation-header text-center" data-aos="fade-up" data-aos-delay="200">
+          <h2 class="fw-bold">Check-In Remoto</h2>
+          <p class="lead text-muted">
+            Bienvenido al sistema online de Check-In. <br> Por favor complete el formulario con sus datos antes de ingresar a la Estancia Bruno R&F
+          </p>
+        </div>
+
+        <div class="card p-4 shadow-lg rounded-4 mt-4" data-aos="fade-up" data-aos-delay="300">
+
+          {% for cliente in dataCheckin %}
+            <form class="reservation-form" action="{{ url_for('checkinPagina') }}" method="POST" enctype="multipart/form-data">
+
+              <!-- seccion de datos personales -->
+              <div class="form-section">
+                <h4>Datos Personales</h4>
+                <div class="form-grid">
+
+                  <div class="form-group icon-input">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <i class="bi bi-person-fill icon"></i>
+                    <input type="text" id="nombre" name="nombre" value="{{ cliente.nombre }}" required>
+                  </div>
+
+                  <div class="form-group icon-input">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <i class="bi bi-person-badge-fill icon"></i>
+                    <input type="text" id="apellido" name="apellido" value="{{ cliente.apellido }}" required>
+                  </div>
+
+                  <div class="form-group icon-input">
+                    <label for="email" class="form-label">Email</label>
+                    <i class="bi bi-envelope-fill icon"></i>
+                    <input type="email" id="email" name="email" value="{{ cliente.email }}" required>
+                  </div>
+
+                  <div class="form-group icon-input">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <i class="bi bi-telephone-fill icon"></i>
+                    <input type="text" id="telefono" name="telefono" value="{{ cliente.telefono }}">
+                  </div>
+                </div>
+              </div>
+
+              <!-- seccion de credenciales -->
+              <div class="form-section">
+                <h4>Credenciales</h4>
+
+                <div class="form-group icon-input">
+                  <label for="dniPasaporte" class="form-label">Nro. Documento</label>
+                  <i class="bi bi-card-text icon"></i>
+                  <input type="text" id="dniPasaporte" name="dniPasaporte" value="{{ cliente.documento }}">
+                </div>
+
+                <div class="form-group file-input icon-input">
+                  <label for="fotoFrontal" class="form-label">Escaneo del Documento</label>
+                  <i class="bi bi-image-fill icon"></i>
+                  <input type="file" id="fotoFrontal" name="fotoFrontal" accept="image/*">
+                </div>
+              </div>
+
+              <!-- seccion de politicas del hotel/estancia -->
+              <div class="form-section">
+                <h4>Políticas y Condiciones</h4>
+
+                <div class="form-group checkbox-group">
+                  <input type="checkbox" id="acepTerminos" name="acepTerminos" required>
+                  <label for="acepTerminos">
+                    <i class="bi bi-shield-check icon-check"></i>
+                    Acepto las políticas de Estancia Bruno R&F
+                  </label>
+                </div>
+
+                <small class="text-muted">Recibirás un correo con un código QR como llave digital</small>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                  <i class="bi bi-calendar-check-fill me-2"></i> Terminar Check-in
+                </button>
+              </div>
+            </form>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+  <i class="bi bi-arrow-up-short"></i>
+</a>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+<link href="{{ url_for('static', filename='css/main.css')}}" rel="stylesheet">
+
+{% endblock %}

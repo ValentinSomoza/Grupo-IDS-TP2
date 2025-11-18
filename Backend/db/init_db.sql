@@ -45,3 +45,9 @@ INSERT INTO reservas (id_cliente, id_habitacion, fecha_entrada, fecha_salida) VA
 (1, 'H001', '2023-05-01', '2023-05-05'),
 (2, 'H002', '2023-06-10', '2023-06-15'),
 (3, 'H003', '2023-07-20', '2023-07-22');
+
+
+/*
+INSERT INTO reservas (nombre, apellido, email, documento, fecha_registro, telefono, noches, ninios, adultos,id_habitacion, fecha_entrada, fecha_salida) VALUES
+('Manolo','Perez','ManoloPerez@Gatorade.com',12123123,'2002-12-3',123456,3,4,1, 'H001', '2023-05-01', '2023-05-05');
+*/

@@ -1,0 +1,110 @@
+.pagina-reserva {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.reserva-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    max-width: 900px;
+    width: 100%;
+}
+
+.reserva-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.reserva-header h2 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.reserva-header p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.reserva-form {
+    width: 100%;
+}
+
+.reserva-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.form-section {
+    flex: 1 1 45%;
+}
+
+.precio-section {
+    flex: 1 1 100%;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+    outline: none;
+}
+
+.btn-confirmar {
+    margin-top: 15px;
+    padding: 14px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.btn-confirmar:hover {
+    background: #0056b3;
+}
+
+#precio-reserva {
+    font-size: 1.5rem;
+    margin: 15px 0;
+    font-weight: bold;
+    color: #222;
+}
+
+@media (max-width: 768px) {
+    .reserva-grid {
+        flex-direction: column;
+    }
+
+    .form-section {
+        flex: 1 1 100%;
+    }
+}
