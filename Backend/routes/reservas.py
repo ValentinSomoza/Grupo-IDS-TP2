@@ -4,12 +4,11 @@ from Backend.db import get_conection
 reservas_bp = Blueprint("reservas", __name__)
 
 @reservas_bp.route("/", methods=["POST"])
-def add_reserva():
-    #Tengo que corregir esto para que tome los datos del diccionario
+def agregar_reserva():
+    #Agrego una reserva
     conn = get_conection()
     cursor = conn.cursor(dictionary=True)
     data = request.json
-    print(data)
     nombre = data["nombre"]
     apellido = data["apellido"]
     email = data["email"]
@@ -30,3 +29,16 @@ def add_reserva():
     cursor.close()
     conn.close()
     return ("Cliente agregado correctamente",200)
+
+@reservas_bp.route("/<int:dni>", methods=["GET"])
+def listar_reservas(dni):
+    """Funcion que lista reservas de un DNI"""
+    conn = get_conection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM reservas WHERE dni = %s",{dni})
+    reserva = cursor.fetchall()
+    cursor.close()
+    conn.commit()
+    if not reserva:
+        return("dni sin reservas",404)
+    return jsonify(reserva)
