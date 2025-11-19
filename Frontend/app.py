@@ -23,21 +23,28 @@ def galeria():
         'balcon.jpg', 'comedor.jpg', 'entrada.jpg', 'Baño 1.jpg', 'Baño 2.jpg',              
         'Dormitorio1.jpg', 'Dormitorio2.jpg', 
  ]
-
     return render_template("galeria.html", imagenes=imagenes)
 
 @app.route("/mapa")
 def mapa():
     return render_template('mapa.html')
 
-@app.route('/formularioDatos', methods=['GET', 'POST'])
-def formularioDatos():
+def estaLogeado():
+    nombreUsuario = request.args.get("nombreUsuario") or session.get("nombreUsuario")
+    if not nombreUsuario:
+        return None
+    return nombreUsuario
 
-    idUsuario = request.args.get('nombreUsuario') or session.get('nombreUsuario')
-        
-    if not idUsuario:
+@app.route("/eligeDatos")
+def eligeDatos():
+    if estaLogeado() is None:
         flash("⚠️ Debes iniciar sesión antes de hacer una reserva", "warning")
         return redirect(url_for('ingreso'))
+    return render_template("eligeDatos.html")
+
+
+@app.route('/formularioDatos', methods=['GET', 'POST'])
+def formularioDatos():
 
     if request.method == 'POST':
         datosPersonales = {
@@ -87,7 +94,7 @@ def reserva():
         }
 
         try: 
-            requests.post(f"{os.getenv("BACKEND_URL")}/reservas/agregar_reserva",json=datosReserva)
+            requests.post(f"{os.getenv('BACKEND_URL')}/reservas/agregar_reserva",json=datosReserva)
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
 
@@ -95,14 +102,40 @@ def reserva():
         flash("Reserva realizada satisfactoriamente !", "success")
         return redirect(url_for("index"))
 
-    datosPersonales = {
-        "nombre": "",
-        "apellido": "",
-        "dniPasaporte": "",
-        "telefono": "",
-        "email": ""
+    datosPersonales = { 
+        "nombre": session.get("nombre", ""),
+        "apellido": session.get("apellido",""),
+        "dniPasaporte": session.get("dniPasaporte", ""),
+        "telefono": session.get("telefono", ""),
+        "email": session.get("email", "")
     }
     return render_template('reserva.html', datosPersonales=datosPersonales)
+
+@app.route("/completarDatosGoogle", methods=["GET", "POST"])
+def completarDatosGoogle():
+    if request.method == "POST":
+        telefono = request.form.get("telefono")
+        dniPasaporte = request.form.get("dniPasaporte")
+
+        session["telefono"] = telefono
+        session["dniPasaporte"] = dniPasaporte
+
+        try:
+            requests.post(
+                os.getenv("BACKEND_URL") + "/usuarios/completarDatosGoogle",
+                json={
+                    "email": session["email"],
+                    "telefono": telefono,
+                    "dniPasaporte": dniPasaporte
+                }
+            )
+        except:
+            flash("Error conectando con el backend", "error")
+
+        flash("Datos completados correctamente", "success")
+        return redirect(url_for("index"))
+
+    return render_template("completarDatosGoogle.html")
 
 @app.route("/auth/callback/google", methods=['GET', 'POST'])
 def google_auth():
@@ -131,6 +164,14 @@ def google_auth():
         session['email'] = usuario.get("email")
         session['telefono'] = usuario.get("telefono")
         session['dniPasaporte'] = usuario.get("dniPasaporte")
+
+        if session.get("telefono") is None or session.get("dniPasaporte") is None:
+            print("Frontend: El usuario se logeo con google y posee sus datos incompletos")
+            return jsonify({
+                "status": "ok",
+                "redirect": url_for("completarDatosGoogle"),
+                "mensaje": info.get("mensaje", "Ingreso con Google exitoso con datos incompletos")
+            })
         
         print("Frontend: Usuario: ", session.get("nombreUsuario"), " logeado correctamente")
         return jsonify({
@@ -216,10 +257,8 @@ def registro():
 
 @app.route("/checkin", methods=["GET", "POST"])
 def checkinPagina():
-
-    nombreUsuario = request.args.get('nombreUsuario') or session.get('nombreUsuario')
         
-    if not nombreUsuario:
+    if estaLogeado() is None:
         flash("⚠️ Debes iniciar sesión antes de acceder al Check-In", "warning")
         return redirect(url_for('ingreso'))
 
@@ -266,9 +305,7 @@ def cerrarSesion():
 
 @app.route("/miCuenta")
 def miCuenta():
-    idUsuario = request.args.get('nombreUsuario') or session.get('nombreUsuario')
-
-    if not idUsuario:
+    if estaLogeado() is None:
         flash("Debes iniciar sesión para acceder a tu cuenta", "warning")
         return redirect(url_for('ingreso')) 
     
