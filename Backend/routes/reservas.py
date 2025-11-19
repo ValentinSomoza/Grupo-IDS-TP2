@@ -11,7 +11,7 @@ def agregar_reserva():
 
     data = request.get_json()
 
-    print("Backend: data que llega del front: ", data)
+    print("Backend: data que llega del front para hacer una reserva: ", data)
 
     nombre = data.get("nombre")
 
@@ -35,7 +35,8 @@ def agregar_reserva():
     conn.commit()
     cursor.close()
     conn.close()
-    return ("Cliente agregado correctamente",200)
+    print("Backend: Reserva realizada y agregada correctamente")
+    return ("Reserva agregada correctamente",200)
 
 @reservas_bp.route("/listar_reservas/<email>", methods=["GET"])
 def listar_reservas(email):

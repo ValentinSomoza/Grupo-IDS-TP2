@@ -13,7 +13,6 @@
             <table class="tabla-reservas">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Email</th>
@@ -31,7 +30,6 @@
                 <tbody>
                     {% for reserva in reservas %}
                     <tr>
-                        <td>{{ reserva.id }}</td>
                         <td>{{ reserva.nombre }}</td>
                         <td>{{ reserva.apellido }}</td>
                         <td>{{ reserva.email }}</td>

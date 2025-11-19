@@ -6,147 +6,194 @@ from herramientas import enviarMail
 import os
 
 usuarios_bp = Blueprint("usuarios", __name__)
-clientes = [] # TEMPORAL
-
-pepe = { 
-            'nombre': "pepe",
-            'apellido': "mujica",
-            'nombreUsuario': "pepe",
-            'email': "aplicarmt@gmail.com",
-            'telefono':"01234567890",
-            'dniPasaporte':"01234567890",
-            'contraseña': "mujica"
-        }
-        
-clientes.append(pepe)
-
-@usuarios_bp.route("/")
-def add_usuario():
-    conn = obtener_conexion_con_el_servidor()
-    cursor = conn.cursor(dictionary=True)
-
-    data = request.json
-    usuario = data.get("usuario")
-    email = data.get("email")
-    contrasenia = data.get("contrasenia")
-    nombre = data.get("nombre")
-    apellido = data.get("apellido")
-    cursor.execute("""
-                INSERT INTO usuarios (usuario,email, contrasenia, nombre, apellido) 
-                VALUES (%s, %s, %s. %s)
-                    """, (usuario, email, contrasenia, nombre, apellido))
-    conn.commit()
-    cursor.close()
-    conn.close()
-    return ("usuario agregado correctamente")
 
 
 @usuarios_bp.route("/logearUsuario", methods=["POST"])
 def logearUsuario():
     usuarioIngresado = request.get_json() or {}
 
-    for cliente in clientes:
-        if cliente.get("nombreUsuario") == usuarioIngresado.get("nombreUsuario") and cliente.get("contraseña") == usuarioIngresado.get("contraseña"):
-            print("Backend: Ingreso de usuario exitoso: ", usuarioIngresado)
-            
-            return jsonify({
-                "mensaje": "Ingreso de sesion exitoso",
-                "usuario": {
-                    "nombre": cliente.get("nombre"),
-                    "apellido": cliente.get("apellido"),
-                    "email": cliente.get("email"),
-                    "telefono": cliente.get("telefono"),
-                    "dniPasaporte": cliente.get("dniPasaporte"),
-                    "nombreUsuario": cliente.get("nombreUsuario")
-                }
-            }), 200
+    nombreUsuario = usuarioIngresado.get("nombreUsuario")
+    contrasenia = usuarioIngresado.get("contrasenia")
 
-    print("Backend: Ingreso de usuario fallido: ", usuarioIngresado)
-    return jsonify({"error": "El usuario o la contraseña son incorrectos"}), 409
+    conexion = obtener_conexion_con_el_servidor()
+    cursor = conexion.cursor(dictionary=True)
+
+    cursor.execute("""
+    SELECT * FROM usuarios WHERE nombreUsuario = %s
+    """, (nombreUsuario,))
+    usuario = cursor.fetchone()
+
+    cursor.close()
+    conexion.close()
+
+    if not usuario:
+        print("Backend: Usuario no encontrado en SQL: ", nombreUsuario)
+        return jsonify({"error": "El usuario o la contraseña son incorrectos"}), 409
+
+    if usuario["contrasenia"] != contrasenia:
+        print("Backend: Contraseña incorrecta para el usuario: ", nombreUsuario)
+        return jsonify({"error": "EL usuario o la contraseña son incorrectos"}), 409
+
+    print("Backend: Ingreso de usuario exitoso para: ", usuarioIngresado)
+
+    return jsonify({
+        "mensaje": "Ingreso de sesion exitoso",
+        "usuario": {
+            "nombre": usuario["nombre"],
+            "apellido": usuario["apellido"],
+            "email": usuario["email"],
+            "telefono": usuario["telefono"],
+            "dniPasaporte": usuario["dniPasaporte"],
+            "nombreUsuario": usuario["nombreUsuario"],
+            "fechaCreacion": usuario["fechaCreacion"] 
+        }
+    }), 200
 
 @usuarios_bp.route("/registrarUsuario", methods=["POST"])
 def registrarUsuario():
     nuevoUsuario = request.get_json()
 
-    for cliente in clientes:
-        if cliente.get("nombreUsuario") == nuevoUsuario.get("nombreUsuario"):
-            return jsonify({"error": "El usuario ya existe !"}), 409
-        if cliente.get("email") == nuevoUsuario.get("email"):
-            return jsonify({"error": "El email ya está registrado"}), 409
+    nombre = nuevoUsuario.get("nombre")
+    apellido = nuevoUsuario.get("apellido")
+    nombreUsuario = nuevoUsuario.get("nombreUsuario")
+    email = nuevoUsuario.get("email")
+    telefono = nuevoUsuario.get("telefono")
+    dniPasaporte = nuevoUsuario.get("dniPasaporte")
+    contrasenia = nuevoUsuario.get("contrasenia")
 
-    clientes.append(nuevoUsuario)
+    conexion = obtener_conexion_con_el_servidor()
+    cursor = conexion.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM usuarios WHERE nombreUsuario = %s", (nombreUsuario,))
+    if cursor.fetchone():
+        return jsonify({"error": "El usuario ya existe"}), 409
+
+    cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
+    if cursor.fetchone():
+        return jsonify({"error": "El email ya esta registrado"}), 409
+
+    sql = """
+    INSERT INTO usuarios (nombre, apellido, nombreUsuario, email, telefono, dniPasaporte, contrasenia)
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """
+
+    cursor.execute(sql, (nombre, apellido, nombreUsuario, email, telefono, dniPasaporte, contrasenia))
+    conexion.commit()
+
+    cursor.close()
+    conexion.close()
 
     print("Backend: Nuevo usuario registrado con exito:", nuevoUsuario)
-
     enviarMail(nuevoUsuario.get("email"), nuevoUsuario.get("nombre"))
 
     return jsonify({"mensaje": "Nuevo usuario registrado con exito !"}), 200
-
 
 @usuarios_bp.route("/authGoogle", methods=["POST"])
 def authGoogle():
     data = request.get_json() or {}
     token = data.get("token")
 
+    if not token:
+        return jsonify({"error": "Token no recibido"}), 400
+
     try:
         info = id_token.verify_oauth2_token(token, grequests.Request(), os.getenv('CLIENT_ID'))
 
-        email = info["email"]
-        nombre = info.get("given_name")
-        apellido = info.get("family_name")
+        email = info.get("email")
+        nombre = info.get("given_name") or ""
+        apellido = info.get("family_name") or ""
 
-        for cliente in clientes:
-            if cliente.get("email") == email:
-                print("Backend: Login con Google exitoso con el mail: ", email)
+        if not email:
+            return jsonify({"error": "Email no provisto por Google"}), 400 # por si el servicio de google pifea
 
-                return jsonify({
-                    "mensaje": "Inicio de sesión con Google exitoso",
-                    "usuario": {
-                        "nombre": cliente.get("nombre"),
-                        "apellido": cliente.get("apellido"),
-                        "email": cliente.get("email"),
-                        "telefono": cliente.get("telefono"),
-                        "dniPasaporte": cliente.get("dniPasaporte"),
-                        "nombreUsuario": cliente.get("nombreUsuario")
-                    }
-                }), 200
+        conexion = obtener_conexion_con_el_servidor()
+        cursor = conexion.cursor(dictionary=True)
 
-        nuevoCliente = {
-            "nombre": nombre,
-            "apellido": apellido,
-            "email": email,
-            "nombreUsuario": email,
-            "telefono": None,
-            "dniPasaporte": None,
-            "contraseña": None
-        }
-        clientes.append(nuevoCliente)
+        cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
+        usuario = cursor.fetchone()
 
-        print("Backend: Usuario creado con Google: ", email)
+        if usuario: 
+            cursor.close()
+            conexion.close()
+            return jsonify({
+                "mensaje": "Inicio de sesion con Google exitoso",
+                "usuario": {
+                    "nombre": usuario["nombre"],
+                    "apellido": usuario["apellido"],
+                    "email": usuario["email"],
+                    "telefono": usuario["telefono"],
+                    "dniPasaporte": usuario["dniPasaporte"],
+                    "nombreUsuario": usuario["nombreUsuario"],
+                    "fechaCreacion": usuario["fechaCreacion"]
+                }
+            }), 200
+
+        nombreUsuarioNuevo = email
+        cursor.execute("""
+        INSERT INTO usuarios (nombre, apellido, email, nombreUsuario, telefono, dniPasaporte, contrasenia)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (nombre, apellido, email, nombreUsuarioNuevo, None, None, None))
+
+        conexion.commit()
+
+        cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
+        nuevoUsuario = cursor.fetchone()
+
         enviarMail(email, nombre)
+
+        cursor.close()
+        conexion.close()
+
+        respuestaNuevoUsuario = {
+            "nombre": nuevoUsuario["nombre"],
+            "apellido": nuevoUsuario["apellido"],
+            "email": nuevoUsuario["email"],
+            "telefono": nuevoUsuario["telefono"],
+            "dniPasaporte": nuevoUsuario["dniPasaporte"],
+            "nombreUsuario": nuevoUsuario["nombreUsuario"],
+            "fechaCreacion": nuevoUsuario["fechaCreacion"]
+        }
 
         return jsonify({
             "mensaje": "Cuenta creada con Google e inicio de sesion exitoso",
-            "usuario": nuevoCliente
-        }), 200
+            "usuario": respuestaNuevoUsuario
+        }), 201
 
-    except Exception as e:
-        print("Error en el Login con Google: ", str(e))
+    except ValueError as e:
+        print("Backend: ERROR en token Google: ", e)
         return jsonify({"error": "Token invalido"}), 400
+    except Exception as e:
+        print("Backend: ERROR inesperado en authGoogle: ", e)
+        return jsonify({"error": "Error del servidor"}), 500
 
 @usuarios_bp.route("/completarDatosGoogle", methods=["POST"])
 def completarDatosGoogle():
-    data = request.json
+    data = request.get_json() or {}
     email = data.get("email")
     telefono = data.get("telefono")
     dniPasaporte = data.get("dniPasaporte")
 
-    print("Backend: Seteando nuevos datos para el usuario de google")
-    
-    # aca se deberia actualizar en la base de datos
-    for cliente in clientes:
-        if cliente["email"] == email:
-            cliente["telefono"] = telefono
-            cliente["dniPasaporte"] = dniPasaporte
+    if not email:
+        return jsonify({"error": "Email es requerido y no fue enviado"}), 400
 
-    return jsonify({"status": "ok", "mensaje": "Datos actualizados correctamente"})
+    conexion = obtener_conexion_con_el_servidor()
+    cursor = conexion.cursor()
+
+    cursor.execute("SELECT id FROM usuarios WHERE email = %s", (email,))
+    if cursor.fetchone() is None:
+        cursor.close()
+        conexion.close()
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    cursor.execute("""
+        UPDATE usuarios
+        SET telefono = %s, dniPasaporte = %s
+        WHERE email = %s
+    """, (telefono, dniPasaporte, email))
+    conexion.commit()
+
+    cursor.close()
+    conexion.close()
+
+    print("Backend: Nuevos datos completados para el usuario de Google: ", email)
+    return jsonify({"status": "ok", "mensaje": "Datos actualizados correctamente"}), 200
