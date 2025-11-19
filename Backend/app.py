@@ -15,10 +15,11 @@ from routes.usuarios import usuarios_bp
 from db import obtener_conexion
 from flask_mail import Mail
 from herramientas import enviarMail
+from init_data import crearUsuarioTest
 
 def iniciar_base_de_datos():
     path = "db"
-    path_absoluto = os.path.join(path,"init_db_prueba_juan.sql")
+    path_absoluto = os.path.join(path,"init_db.sql")
     with open(path_absoluto) as f:
         sql = f.read()
         print("Backend: SQL leido")
@@ -43,7 +44,7 @@ def create_app():
     app.register_blueprint(reservas_bp, url_prefix="/reservas")
     app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
     app.register_blueprint(checkin_bp, url_prefix="/check-in")
-
+    
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
@@ -53,6 +54,8 @@ def create_app():
     app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
     mailCheckin = Mail(app)
+
+    crearUsuarioTest()
 
     @app.route("/")
     def home():

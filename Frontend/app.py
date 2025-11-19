@@ -133,6 +133,7 @@ def completarDatosGoogle():
             flash("Error conectando con el backend", "error")
 
         flash("Datos completados correctamente", "success")
+        print("Frontend: Datos para la cuenta de Google completados correctamente")
         return redirect(url_for("index"))
 
     return render_template("completarDatosGoogle.html")
@@ -164,6 +165,7 @@ def google_auth():
         session['email'] = usuario.get("email")
         session['telefono'] = usuario.get("telefono")
         session['dniPasaporte'] = usuario.get("dniPasaporte")
+        session['fechaCreacion'] = usuario.get("fechaCreacion")
 
         if session.get("telefono") is None or session.get("dniPasaporte") is None:
             print("Frontend: El usuario se logeo con google y posee sus datos incompletos")
@@ -193,10 +195,12 @@ def ingreso():
 
         usuarioIngresado = {
             'nombreUsuario': request.form['nombreUsuario'],
-            'contraseña': request.form['contraseña']
+            'contrasenia': request.form['contrasenia']
         }
 
-        respuesta = requests.post(os.getenv("BACKEND_URL")+ "/usuarios/logearUsuario", json=usuarioIngresado)
+        print("Frontend: Nuevo ingreso de usuario enviado al backend: ", usuarioIngresado)
+
+        respuesta = requests.post(os.getenv("BACKEND_URL") + "/usuarios/logearUsuario", json=usuarioIngresado)
         info = respuesta.json()
 
         if respuesta.status_code == 200:
@@ -211,6 +215,7 @@ def ingreso():
             session['email'] = usuario.get("email")
             session['telefono'] = usuario.get("telefono")
             session['dniPasaporte'] = usuario.get("dniPasaporte")
+            session['fechaCreacion'] = usuario.get("fechaCreacion")
 
             print("Frontend: Datos de sesión guardados correctamente:", session)
             return redirect(url_for('index'))
@@ -219,8 +224,6 @@ def ingreso():
             flash(info.get("error", "Error al iniciar sesion"), "error")
         else:
             flash("Error inesperado al iniciar sesion. Por favor intente nuevamente.", "error")
-
-        print("Frontend: Nuevo ingreso de usuario enviado al backend: ", usuarioIngresado)
 
         return redirect(url_for('ingreso'))
     return render_template('ingreso.html')
@@ -236,7 +239,7 @@ def registro():
             'email': request.form['email'],
             'telefono':request.form['telefono'],
             'dniPasaporte':request.form['dniPasaporte'],
-            'contraseña': request.form['contraseña']
+            'contrasenia': request.form['contrasenia']
         }
         
         respuesta = requests.post(os.getenv("BACKEND_URL") + "/usuarios/registrarUsuario", json=nuevoUsuario)
@@ -277,6 +280,7 @@ def checkinPagina():
             "email": emailUsuario,
         }
     else:
+        nombreUsuario = session.get("nombreUsuario")
         response = requests.get(f"{os.getenv("BACKEND_URL")}/check-in/listar_reserva/{nombreUsuario}")
         if response.status_code != 200:
             flash("⚠️ Debes tener alguna reserva hecha antes de acceder al Check-In", "warning")
@@ -315,7 +319,8 @@ def miCuenta():
         "email": session.get("email"),
         "telefono": session.get("telefono"),
         "dniPasaporte": session.get("dniPasaporte"),
-        "usuario": session.get("nombreUsuario")
+        "usuario": session.get("nombreUsuario"),
+        "fechaCreacion": session.get("fechaCreacion")
     }
 
     return render_template('miCuenta.html', usuario=dataUsuario)

@@ -58,6 +58,14 @@
             </span>
         </div>
 
+        <div class="perfil-info-row">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>
+                <strong>Fecha de creacion:</strong>
+                {{ usuario.fechaCreacion or '<span class="no-data"><i class="fa-solid fa-triangle-exclamation"></i> Dato no disponible</span>' | safe }}
+            </span>
+        </div>
+
     </div>
 </main>
 
