@@ -1,0 +1,168 @@
+.pagina-reserva {
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.reserva-container {
+    width: 100%;
+    max-width: 600px;
+    background: #ffffff;
+    padding: 40px 35px;
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.reserva-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.reserva-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #222;
+}
+
+.reserva-header p {
+    color: #555;
+    font-size: 1rem;
+}
+
+.cerrar-sesion-container {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.btn-cerrar-sesion {
+    background: #d9534f;
+    color: white;
+    padding: 9px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.15s ease;
+    display: inline-block;
+}
+
+.btn-cerrar-sesion:hover {
+    background: #c9302c;
+    transform: scale(1.03);
+}
+
+.card-form {
+    background: #fafafa;
+    padding: 28px;
+    border-radius: 14px;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #1b7ced;
+    box-shadow: 0 0 6px rgba(27, 124, 237, 0.25);
+    outline: none;
+}
+
+.btn-confirmar {
+    width: 100%;
+    padding: 14px;
+    background: #1b7ced;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-confirmar:hover {
+    background: #0a63c9;
+    transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .reserva-container {
+        padding: 35px 25px;
+    }
+
+    .reserva-header h2 {
+        font-size: 1.7rem;
+    }
+
+    .btn-cerrar-sesion {
+        padding: 7px 15px;
+        font-size: 0.95rem;
+    }
+
+    .card-form {
+        padding: 22px;
+    }
+
+    .form-group input {
+        padding: 12px;
+    }
+
+    .btn-confirmar {
+        font-size: 1rem;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .reserva-container {
+        padding: 28px 18px;
+        border-radius: 14px;
+    }
+
+    .reserva-header h2 {
+        font-size: 1.55rem;
+    }
+
+    .reserva-header p {
+        font-size: 0.95rem;
+    }
+
+    .btn-cerrar-sesion {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+
+    .card-form {
+        padding: 18px;
+    }
+
+    .btn-confirmar {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+}

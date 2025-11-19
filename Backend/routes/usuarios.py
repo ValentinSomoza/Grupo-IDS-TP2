@@ -133,3 +133,20 @@ def authGoogle():
     except Exception as e:
         print("Error en el Login con Google: ", str(e))
         return jsonify({"error": "Token invalido"}), 400
+
+@usuarios_bp.route("/completarDatosGoogle", methods=["POST"])
+def completarDatosGoogle():
+    data = request.json
+    email = data.get("email")
+    telefono = data.get("telefono")
+    dniPasaporte = data.get("dniPasaporte")
+
+    print("Backend: Seteando nuevos datos para el usuario de google")
+    
+    # aca se deberia actualizar en la base de datos
+    for cliente in clientes:
+        if cliente["email"] == email:
+            cliente["telefono"] = telefono
+            cliente["dniPasaporte"] = dniPasaporte
+
+    return jsonify({"status": "ok", "mensaje": "Datos actualizados correctamente"})
