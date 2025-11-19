@@ -3,7 +3,7 @@ from db import obtener_conexion_con_el_servidor
 from app import grequests, id_token
 from flask_mail import Mail
 from herramientas import enviarMail
-from constantes import CLIENT_ID
+import os
 
 usuarios_bp = Blueprint("usuarios", __name__)
 clientes = [] # TEMPORAL
@@ -12,15 +12,13 @@ pepe = {
             'nombre': "pepe",
             'apellido': "mujica",
             'nombreUsuario': "pepe",
-            'email': "vsomoza@fi.uba.ar",
+            'email': "aplicarmt@gmail.com",
             'telefono':"01234567890",
             'dniPasaporte':"01234567890",
             'contraseña': "mujica"
         }
         
 clientes.append(pepe)
-
-
 
 @usuarios_bp.route("/")
 def add_usuario():
@@ -91,7 +89,7 @@ def authGoogle():
     token = data.get("token")
 
     try:
-        info = id_token.verify_oauth2_token(token, grequests.Request(), CLIENT_ID)
+        info = id_token.verify_oauth2_token(token, grequests.Request(), os.getenv('CLIENT_ID'))
 
         email = info["email"]
         nombre = info.get("given_name")

@@ -22,7 +22,7 @@
 
         <div class="card p-4 shadow-lg rounded-4 mt-4" data-aos="fade-up" data-aos-delay="300">
 
-          {% for cliente in dataCheckin %}
+          {% if dataCheckin %}
             <form class="reservation-form" action="{{ url_for('checkinPagina') }}" method="POST" enctype="multipart/form-data">
 
               <!-- seccion de datos personales -->
@@ -33,25 +33,25 @@
                   <div class="form-group icon-input">
                     <label for="nombre" class="form-label">Nombre</label>
                     <i class="bi bi-person-fill icon"></i>
-                    <input type="text" id="nombre" name="nombre" value="{{ cliente.nombre }}" required>
+                    <input type="text" id="nombre" name="nombre" value="{{ dataCheckin['nombre'] }}" required>
                   </div>
 
                   <div class="form-group icon-input">
                     <label for="apellido" class="form-label">Apellido</label>
                     <i class="bi bi-person-badge-fill icon"></i>
-                    <input type="text" id="apellido" name="apellido" value="{{ cliente.apellido }}" required>
+                    <input type="text" id="apellido" name="apellido" value="{{ dataCheckin['apellido'] }}" required>
                   </div>
 
                   <div class="form-group icon-input">
                     <label for="email" class="form-label">Email</label>
                     <i class="bi bi-envelope-fill icon"></i>
-                    <input type="email" id="email" name="email" value="{{ cliente.email }}" required>
+                    <input type="email" id="email" name="email" value="{{ dataCheckin['email'] }}" required>
                   </div>
 
                   <div class="form-group icon-input">
                     <label for="telefono" class="form-label">Teléfono</label>
                     <i class="bi bi-telephone-fill icon"></i>
-                    <input type="text" id="telefono" name="telefono" value="{{ cliente.telefono }}">
+                    <input type="text" id="telefono" name="telefono" value="{{ dataCheckin['telefono']}}">
                   </div>
                 </div>
               </div>
@@ -63,7 +63,7 @@
                 <div class="form-group icon-input">
                   <label for="dniPasaporte" class="form-label">Nro. Documento</label>
                   <i class="bi bi-card-text icon"></i>
-                  <input type="text" id="dniPasaporte" name="dniPasaporte" value="{{ cliente.documento }}">
+                  <input type="text" id="dniPasaporte" name="dniPasaporte" value="{{ dataCheckin['documento'] }}">
                 </div>
 
                 <div class="form-group file-input icon-input">
@@ -94,7 +94,14 @@
                 </button>
               </div>
             </form>
-            {% endfor %}
+
+          {% else %}
+
+                <div class="no-reservas">
+                    <p>No tenés reservas actualmente.</p>
+                </div>
+
+          {% endif %}
         </div>
       </div>
     </div>

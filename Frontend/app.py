@@ -3,11 +3,11 @@ import json
 import requests
 from datetime import date
 import base64
-app = Flask(__name__)
+import os
 
+app = Flask(__name__)
 app.secret_key = 'texto-que-debe-existir'
-CLIENT_ID = "826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com"
-BACKEND_URL = "http://127.0.0.1:5001"
+app.secret_key = os.getenv("APP_SECRET_KEY")
 
 @app.route("/")
 def index():
@@ -88,7 +88,7 @@ def reserva():
         }
 
         try: 
-            requests.post(f"{BACKEND_URL}/reservas/agregar_reserva",json=datosReserva)
+            requests.post(f"{os.getenv("BACKEND_URL")}/reservas/agregar_reserva",json=datosReserva)
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
 
@@ -116,7 +116,7 @@ def google_auth():
     if not token:
         return jsonify({"status": "error", "mensaje": "Token no recibido"}), 400
 
-    respuesta = requests.post(BACKEND_URL + "/usuarios/authGoogle", json={"token": token})
+    respuesta = requests.post(os.getenv("BACKEND_URL") + "/usuarios/authGoogle", json={"token": token})
     info = respuesta.json()
 
     print("Frontend: Ingreso de sesion con Google enviado al backend con el nombre: ", info.get("usuario", {}).get("nombre"))
@@ -156,7 +156,7 @@ def ingreso():
             'contraseña': request.form['contraseña']
         }
 
-        respuesta = requests.post(BACKEND_URL + "/usuarios/logearUsuario", json=usuarioIngresado)
+        respuesta = requests.post(os.getenv("BACKEND_URL")+ "/usuarios/logearUsuario", json=usuarioIngresado)
         info = respuesta.json()
 
         if respuesta.status_code == 200:
@@ -199,7 +199,7 @@ def registro():
             'contraseña': request.form['contraseña']
         }
         
-        respuesta = requests.post(BACKEND_URL + "/usuarios/registrarUsuario", json=nuevoUsuario)
+        respuesta = requests.post(os.getenv("BACKEND_URL") + "/usuarios/registrarUsuario", json=nuevoUsuario)
         info = respuesta.json()
 
         if respuesta.status_code == 200:
@@ -239,13 +239,17 @@ def checkinPagina():
             "email": emailUsuario,
         }
     else:
-        response = requests.get(f"{BACKEND_URL}/check-in/listar_reserva/{nombreUsuario}")
+        response = requests.get(f"{os.getenv("BACKEND_URL")}/check-in/listar_reserva/{nombreUsuario}")
+        if response.status_code != 200:
+            flash("⚠️ Debes tener alguna reserva hecha antes de acceder al Check-In", "warning")
+            return render_template('index.html') 
         response.raise_for_status()
         dataCheckin = response.json()
-        return render_template('checkin.html', dataCheckin=dataCheckin)
+        print("Frontend: dataCheckin tiene actualmente: ", dataCheckin)
+        return render_template('checkin.html', dataCheckin=dataCheckin[0])
 
     try: 
-        requests.post(f"{BACKEND_URL}/check-in/agregarCheckin", json=datosCheckin)
+        requests.post(f"{os.getenv("BACKEND_URL")}/check-in/agregarCheckin", json=datosCheckin)
         print("Frontend: Checkin enviada al back: ", datosCheckin)
         flash("Check-in completado!", "success")
 
@@ -254,7 +258,7 @@ def checkinPagina():
 
     return redirect(url_for("index"))
 
-@app.route("/cerrarSesion") # No posee .html
+@app.route("/cerrarSesion")
 def cerrarSesion():
     print("Frontend: Cerrando la sesion: ", session["nombreUsuario"])
     session.clear()
@@ -283,7 +287,7 @@ def miCuenta():
 @app.route("/misReservas")
 def misReservas():
     email = session.get("email")
-    respuesta = requests.get(f"{BACKEND_URL}/reservas/listar_reservas/{email}")
+    respuesta = requests.get(f"{os.getenv("BACKEND_URL")}/reservas/listar_reservas/{email}")
 
     if respuesta.status_code == 200:
             reservas = respuesta.json() 
