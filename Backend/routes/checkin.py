@@ -35,6 +35,9 @@ def agregarCheckin():
 @checkin_bp.route("/listar_reserva/<nombre>", methods=["GET"])
 def listar_reserva(nombre):
 
+    if not nombre:
+        return jsonify({"mensaje": "No tienes ninguna reserva hecha"}), 404
+
     conn = obtener_conexion_con_el_servidor()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT nombre, apellido, documento, telefono, fecha_entrada, fecha_salida, email FROM reservas WHERE nombre= %s",(nombre,))
