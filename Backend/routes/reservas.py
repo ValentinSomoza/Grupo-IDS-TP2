@@ -1,12 +1,12 @@
 from flask import Blueprint, jsonify, request
-from db import get_server_conection
+from db import obtener_conexion_con_el_servidor
 
 reservas_bp = Blueprint("reservas", __name__)
 
 @reservas_bp.route("/agregar_reserva", methods=["POST"])
 def agregar_reserva():
     
-    conn = get_server_conection()
+    conn = obtener_conexion_con_el_servidor()
     cursor = conn.cursor(dictionary=True)
 
     data = request.get_json()
@@ -40,7 +40,7 @@ def agregar_reserva():
 @reservas_bp.route("/listar_reservas/<email>", methods=["GET"])
 def listar_reservas(email):
 
-    conn = get_server_conection()
+    conn = obtener_conexion_con_el_servidor()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM reservas WHERE email = %s",(email,))
 

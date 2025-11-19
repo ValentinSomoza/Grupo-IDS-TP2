@@ -12,7 +12,7 @@ from routes.clientes import clientes_bp
 from routes.habitaciones import habitaciones_bp
 from routes.reservas import reservas_bp
 from routes.usuarios import usuarios_bp
-from db import get_conection
+from db import obtener_conexion
 from flask_mail import Mail
 from herramientas import enviarMail
 
@@ -23,7 +23,7 @@ def iniciar_base_de_datos():
         sql = f.read()
         print("Backend: SQL leido")
 
-    conn = get_conection()
+    conn = obtener_conexion()
     cursor = conn.cursor()
     for statement in sql.split(";"):
         if statement.strip():
@@ -42,7 +42,7 @@ def create_app():
     app.register_blueprint(habitaciones_bp, url_prefix="/habitaciones")
     app.register_blueprint(reservas_bp, url_prefix="/reservas")
     app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
-    app.register_blueprint(checkin_bp,url_prefix="/check-in")
+    app.register_blueprint(checkin_bp, url_prefix="/check-in")
 
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
@@ -56,6 +56,6 @@ def create_app():
 
     @app.route("/")
     def home():
-        return "Flask se conectó a MariaDB correctamente!"
+        return "Flask se conectó a SQL correctamente!"
         
     return app

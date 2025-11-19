@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from db import get_conection
+from db import obtener_conexion_con_el_servidor
 from app import grequests, id_token
 from flask_mail import Mail
 from herramientas import enviarMail
@@ -8,9 +8,23 @@ from constantes import CLIENT_ID
 usuarios_bp = Blueprint("usuarios", __name__)
 clientes = [] # TEMPORAL
 
+pepe = { 
+            'nombre': "pepe",
+            'apellido': "mujica",
+            'nombreUsuario': "pepe",
+            'email': "vsomoza@fi.uba.ar",
+            'telefono':"01234567890",
+            'dniPasaporte':"01234567890",
+            'contraseña': "mujica"
+        }
+        
+clientes.append(pepe)
+
+
+
 @usuarios_bp.route("/")
 def add_usuario():
-    conn = get_server_conection()
+    conn = obtener_conexion_con_el_servidor()
     cursor = conn.cursor(dictionary=True)
 
     data = request.json
