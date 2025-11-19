@@ -10,23 +10,6 @@ CREATE TABLE IF NOT EXISTS habitaciones (
     descripcion VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS reservas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50),
-    apellido VARCHAR(50),
-    email VARCHAR(50),
-    documento VARCHAR(20),
-    fecha_registro DATE,
-    telefono VARCHAR(20),
-    noches INT,
-    ninios INT,
-    adultos INT,
-    fecha_entrada DATE,
-    fecha_salida DATE,
-    id_habitacion VARCHAR(10),
-    checkin BOOLEAN
-);
-
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -38,6 +21,28 @@ CREATE TABLE IF NOT EXISTS usuarios (
     contrasenia VARCHAR(255),
     fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fechaActualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS reservas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+
+    nombre VARCHAR(50),
+    apellido VARCHAR(50),
+    email VARCHAR(100),
+    telefono VARCHAR(20),
+    documento VARCHAR(20),
+
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    noches INT,
+    ninios INT,
+    adultos INT,
+    fecha_entrada DATE,
+    fecha_salida DATE,
+    id_habitacion VARCHAR(10),
+    checkin BOOLEAN DEFAULT FALSE,
+
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
 
 CREATE TABLE IF NOT EXISTS checkin (
