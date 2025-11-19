@@ -6,7 +6,6 @@ import base64
 import os
 
 app = Flask(__name__)
-app.secret_key = 'texto-que-debe-existir'
 app.secret_key = os.getenv("APP_SECRET_KEY")
 
 @app.route("/")
