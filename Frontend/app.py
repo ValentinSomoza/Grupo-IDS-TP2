@@ -68,10 +68,11 @@ def reserva():
         dniPasaporte = request.form["dniPasaporte"]
         telefono = request.form["telefono"]
         email = request.form["email"]
+        id_usuario = session.get("id")
 
         noches = request.form["noches"]
         adultos = request.form["adultos"]
-        niños = request.form["niños"]
+        ninios = request.form["ninios"]
         tipoHabitacion = request.form["tipo-habitacion"]
         numeroHabitacion = request.form["numero-habitacion"]
         fechaIngreso = request.form["fecha-entrada"]
@@ -85,12 +86,12 @@ def reserva():
             "email": email,
             "noches": noches,
             "adultos": adultos,
-            "niños": niños,
+            "ninios": ninios,
             "tipoHabitacion": tipoHabitacion,
             "numeroHabitacion": numeroHabitacion,
             "fechaEntrada": fechaIngreso,
             "fechaSalida": fechaEgreso,
-            "fecha_registro": str(date.today())
+            "id_usuario": id_usuario
         }
 
         try: 
@@ -166,6 +167,7 @@ def google_auth():
         session['telefono'] = usuario.get("telefono")
         session['dniPasaporte'] = usuario.get("dniPasaporte")
         session['fechaCreacion'] = usuario.get("fechaCreacion")
+        session['id'] = usuario.get("id")
 
         if session.get("telefono") is None or session.get("dniPasaporte") is None:
             print("Frontend: El usuario se logeo con google y posee sus datos incompletos")
@@ -207,7 +209,7 @@ def ingreso():
             flash(info.get("mensaje", "Inicio de sesion exitoso"), "success")
             session['nombreUsuario'] = usuarioIngresado['nombreUsuario']
             usuario = info.get("usuario", {})
-
+            
             session['logueado'] = True
             session['nombreUsuario'] = usuario.get("nombreUsuario")
             session['nombre'] = usuario.get("nombre")
@@ -216,6 +218,7 @@ def ingreso():
             session['telefono'] = usuario.get("telefono")
             session['dniPasaporte'] = usuario.get("dniPasaporte")
             session['fechaCreacion'] = usuario.get("fechaCreacion")
+            session['id'] = usuario.get("id")
 
             print("Frontend: Datos de sesión guardados correctamente:", session)
             return redirect(url_for('index'))
@@ -327,8 +330,8 @@ def miCuenta():
 
 @app.route("/misReservas")
 def misReservas():
-    email = session.get("email")
-    respuesta = requests.get(f"{os.getenv("BACKEND_URL")}/reservas/listar_reservas/{email}")
+    idUsuario = session.get("id")
+    respuesta = requests.get(f"{os.getenv('BACKEND_URL')}/reservas/listar_reservas/{idUsuario}")
 
     if respuesta.status_code == 200:
             reservas = respuesta.json() 

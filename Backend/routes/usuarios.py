@@ -45,7 +45,8 @@ def logearUsuario():
             "telefono": usuario["telefono"],
             "dniPasaporte": usuario["dniPasaporte"],
             "nombreUsuario": usuario["nombreUsuario"],
-            "fechaCreacion": usuario["fechaCreacion"] 
+            "fechaCreacion": usuario["fechaCreacion"],
+            "id":usuario["id"]
         }
     }), 200
 
@@ -124,7 +125,8 @@ def authGoogle():
                     "telefono": usuario["telefono"],
                     "dniPasaporte": usuario["dniPasaporte"],
                     "nombreUsuario": usuario["nombreUsuario"],
-                    "fechaCreacion": usuario["fechaCreacion"]
+                    "fechaCreacion": usuario["fechaCreacion"],
+                    "id": usuario["id"]
                 }
             }), 200
 
@@ -151,7 +153,8 @@ def authGoogle():
             "telefono": nuevoUsuario["telefono"],
             "dniPasaporte": nuevoUsuario["dniPasaporte"],
             "nombreUsuario": nuevoUsuario["nombreUsuario"],
-            "fechaCreacion": nuevoUsuario["fechaCreacion"]
+            "fechaCreacion": nuevoUsuario["fechaCreacion"],
+            "id": nuevoUsuario["id"]
         }
 
         return jsonify({
