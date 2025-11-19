@@ -23,5 +23,6 @@ CREATE TABLE IF NOT EXISTS reservas (
     adultos INT,
     fecha_entrada DATE,
     fecha_salida DATE,
-    id_habitacion VARCHAR(10)
+    id_habitacion VARCHAR(10),
+    checkin BOOLEAN
 );

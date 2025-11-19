@@ -29,25 +29,24 @@ def agregar_reserva():
 
 
     cursor.execute("""
-                INSERT INTO reservas (nombre, apellido, email, documento, fecha_registro, telefono, noches, ninios, adultos, id_habitacion, fecha_entrada, fecha_salida) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    """, (nombre, apellido, email, documento, fecha_registro, telefono, noches, ninios, adultos,id_habitacion, fecha_entrada, fecha_salida))
+                INSERT INTO reservas (nombre, apellido, email, documento, fecha_registro, telefono, noches, ninios, adultos, id_habitacion, fecha_entrada, fecha_salida, checkin) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    """, (nombre, apellido, email, documento, fecha_registro, telefono, noches, ninios, adultos,id_habitacion, fecha_entrada, fecha_salida, False))
     conn.commit()
     cursor.close()
     conn.close()
     return ("Cliente agregado correctamente",200)
 
-@reservas_bp.route("/listar_reservas/<int:dni>", methods=["GET"])
-def listar_reservas(dni):
-
-    """Funcion que lista reservas de un DNI"""
+@reservas_bp.route("/listar_reservas/<email>", methods=["GET"])
+def listar_reservas(email):
 
     conn = get_server_conection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM reservas WHERE documento = %s",(dni,))
+    cursor.execute("SELECT * FROM reservas WHERE email = %s",(email,))
 
     reserva = cursor.fetchall()
     print("Backend: se lista las siguientes reservas: ", reserva)
+
     cursor.close()
     conn.commit()
 

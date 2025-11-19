@@ -5,7 +5,7 @@ from datetime import date
 import base64
 app = Flask(__name__)
 
-app.secret_key = 'texto-que-debe-existir' 
+app.secret_key = 'texto-que-debe-existir'
 CLIENT_ID = "826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com"
 BACKEND_URL = "http://127.0.0.1:5001"
 
@@ -267,8 +267,8 @@ def miCuenta():
 
 @app.route("/misReservas")
 def misReservas():
-    dni = session.get("dniPasaporte")
-    respuesta = requests.get(f"{BACKEND_URL}/reservas/listar_reservas/{dni}")
+    email = session.get("email")
+    respuesta = requests.get(f"{BACKEND_URL}/reservas/listar_reservas/{email}")
 
     if respuesta.status_code == 200:
             reservas = respuesta.json() 
