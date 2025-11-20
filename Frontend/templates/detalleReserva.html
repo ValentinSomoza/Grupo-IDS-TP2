@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle de la reserva{% endblock %}
+
+{% block content %}
+
+<section class="pagina-reserva">
+    <div class="reserva-container">
+
+        <div class="reserva-header">
+            <h2>Detalle de tu Reserva</h2>
+            <p>Revisa toda la información de tu reserva antes de continuar</p>
+        </div>
+
+        <div class="detalle-box">
+            <p><strong>Nombre:</strong> {{ reserva.nombre }}</p>
+            <p><strong>Apellido:</strong> {{ reserva.apellido }}</p>
+            <p><strong>Email:</strong> {{ reserva.email }}</p>
+            <p><strong>Documento:</strong> {{ reserva.documento }}</p>
+            <p><strong>Teléfono:</strong> {{ reserva.telefono }}</p>
+            <p><strong>Habitación:</strong> {{ reserva.id_habitacion }}</p>
+            <p><strong>Fecha Registro:</strong> {{ reserva.fecha_registro }}</p>
+            <p><strong>Entrada:</strong> {{ reserva.fecha_entrada }}</p>
+            <p><strong>Salida:</strong> {{ reserva.fecha_salida }}</p>
+        </div>
+
+        <div class="acciones-detalle">
+            <form action="{{ url_for('redirigirCheckin', id_reserva=reserva.id) }}" method="POST" class="accion-form">
+                <button type="submit" class="btn-confirmar btn-success">Hacer Check-in</button>
+            </form>
+
+            <form action="{{ url_for('borrarReserva', id_reserva=reserva.id) }}" method="POST" class="accion-form"
+                  onsubmit="return confirm('¿Seguro que deseas eliminar esta reserva?');">
+                <button type="submit" class="btn-confirmar btn-danger">Borrar Reserva</button>
+            </form>
+
+            <a class="btn-confirmar btn-info" href="{{ url_for('misReservas') }}">Volver a Mis Reservas</a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

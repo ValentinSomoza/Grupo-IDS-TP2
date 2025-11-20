@@ -4,6 +4,7 @@ import requests
 from datetime import date
 import base64
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET_KEY")
@@ -261,11 +262,11 @@ def registro():
 
     return render_template('registro.html')
 
-@app.route("/checkin", methods=["GET", "POST"])
-def checkinPagina():
+@app.route("/checkin/<int:id_reserva>", methods=["GET", "POST"])
+def checkinPagina(id_reserva):
         
     if estaLogeado() is None:
-        flash("⚠️ Debes iniciar sesión antes de acceder al Check-In", "warning")
+        flash("Debes iniciar sesión antes de acceder al Check-In", "warning")
         return redirect(url_for('ingreso'))
 
     if request.method == 'POST':
@@ -281,15 +282,21 @@ def checkinPagina():
             "dniPasaporte": documento,
             "telefono": telefono,
             "email": emailUsuario,
+            "id_reserva": id_reserva
         }
     else:
-        nombreUsuario = session.get("nombreUsuario")
-        response = requests.get(f"{os.getenv("BACKEND_URL")}/check-in/listar_reserva/{nombreUsuario}")
+        
+        response = requests.get(f"{os.getenv("BACKEND_URL")}/check-in/listar_reserva/{session.get("nombre")}")
+
+
         if response.status_code != 200:
-            flash("⚠️ Debes tener alguna reserva hecha antes de acceder al Check-In", "warning")
+            flash("Debes tener alguna reserva hecha antes de acceder al Check-In", "warning")
             return render_template('index.html') 
+
+
         response.raise_for_status()
         dataCheckin = response.json()
+
         print("Frontend: dataCheckin tiene actualmente: ", dataCheckin)
         return render_template('checkin.html', dataCheckin=dataCheckin[0])
 
@@ -335,10 +342,75 @@ def misReservas():
 
     if respuesta.status_code == 200:
             reservas = respuesta.json() 
+            reservas = formatear_fechas(reservas)
     else:
         reservas = []
 
     return render_template('misReservas.html', reservas=reservas)
+
+@app.route("/reserva/<int:id_reserva>")
+def detalleReserva(id_reserva):
+    respuesta = requests.get(f"{os.getenv('BACKEND_URL')}/reservas/detalle/{id_reserva}")
+
+    if respuesta.status_code == 200:
+        reserva = respuesta.json()
+        reservas = formatear_fechas(reserva)
+        return render_template("detalleReserva.html", reserva=reserva)
+    else:
+        flash("No se encontró la reserva", "danger")
+        return redirect(url_for("misReservas"))
+
+@app.route("/reserva/checkin/<int:id_reserva>", methods=["POST"])
+def redirigirCheckin(id_reserva):
+
+    respuesta = requests.get(f"{os.getenv('BACKEND_URL')}/reservas/{id_reserva}")
+
+    if respuesta.status_code != 200:
+        flash("No se encontró la reserva", "error")
+        return redirect(url_for("misReservas"))
+
+    reserva = respuesta.json()
+
+    if reserva.get("checkin") == 1 or reserva.get("checkin") is True:
+        flash("Esta reserva ya tiene el Check-in realizado", "warning")
+        return redirect(url_for("index"))
+
+    return redirect(url_for("checkinPagina", id_reserva=id_reserva))
+
+@app.route("/reserva/borrar/<int:id_reserva>", methods=["POST"]) # todavia falta implementar
+def borrarReserva(id_reserva):
+    respuesta = requests.delete(f"{os.getenv('BACKEND_URL')}/reservas/borrar/{id_reserva}")
+
+    if respuesta.status_code == 200:
+        flash("Reserva eliminada correctamente", "success")
+    else:
+        flash("Error al borrar la reserva", "danger")
+
+    return redirect(url_for("misReservas"))
+
+def formatear_fecha(fecha_str):
+    try:
+        fecha = datetime.strptime(fecha_str, "%a, %d %b %Y %H:%M:%S %Z")
+        return fecha.strftime("%d/%m/%Y")
+    except:
+        return fecha_str
+
+def formatear_fechas(reservas):
+    if isinstance(reservas, dict):
+        reservas["fecha_entrada"] = formatear_fecha(reservas["fecha_entrada"])
+        reservas["fecha_salida"] = formatear_fecha(reservas["fecha_salida"])
+        reservas["fecha_registro"] = formatear_fecha(reservas["fecha_registro"])
+
+        return reservas
+    else: 
+        for reserva in reservas:
+            if "fecha_entrada" in reserva:
+                reserva["fecha_entrada"] = formatear_fecha(reserva["fecha_entrada"])
+            if "fecha_salida" in reserva:
+                reserva["fecha_salida"] = formatear_fecha(reserva["fecha_salida"])
+            if "fecha_registro" in reserva:
+                reserva["fecha_registro"] = formatear_fecha(reserva["fecha_registro"])
+        return reservas
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

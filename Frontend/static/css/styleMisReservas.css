@@ -1,6 +1,6 @@
 .contenedor-reservas {
-    width: 100%;
-    max-width: 1400px;
+    width: 95%;
+    max-width: 1800px;
     margin: 40px auto;
     padding: 20px;
     box-sizing: border-box;
@@ -15,7 +15,7 @@
 
 .tabla-wrapper {
     width: 100%;
-    overflow-x: auto; 
+    overflow-x: auto;
     border-radius: 10px;
     border: 2px solid #d4d4d4;
     background-color: #fff;
@@ -23,7 +23,8 @@
 }
 
 .tabla-reservas {
-    width: 100%;
+    width: max-content;
+    min-width: 100%;
     border-collapse: collapse;
     table-layout: auto;
 }
@@ -34,7 +35,7 @@
     padding: 14px;
     font-size: 1rem;
     text-align: left;
-    white-space: nowrap;
+    white-space: normal;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -44,9 +45,12 @@
     padding: 12px 14px;
     font-size: 0.95rem;
     border-bottom: 1px solid #e6e6e6;
+
     white-space: normal;
-    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
+
 
 .tabla-reservas tr:nth-child(even) {
     background-color: #f8faff;

@@ -13,6 +13,7 @@
             <table class="tabla-reservas">
                 <thead>
                     <tr>
+                        <th>Acciones</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Email</th>
@@ -25,11 +26,18 @@
                         <th>Habitación</th>
                         <th>Entrada</th>
                         <th>Salida</th>
+                        <th>Check-In</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for reserva in reservas %}
                     <tr>
+                        <td>
+                            <a class="btn-reserva btn-info" 
+                            href="{{ url_for('detalleReserva', id_reserva=reserva.id) }}">
+                            Ver
+                            </a>
+                        </td>
                         <td>{{ reserva.nombre }}</td>
                         <td>{{ reserva.apellido }}</td>
                         <td>{{ reserva.email }}</td>
@@ -37,11 +45,18 @@
                         <td>{{ reserva.fecha_registro }}</td>
                         <td>{{ reserva.telefono }}</td>
                         <td>{{ reserva.noches }}</td>
-                        <td>{{ reserva.ninios }}</td>
-                        <td>{{ reserva.adultos }}</td>
+                        <td>{{ reserva.ninios or 0}}</td>
+                        <td>{{ reserva.adultos or 0 }}</td>
                         <td>{{ reserva.id_habitacion }}</td>
                         <td>{{ reserva.fecha_entrada }}</td>
                         <td>{{ reserva.fecha_salida }}</td>
+                        <td>
+                            {% if reserva.checkin %}
+                                Realizado
+                            {% else %}
+                                Pendiente
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
