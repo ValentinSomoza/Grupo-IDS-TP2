@@ -3,39 +3,64 @@ from dotenv import load_dotenv
 from mysql.connector import Error
 from google.oauth2 import id_token
 from google.auth.transport import requests as grequests
-from flask import Flask
 import mysql.connector
 import os
 from flask_cors import CORS
+
 from routes.checkin import checkin_bp
 from routes.clientes import clientes_bp
 from routes.habitaciones import habitaciones_bp
 from routes.reservas import reservas_bp
 from routes.usuarios import usuarios_bp
-from db import obtener_conexion
+
+from db import obtener_conexion, obtener_conexion_con_el_servidor
 from flask_mail import Mail
 from herramientas import enviarMail
 from init_data import crearUsuarioTest
 
-def iniciar_base_de_datos():
-    path = "db"
-    path_absoluto = os.path.join(path,"init_db.sql")
-    with open(path_absoluto) as f:
-        sql = f.read()
-        print("Backend: SQL leido")
+load_dotenv()
+
+def iniciarBaseDeDatos():
 
     conn = obtener_conexion()
     cursor = conn.cursor()
+
+    cursor.execute("CREATE DATABASE IF NOT EXISTS HotelBruno")
+
+    cursor.close()
+    conn.close()
+
+    conn = obtener_conexion_con_el_servidor()
+    cursor = conn.cursor()
+
+    cursor.execute("SHOW TABLES LIKE 'habitaciones'")
+    tablaExiste = cursor.fetchone()
+
+    if tablaExiste:
+        cursor.close()
+        conn.close()
+        return
+
+    path = "db"
+    path_absoluto = os.path.join(path, "init_db.sql")
+
+    with open(path_absoluto) as f:
+        sql = f.read()
+
+    print("Backend: Ejecutando init_db.sql...")
+
     for statement in sql.split(";"):
         if statement.strip():
             cursor.execute(statement)
             conn.commit()
+
     cursor.close()
     conn.close()
 
 def create_app():
 
-    iniciar_base_de_datos()
+    iniciarBaseDeDatos()
+
     app = Flask(__name__)
     CORS(app)
 
@@ -44,7 +69,7 @@ def create_app():
     app.register_blueprint(reservas_bp, url_prefix="/reservas")
     app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
     app.register_blueprint(checkin_bp, url_prefix="/check-in")
-    
+
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
@@ -60,5 +85,5 @@ def create_app():
     @app.route("/")
     def home():
         return "Flask se conectó a SQL correctamente!"
-        
+
     return app
