@@ -75,7 +75,6 @@ def reserva():
         adultos = request.form["adultos"]
         ninios = request.form["ninios"]
         tipoHabitacion = request.form["tipo-habitacion"]
-        numeroHabitacion = request.form["numero-habitacion"]
         fechaIngreso = request.form["fecha-entrada"]
         fechaEgreso = request.form["fecha-salida"]
 
@@ -89,18 +88,23 @@ def reserva():
             "adultos": adultos,
             "ninios": ninios,
             "tipoHabitacion": tipoHabitacion,
-            "numeroHabitacion": numeroHabitacion,
             "fechaEntrada": fechaIngreso,
             "fechaSalida": fechaEgreso,
             "id_usuario": id_usuario
         }
 
         try: 
-            requests.post(f"{os.getenv('BACKEND_URL')}/reservas/agregar_reserva",json=datosReserva)
+            respuesta = requests.post(f"{os.getenv('BACKEND_URL')}/reservas/agregar_reserva",json=datosReserva)
+            print("Frontend: Reserva enviada al back: ", datosReserva)
+
+            if respuesta.status_code != 200:
+                info = respuesta.json()
+                flash(info.get("error", "No se pudo realizar la reserva"), "error")
+                return redirect(url_for("reserva"))
+
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
 
-        print("Frontend: Reserva enviada al back: ", datosReserva)
         flash("Reserva realizada satisfactoriamente !", "success")
         return redirect(url_for("index"))
 
@@ -354,8 +358,15 @@ def detalleReserva(id_reserva):
 
     if respuesta.status_code == 200:
         reserva = respuesta.json()
-        reservas = formatear_fechas(reserva)
-        return render_template("detalleReserva.html", reserva=reserva)
+        formatear_fechas(reserva)
+
+        pedirInfoHabitacion = requests.get(f"{os.getenv('BACKEND_URL')}/habitaciones/info/{reserva.get('habitacion_id')}")
+        if pedirInfoHabitacion.status_code == 200:
+            habitacion = pedirInfoHabitacion.json()
+        else:
+            habitacion = None 
+
+        return render_template("detalleReserva.html", reserva=reserva, habitacion=habitacion)
     else:
         flash("No se encontró la reserva", "danger")
         return redirect(url_for("misReservas"))

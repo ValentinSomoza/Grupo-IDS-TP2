@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from db import obtener_conexion_con_el_servidor
+from herramientas import obtenerHabitacionDisponible
 
 reservas_bp = Blueprint("reservas", __name__)
 
@@ -13,6 +14,8 @@ def agregar_reserva():
 
     print("Backend: data que llega del front para hacer una reserva: ", data)
 
+    tipoHabitacion = data.get("tipoHabitacion")
+
     id_usuario = data.get("id_usuario")
     nombre = data.get("nombre")
     apellido = data.get("apellido")
@@ -24,12 +27,18 @@ def agregar_reserva():
     adultos = data.get("adultos")
     fecha_entrada = data.get("fechaEntrada")
     fecha_salida = data.get("fechaSalida")
-    id_habitacion = data.get("numeroHabitacion")
+    tipo_habitacion = data.get("numeroHabitacion")
+    
+
+    habitacion_id = obtenerHabitacionDisponible(tipoHabitacion, fecha_entrada, fecha_salida, adultos, ninios, cursor)
+
+    if not habitacion_id:
+        return jsonify({"error": "No hay habitaciones de ese tipo disponibles"}), 409
 
     cursor.execute("""
-                INSERT INTO reservas (id_usuario, nombre, apellido, email, telefono, documento, noches, ninios, adultos, fecha_entrada, fecha_salida, id_habitacion) 
+                INSERT INTO reservas (id_usuario, nombre, apellido, email, telefono, documento, noches, ninios, adultos, fecha_entrada, fecha_salida, habitacion_id) 
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    """, (id_usuario, nombre, apellido, email, telefono, documento, noches, ninios, adultos, fecha_entrada, fecha_salida, id_habitacion))
+                    """, (id_usuario, nombre, apellido, email, telefono, documento, noches, ninios, adultos, fecha_entrada, fecha_salida, habitacion_id))
     conn.commit()
 
     cursor.close()

@@ -128,3 +128,13 @@
     padding: 14px;
     font-size: 1.05rem;
 }
+
+.info-habitacion {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background: #eef3ff;
+    border-left: 4px solid #4e73df;
+    display: none;
+    font-size: 0.9rem;
+}

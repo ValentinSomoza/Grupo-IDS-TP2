@@ -1,15 +1,6 @@
 CREATE DATABASE IF NOT EXISTS HotelBruno;
 USE HotelBruno;
 
-CREATE TABLE IF NOT EXISTS habitaciones (
-    id VARCHAR(10) PRIMARY KEY,
-    numero INT(3), 
-    precio FLOAT(6,2),
-    estado BOOLEAN,
-    capacidad INT(2),
-    descripcion VARCHAR(255)
-);
-
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -21,6 +12,14 @@ CREATE TABLE IF NOT EXISTS usuarios (
     contrasenia VARCHAR(255),
     fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fechaActualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS habitaciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    numero INT UNIQUE NOT NULL,
+    tipo ENUM('simple', 'doble', 'matrimonial', 'king ejecutiva', 'suite') NOT NULL,
+    capacidad INT NOT NULL,
+    precio DECIMAL(10,2) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS reservas (
@@ -39,10 +38,11 @@ CREATE TABLE IF NOT EXISTS reservas (
     adultos INT,
     fecha_entrada DATE,
     fecha_salida DATE,
-    id_habitacion VARCHAR(10),
+    habitacion_id INT NOT NULL,
     checkin BOOLEAN DEFAULT FALSE,
 
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
+    FOREIGN KEY (habitacion_id) REFERENCES habitaciones(id)
 );
 
 CREATE TABLE IF NOT EXISTS checkin (
@@ -58,3 +58,16 @@ CREATE TABLE IF NOT EXISTS checkin (
     fechaSalidaC DATE,
     reserva_id VARCHAR(10)
 );
+
+INSERT INTO habitaciones (numero, tipo, capacidad, precio)
+VALUES
+(101, 'simple', 1, 10.00),
+(102, 'simple', 1, 10.00),
+(201, 'doble', 2, 20.00),
+(202, 'doble', 2, 20.00),
+(301, 'matrimonial', 2, 30.00),
+(302, 'matrimonial', 2, 30.00),
+(401, 'suite', 4, 40.00),
+(402, 'suite', 4, 40.00),
+(501, 'king ejecutiva', 3, 50.00),
+(502, 'king ejecutiva', 3, 50.00);
