@@ -37,10 +37,10 @@
             </div>
             <div class="hero-buttons">
                 {% if session.get('nombreUsuario') %}
-                    <a href="{{ url_for('miCuenta') }}" class="btn btn-secondary">Mi Cuenta</a>
-                    <a href="{{ url_for('cerrarSesion') }}" class="btn btn-outline">Cerrar sesión</a>
+                    <a href="{{ url_for('cuenta/miCuenta') }}" class="btn btn-secondary">Mi Cuenta</a>
+                    <a href="{{ url_for('cuenta/cerrarSesion') }}" class="btn btn-outline">Cerrar sesión</a>
                 {% else %}
-                    <a href="{{ url_for('ingreso') }}" class="btn btn-primary">Login</a>
+                    <a href="{{ url_for('ingreso.ingreso') }}" class="btn btn-primary">Login</a>
                 {% endif %}
                 
                 <a href="{{ url_for('index') }}" class="btn btn-outline">Habitaciones</a>
