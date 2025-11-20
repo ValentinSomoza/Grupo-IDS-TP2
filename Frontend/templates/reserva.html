@@ -11,7 +11,7 @@
             <p>Complete los detalles de la reserva en el formulario</p>
         </div>
 
-        <form action="{{ url_for('reservas/reserva') }}" method="POST" class="reserva-form">
+        <form action="{{ url_for('reservas.reserva') }}" method="POST" class="reserva-form">
             <input type="hidden" name="nombre" value="{{ datosPersonales.nombre }}">
             <input type="hidden" name="apellido" value="{{ datosPersonales.apellido }}">
             <input type="hidden" name="dniPasaporte" value="{{ datosPersonales.dniPasaporte }}">

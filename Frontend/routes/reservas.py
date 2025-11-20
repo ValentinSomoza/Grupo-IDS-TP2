@@ -95,7 +95,7 @@ def borrarReserva(id_reserva):
     else:
         flash("Error al borrar la reserva", "danger")
 
-    return redirect(url_for("misReservas"))
+    return redirect(url_for("reservas.misReservas"))
 
 def formatear_fecha(fecha_str):
     try:

@@ -3,7 +3,9 @@ import requests
 import os
 
 
+
 registro_bp = Blueprint("registro", __name__)
+registro_bp.secret_key = os.getenv("APP_SECRET_KEY")
 
 @registro_bp.route('/registrarse', methods=['GET', 'POST'])
 def registro():
@@ -31,7 +33,7 @@ def registro():
 
         print("Frontend: Nuevo registro de usuario enviado al backend: ", nuevoUsuario)
 
-        return redirect(url_for('ingreso'))
+        return redirect(url_for('ingreso.ingreso'))
 
     return render_template('registro.html')
 

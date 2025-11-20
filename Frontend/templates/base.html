@@ -64,7 +64,7 @@
                 <ul>
                 <li><a href="{{ url_for('eligeDatos') }}">Hacer una reserva</a></li>
                  {% if session.get('logueado') %}
-                <li><a href="{{ url_for('reservas/misReservas') }}">Mis reservas</a></li>
+                <li><a href="{{ url_for('reservas.misReservas') }}">Mis reservas</a></li>
                 {% endif %}
                 </ul>
             </li>
@@ -79,8 +79,8 @@
                         <i class="bi bi-chevron-down toggle-dropdown"></i>
                     </a>
                     <ul>
-                        <li><a href="{{ url_for('cuenta/miCuenta') }}">Mi cuenta</a></li>
-                        <li><a href="{{ url_for('cuenta/cerrarSesion') }}">Cerrar sesión</a></li>
+                        <li><a href="{{ url_for('cuenta.miCuenta') }}">Mi cuenta</a></li>
+                        <li><a href="{{ url_for('cuenta.cerrarSesion') }}">Cerrar sesión</a></li>
                     </ul>
                 </li>
             {% else %}
