@@ -14,6 +14,7 @@ def agregarCheckin():
 
     print("Backend: Check-in obtenido desde el formulario: ", data)
 
+    id_reserva = data.get("id_reserva")
     nombre = data.get("nombre")
     apellido = data.get("apellido")
     dniPasaporte = data.get("dniPasaporte")
@@ -24,13 +25,17 @@ def agregarCheckin():
                 INSERT INTO checkin (nombre, apellido, email, dniPasaporte, telefono) 
                 VALUES (%s, %s, %s, %s, %s)
                     """, (nombre, apellido, emailUsuario, dniPasaporte, telefono))
+    
+    cursor.execute("""
+        UPDATE reservas SET checkin = TRUE WHERE id = %s
+    """, (id_reserva,))
+
     conn.commit()
+
     cursor.close()
     conn.close()
 
-    return jsonify({"mesanje": "Check-in completado, correo enviado"}), 200
-
-
+    return jsonify({"mensaje": "Check-in completado, correo enviado"}), 200
 
 @checkin_bp.route("/listar_reserva/<nombre>", methods=["GET"])
 def listar_reserva(nombre):
@@ -48,4 +53,5 @@ def listar_reserva(nombre):
 
     if not reserva:
         return jsonify({"mensaje": "No posees ninguna reserva"}), 404
-    return jsonify(reserva)
+        
+    return jsonify(reserva), 200

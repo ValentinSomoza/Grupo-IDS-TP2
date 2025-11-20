@@ -31,8 +31,10 @@ def agregar_reserva():
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """, (id_usuario, nombre, apellido, email, telefono, documento, noches, ninios, adultos, fecha_entrada, fecha_salida, id_habitacion))
     conn.commit()
+
     cursor.close()
     conn.close()
+
     print("Backend: Reserva realizada y agregada correctamente")
     return ("Reserva agregada correctamente",200)
 
@@ -41,6 +43,7 @@ def listar_reservas(idUsuario):
 
     conn = obtener_conexion_con_el_servidor()
     cursor = conn.cursor(dictionary=True)
+
     cursor.execute("SELECT * FROM reservas WHERE id_usuario = %s",(idUsuario,))
 
     reserva = cursor.fetchall()
@@ -52,3 +55,61 @@ def listar_reservas(idUsuario):
     if not reserva:
         return jsonify({"mensaje": "No posees ninguna reserva"}), 404
     return jsonify(reserva)
+
+@reservas_bp.route("/detalle/<int:id_reserva>", methods=["GET"])
+def detalleReserva(id_reserva):
+
+    conn = obtener_conexion_con_el_servidor()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM reservas WHERE id = %s", (id_reserva,))
+    reserva = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if not reserva:
+        return jsonify({"mensaje": "Reserva no encontrada"}), 404
+
+    return jsonify(reserva), 200
+
+@reservas_bp.route("/<int:id_reserva>", methods=["GET"])
+def obtener_reserva(id_reserva):
+
+    conn = obtener_conexion_con_el_servidor()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM reservas WHERE id = %s", (id_reserva,))
+    reserva = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if not reserva:
+        return jsonify({"mensaje": "Reserva no encontrada"}), 404
+
+    return jsonify(reserva)
+
+@reservas_bp.route("/borrar/<int:id_reserva>", methods=["DELETE"])
+def borrar_reserva(id_reserva):
+
+    conn = obtener_conexion_con_el_servidor()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM reservas WHERE id = %s", (id_reserva,))
+    reserva = cursor.fetchone()
+
+    if not reserva:
+        cursor.close()
+        conn.close()
+        return jsonify({"error": "La reserva no existe"}), 404
+
+    cursor.execute("DELETE FROM reservas WHERE id = %s", (id_reserva,))
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    print(f"Backend: Reserva con ID {id_reserva} eliminada correctamente.")
+
+    return jsonify({"mensaje": "Reserva eliminada correctamente"}), 200

@@ -13,6 +13,7 @@
         <script src="{{ url_for('static', filename='js/google_oauth.js') }}" defer></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/flash.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styleCompletarDatosGoogle.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styleDetalleReserva.css') }}">
         
         <!-- Codigo del template -->
         <meta charset="utf-8">
@@ -62,7 +63,6 @@
             <li class="dropdown"><a href="#"><span>Reserva</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                 <li><a href="{{ url_for('eligeDatos') }}">Hacer una reserva</a></li>
-                <li><a href="{{ url_for('checkinPagina') }}">Hacer Check-in</a></li>
                  {% if session.get('logueado') %}
                 <li><a href="{{ url_for('misReservas') }}">Mis reservas</a></li>
                 {% endif %}
