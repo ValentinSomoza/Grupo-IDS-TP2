@@ -21,7 +21,7 @@ def registro():
             'contrasenia': request.form['contrasenia']
         }
         
-        respuesta = requests.post(os.getenv("BACKEND_URL") + "/usuarios/registrarUsuario", json=nuevoUsuario)
+        respuesta = requests.post(f"{os.getenv("BACKEND_URL")}/usuarios/registrarUsuario", json=nuevoUsuario)
         info = respuesta.json()
 
         if respuesta.status_code == 200:
