@@ -31,7 +31,7 @@ def checkinPagina(id_reserva):
         }
     else:
         
-        response = requests.get(f"{os.getenv("BACKEND_URL")}/check-in/listar_reserva/{session.get("nombre")}")
+        response = requests.get(f"{os.getenv("BACKEND_URL")}/checkin/listar_reserva/{session.get("nombre")}")
 
 
         if response.status_code != 200:

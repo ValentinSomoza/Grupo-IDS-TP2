@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from db import obtener_conexion_con_el_servidor
 
 
-checkin_bp = Blueprint("check-in", __name__)
+checkin_bp = Blueprint("checkin", __name__)
 
 @checkin_bp.route("/agregarCheckin", methods=["POST"])
 def agregarCheckin():
