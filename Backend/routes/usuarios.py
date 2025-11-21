@@ -71,7 +71,6 @@ def registrarUsuario():
 
     cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
     if cursor.fetchone():
-        print("AAAAAAAAAAAAAAAA")
         return jsonify({"error": "El email ya esta registrado"}), 409
 
     try:
