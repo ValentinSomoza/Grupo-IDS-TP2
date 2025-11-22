@@ -56,7 +56,6 @@ def listar_reservas(idUsuario):
     cursor.execute("SELECT * FROM reservas WHERE id_usuario = %s",(idUsuario,))
 
     reserva = cursor.fetchall()
-    print("Backend: se lista las siguientes reservas: ", reserva)
 
     cursor.close()
     conn.close()

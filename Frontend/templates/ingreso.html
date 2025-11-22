@@ -11,7 +11,7 @@
         <!-- inicio de sesion con google -->
         <div id="g_id_onload"
             data-client_id="826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com"
-            data-login_uri="http://127.0.0.1:5000/auth/callback/google"
+            data-login_uri="http://127.0.0.1:5000/autenticacion/auth/callback/google"
             data-auto_prompt="false">
         </div>
 
@@ -29,7 +29,7 @@
         </div>
 
         <!-- inicio de sesion convencional -->
-        <form class="ingreso-form" method="POST" action="{{ url_for('ingreso') }}">
+        <form class="ingreso-form" method="POST" action="{{ url_for('ingreso.ingreso') }}">
 
             <div class="form-group mb-3">
                 <label for="nombreUsuario" class="form-label">Nombre de usuario</label>
@@ -45,7 +45,7 @@
 
             <div class="text-center">
                 ¿No tenés cuenta?
-                <a href="{{ url_for('registro') }}" class="fw-semibold">Registrarme</a>
+                <a href="{{ url_for('registro.registro') }}" class="fw-semibold">Registrarme</a>
             </div>
         </form>
 

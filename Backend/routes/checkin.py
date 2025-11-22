@@ -45,8 +45,7 @@ def listar_reserva(nombre):
 
     conn = obtener_conexion_con_el_servidor()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT nombre, apellido, documento, telefono, fecha_entrada, fecha_salida, email FROM reservas WHERE nombre= %s",(nombre,))
-
+    cursor.execute("SELECT nombre, apellido, documento, telefono, fecha_entrada, fecha_salida, email FROM reservas WHERE nombre = %s",(nombre,))
 
     reserva = cursor.fetchall()
     cursor.close()

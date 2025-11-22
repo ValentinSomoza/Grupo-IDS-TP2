@@ -13,11 +13,11 @@
         </div>
 
         <div class="opciones-datos">
-            <form action="{{ url_for('reserva') }}" method="get">
+            <form action="{{ url_for('reservas.reserva') }}" method="get">
                 <button class="btn-confirmar btn-opcion">Sí, usar mis datos guardados</button>
             </form>
 
-            <form action="{{ url_for('formularioDatos') }}" method="get">
+            <form action="{{ url_for('cuenta.formularioDatos') }}" method="get">
                 <button class="btn-confirmar btn-opcion">Prefiero ingresar otros datos</button>
             </form>
         </div>

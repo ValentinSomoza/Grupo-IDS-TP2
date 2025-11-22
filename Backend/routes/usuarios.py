@@ -73,6 +73,11 @@ def registrarUsuario():
     if cursor.fetchone():
         return jsonify({"error": "El email ya esta registrado"}), 409
 
+    try:
+        enviarMail(nuevoUsuario.get("email"), nuevoUsuario.get("nombre"))
+    except Exception as e:
+         return jsonify({"error": "El email ingresado es invalido"}), 409
+
     sql = """
     INSERT INTO usuarios (nombre, apellido, nombreUsuario, email, telefono, dniPasaporte, contrasenia)
     VALUES (%s, %s, %s, %s, %s, %s, %s)
@@ -85,7 +90,7 @@ def registrarUsuario():
     conexion.close()
 
     print("Backend: Nuevo usuario registrado con exito:", nuevoUsuario)
-    enviarMail(nuevoUsuario.get("email"), nuevoUsuario.get("nombre"))
+    
 
     return jsonify({"mensaje": "Nuevo usuario registrado con exito !"}), 200
 
