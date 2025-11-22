@@ -28,7 +28,7 @@ def checkinPagina(id_reserva):
         }
     else:
         
-        response = requests.get(f"{os.getenv('BACKEND_URL')}/check-in/listar_reserva/{session.get("nombre")}")
+        response = requests.get(f"{os.getenv('BACKEND_URL')}/reservas/detalle/{id_reserva}")
 
         if response.status_code != 200:
             flash("Debes tener alguna reserva hecha antes de acceder al Check-In", "warning")
@@ -38,7 +38,7 @@ def checkinPagina(id_reserva):
         dataCheckin = response.json()
 
         print("Frontend: dataCheckin tiene actualmente: ", dataCheckin)
-        return render_template('checkin.html', dataCheckin=dataCheckin[0])
+        return render_template('checkin.html', dataCheckin=dataCheckin)
 
     try: 
         requests.post(f"{os.getenv("BACKEND_URL")}/check-in/agregarCheckin", json=datosCheckin)
