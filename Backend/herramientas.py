@@ -79,6 +79,6 @@ def obtenerHabitacionDisponible(tipo, fecha_entrada, fecha_salida, adultos, nini
         conflicto = cursor.fetchone()
 
         if not conflicto:
-            return habitacion_id  
+            return habitacion_id
 
-    return None 
+    return None
