@@ -8,7 +8,7 @@ reservas_bp = Blueprint("reservas", __name__)
 def agregar_reserva():
     
     conn = obtener_conexion_con_el_servidor()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(dictionary=True, buffered=True) 
 
     data = request.get_json()
 
@@ -56,7 +56,6 @@ def listar_reservas(idUsuario):
     cursor.execute("SELECT * FROM reservas WHERE id_usuario = %s",(idUsuario,))
 
     reserva = cursor.fetchall()
-    print("Backend: se lista las siguientes reservas: ", reserva)
 
     cursor.close()
     conn.close()

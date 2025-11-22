@@ -28,16 +28,16 @@
         </div>
 
         <div class="acciones-detalle">
-            <form action="{{ url_for('redirigirCheckin', id_reserva=reserva.id) }}" method="POST" class="accion-form">
+            <form action="{{ url_for('checkin.redirigirCheckin', id_reserva=reserva.id) }}" method="POST" class="accion-form">
                 <button type="submit" class="btn-confirmar btn-success">Hacer Check-in</button>
             </form>
 
-            <form action="{{ url_for('borrarReserva', id_reserva=reserva.id) }}" method="POST" class="accion-form"
+            <form action="{{ url_for('reservas.borrarReserva', id_reserva=reserva.id) }}" method="POST" class="accion-form"
                   onsubmit="return confirm('¿Seguro que deseas eliminar esta reserva?');">
                 <button type="submit" class="btn-confirmar btn-danger">Borrar Reserva</button>
             </form>
 
-            <a class="btn-confirmar btn-info" href="{{ url_for('misReservas') }}">Volver a Mis Reservas</a>
+            <a class="btn-confirmar btn-info" href="{{ url_for('reservas.misReservas') }}">Volver a Mis Reservas</a>
         </div>
 
     </div>

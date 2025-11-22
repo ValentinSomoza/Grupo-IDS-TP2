@@ -13,14 +13,14 @@
         </div>
 
         <div class="cerrar-sesion-container">
-            <a href="{{ url_for('cerrarSesion') }}" class="btn-cerrar-sesion">
+            <a href="{{ url_for('cuenta.cerrarSesion') }}" class="btn-cerrar-sesion">
                 Cerrar sesión
             </a>
         </div>
 
         <div class="formulario-activo">
 
-            <form action="{{ url_for('completarDatosGoogle') }}" method="POST" class="reserva-form card-form">
+            <form action="{{ url_for('autenticacion.completarDatosGoogle') }}" method="POST" class="reserva-form card-form">
 
                 <div class="form-group">
                     <label for="telefono">Teléfono</label>

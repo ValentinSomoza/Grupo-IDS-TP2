@@ -13,7 +13,7 @@
             Completá el formulario con tus datos para registrarte
         </p>
 
-        <form class="registro-form" method="POST" action="{{ url_for('registro') }}">
+        <form class="registro-form" method="POST" action="{{ url_for('registro.registro') }}">
 
             <div class="form-group mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
@@ -54,7 +54,7 @@
 
             <div class="text-center">
                 ¿Ya tenés una cuenta?
-                <a href="{{ url_for('ingreso') }}" class="fw-semibold">Iniciar sesión</a>
+                <a href="{{ url_for('ingreso.ingreso') }}" class="fw-semibold">Iniciar sesión</a>
             </div>
         </form>
 
