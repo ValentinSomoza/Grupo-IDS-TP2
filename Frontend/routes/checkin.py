@@ -41,9 +41,14 @@ def checkinPagina(id_reserva):
         return render_template('checkin.html', dataCheckin=dataCheckin)
 
     try: 
-        requests.post(f"{os.getenv("BACKEND_URL")}/check-in/agregarCheckin", json=datosCheckin)
+        respBanckend = requests.post(f"{os.getenv("BACKEND_URL")}/check-in/agregarCheckin", json=datosCheckin)
         print("Frontend: Checkin enviada al back: ", datosCheckin)
-        flash("Check-in completado!", "success")
+        mensajeBackend = respBanckend.json().get("mensaje", "respuesta")
+        
+        if respBanckend.status_code == 200:
+            flash(mensajeBackend, "success")
+        else:
+            flash(mensajeBackend, "warning")
 
     except Exception as e:
         return f"Error de conexion con el backend: {e}"

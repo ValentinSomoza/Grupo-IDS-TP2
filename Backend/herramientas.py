@@ -11,7 +11,7 @@ def enviarMail(emailDestino, nombre, esCheckin):
     with open(rutaLogo, "rb") as img:
         imagenData = img.read()
 
-    if esCheckin:
+    if isinstance(esCheckin, dict):
         
         msg = Message(
             subject="Chenck-in Hotel Bruno!",
@@ -22,12 +22,12 @@ def enviarMail(emailDestino, nombre, esCheckin):
             <h2>¡Te confirmamos que tú check-in ha sido registrado!</h2>
             <h3>Detalle de tú registro:</h3>
 
-            <p>Nombre:{nombre}</p>
-            <p>DNI:12134</p>
-            <p>Fecha de entrada:01/01/2025</p>
-            <p>Fecha de salida:01/05/2026</p>
-            <p>Id de la reserva:001</p>
-            <p>Id de habitación:001,simple</p>
+            <p>Nombre:{esCheckin['nombre']} {esCheckin['apellido']}</p>
+            <p>DNI:{esCheckin['documento']}</p>
+            <p>Fecha de entrada:{esCheckin['fecha_entrada']}</p>
+            <p>Fecha de salida:{esCheckin['fecha_salida']}</p>
+            <p>Id de la reserva:{esCheckin['id']}</p>
+            <p>Id de habitación:{esCheckin['habitacion_id']}</p>
 
             <img src="cid:logo_email" width="200">
             <p>¡Gracias por elegirnos y que tenga un excelente estadía</p>
