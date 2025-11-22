@@ -5,43 +5,56 @@ services:
   mysql:
     image: mysql:8.0
     container_name: mysql_container
-    restart: always
+    env_file:
+      - ./Backend/.env
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: HotelFAF
+      MYSQL_DATABASE: HotelBruno
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
+      - ./Backend/db/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    restart: always
 
   backend:
-    build: ./Backend
+    build: 
+      dockerfile: Dockerfile
+      context: .
     container_name: backend_container
-    restart: always
     ports:
       - "5001:5001"
     environment:
-      DB_HOST: mysql
-      DB_USER: root
-      DB_PASSWORD: admin
-      DB_NAME: HotelFAF
+      DB_HOST: localhost
+      DB_USER: hoteluser
+      DB_PASSWORD: juano
+      DB_NAME: HotelBruno
+      FLASK_APP: app.py
+      FLASK_RUN_HOST: 0.0.0.0
+      FLASK_RUN_PORT: 5001
     depends_on:
       - mysql
     volumes:
       - ./Backend:/app
+    restart: always
 
   frontend:
-    build: ./Frontend
+    build: 
+      dockerfile: Dockerfile
+      context: .
     container_name: frontend_container
-    restart: always
     ports:
       - "5000:5000"
+    env_file:
+      - ./Frontend/.env
     environment:
-      BACKEND_URL: http://backend:5000
+      FLASK_APP: app.py
+      FLASK_RUN_PORT: 5000
+      FLASK_DEBUG: 1
     depends_on:
       - backend
     volumes:
       - ./Frontend:/app
+    restart: always
 
 volumes:
   db_data:
