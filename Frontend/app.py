@@ -47,6 +47,11 @@ def create_app():
     def mapa():
         return render_template('mapa.html')
 
+
+    @app.route("/contacto")
+    def contacto():
+        return render_template('contacto.html')
+
     @app.route("/eligeDatos")
     def eligeDatos():
         if estaLogeado() is None:

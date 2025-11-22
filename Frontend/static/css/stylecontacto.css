@@ -1,0 +1,30 @@
+
+.titulo{
+    align-items: center;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.card-perfil-card{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.perfil-info-row{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.perfil-info-row p{
+    padding-top: 5px;
+}
+
+.bloque{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
