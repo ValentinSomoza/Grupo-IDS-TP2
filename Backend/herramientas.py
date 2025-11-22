@@ -19,19 +19,26 @@ def enviarMail(emailDestino, nombre, esCheckin):
         )
         msg.html = f"""
             <p>Hola <strong>{nombre}</strong>,</p>
-            <h2>¡Te confirmamos que tú check-in ha sido registrado!</h2>
-            <h3>Detalle de tú registro:</h3>
 
-            <p>Nombre:{esCheckin['nombre']} {esCheckin['apellido']}</p>
-            <p>DNI:{esCheckin['documento']}</p>
-            <p>Fecha de entrada:{esCheckin['fecha_entrada']}</p>
-            <p>Fecha de salida:{esCheckin['fecha_salida']}</p>
-            <p>Id de la reserva:{esCheckin['id']}</p>
-            <p>Id de habitación:{esCheckin['habitacion_id']}</p>
+            <h2>¡Tu check-in ha sido registrado con éxito!</h2>
 
-            <img src="cid:logo_email" width="200">
-            <p>¡Gracias por elegirnos y que tenga un excelente estadía</p>
-            <p>Hotel Bruno Relax and Flask</p>
+            <p>Nos alegra confirmarte que tu reserva ya está activa. A continuación encontrarás los detalles de tu registro:</p>
+
+            <ul>
+                <li><strong>Nombre completo:</strong> {esCheckin['nombre']} {esCheckin['apellido']}</li>
+                <li><strong>DNI / Pasaporte:</strong> {esCheckin['documento']}</li>
+                <li><strong>Fecha de entrada:</strong> {esCheckin['fecha_entrada']}</li>
+                <li><strong>Fecha de salida:</strong> {esCheckin['fecha_salida']}</li>
+                <li><strong>ID de la reserva:</strong> {esCheckin['id']}</li>
+                <li><strong>ID de habitación:</strong> {esCheckin['habitacion_id']}</li>
+            </ul>
+
+            <p>Esperamos que disfrutes de tu estadía con nosotros. Si tenés alguna consulta adicional, no dudes en responder a este correo o comunicarte con nuestra recepción.</p>
+
+            <img src="cid:logo_email" width="200" alt="Logo Hotel Bruno">
+
+            <p>¡Gracias por elegirnos!</p>
+            <p><em>Hotel Bruno Relax and Flask</em></p>
             """
         print(f"correo enviado checkin a, {emailDestino}")
     else:
