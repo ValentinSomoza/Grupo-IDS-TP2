@@ -49,8 +49,6 @@ def obtenerHabitacionDisponible(tipo, fecha_entrada, fecha_salida, adultos, nini
 
     capacidad_total = adultos + ninios
 
-    capacidad_total = adultos + ninios
-
     cursor.execute("""
         SELECT id FROM habitaciones 
         WHERE tipo = %s AND capacidad >= %s
@@ -63,7 +61,6 @@ def obtenerHabitacionDisponible(tipo, fecha_entrada, fecha_salida, adultos, nini
     for habitacion in habitaciones:
         habitacion_id = habitacion["id"]
 
-        # busca si esta libre en las fechas dadas
         cursor.execute("""
             SELECT * FROM reservas 
             WHERE habitacion_id = %s
