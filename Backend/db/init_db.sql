@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 CREATE TABLE IF NOT EXISTS habitaciones (
     id INT AUTO_INCREMENT PRIMARY KEY,
     numero INT UNIQUE NOT NULL,
-    tipo ENUM('simple', 'doble', 'matrimonial', 'king ejecutiva', 'suite') NOT NULL,
+    tipo ENUM('simple', 'doble', 'matrimonial', 'king', 'suite') NOT NULL,
     capacidad INT NOT NULL,
     precio DECIMAL(10,2) NOT NULL
 );
@@ -69,5 +69,5 @@ VALUES
 (302, 'matrimonial', 2, 30.00),
 (401, 'suite', 4, 40.00),
 (402, 'suite', 4, 40.00),
-(501, 'king ejecutiva', 3, 50.00),
-(502, 'king ejecutiva', 3, 50.00);
+(501, 'king', 3, 50.00),
+(502, 'king', 3, 50.00);

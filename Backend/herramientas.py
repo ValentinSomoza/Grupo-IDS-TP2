@@ -35,26 +35,19 @@ def enviarMail(emailDestino, nombre):
 
 mail = Mail()
 
-
 # la siguiente funcion solo admite un cursor ya inicializado
 def obtenerHabitacionDisponible(tipo, fecha_entrada, fecha_salida, adultos, ninios, cursor):
-
-    if adultos is None:
-        adultos = 0
-    if ninios is None:
-        ninios = 0
-
-    adultos = int(adultos)
-    ninios = int(ninios)
-
-    capacidad_total = adultos + ninios
+    
+    adultos = int(adultos or 0)
+    ninios  = int(ninios or 0)
 
     capacidad_total = adultos + ninios
 
     cursor.execute("""
-        SELECT id FROM habitaciones 
+        SELECT id FROM habitaciones
         WHERE tipo = %s AND capacidad >= %s
     """, (tipo, capacidad_total))
+    
     habitaciones = cursor.fetchall()
 
     if not habitaciones:
@@ -63,18 +56,12 @@ def obtenerHabitacionDisponible(tipo, fecha_entrada, fecha_salida, adultos, nini
     for habitacion in habitaciones:
         habitacion_id = habitacion["id"]
 
-        # busca si esta libre en las fechas dadas
         cursor.execute("""
-            SELECT * FROM reservas 
+            SELECT 1 FROM reservas
             WHERE habitacion_id = %s
-            AND (
-                (fecha_entrada <= %s AND fecha_salida > %s) OR
-                (fecha_entrada < %s AND fecha_salida >= %s) OR
-                (%s <= fecha_entrada AND %s >= fecha_salida)
-            )
-        """, (habitacion_id, fecha_entrada, fecha_entrada,
-              fecha_salida, fecha_salida,
-              fecha_entrada, fecha_salida))
+            AND fecha_entrada < %s
+            AND fecha_salida > %s
+        """, (habitacion_id, fecha_salida, fecha_entrada))
 
         conflicto = cursor.fetchone()
 
