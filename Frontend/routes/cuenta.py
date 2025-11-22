@@ -3,11 +3,7 @@ from herramientas import estaLogeado
 import requests
 import os
 
-
 cuenta_bp = Blueprint("cuenta", __name__)
-
-
-
 
 @cuenta_bp.route("/cerrarSesion")
 def cerrarSesion():
@@ -34,7 +30,6 @@ def miCuenta():
 
     return render_template('miCuenta.html', usuario=dataUsuario)
 
-
 @cuenta_bp.route('/formularioDatos', methods=['GET', 'POST'])
 def formularioDatos():
 
@@ -49,6 +44,3 @@ def formularioDatos():
         print("Datos personales: ", datosPersonales)
         return render_template('reserva.html', datosPersonales=datosPersonales)
     return render_template('formularioDatos.html')
-
-
-

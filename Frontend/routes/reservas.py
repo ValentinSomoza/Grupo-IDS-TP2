@@ -72,18 +72,17 @@ def misReservas():
 
     return render_template('misReservas.html', reservas=reservas)
 
-
 @reservas_bp.route("detalle_reservas/<int:id_reserva>")
 def detalleReserva(id_reserva):
     respuesta = requests.get(f"{os.getenv('BACKEND_URL')}/reservas/detalle/{id_reserva}")
 
     if respuesta.status_code == 200:
         reserva = respuesta.json()
-        reservas = formatear_fechas(reserva)
+        formatear_fechas(reserva)
         return render_template("detalleReserva.html", reserva=reserva)
     else:
         flash("No se encontró la reserva", "danger")
-        return redirect(url_for("misReservas"))
+        return redirect(url_for("reservas.misReservas"))
 
 
 @reservas_bp.route("borrar_reserva/<int:id_reserva>", methods=["POST"]) # todavia falta implementar
@@ -120,33 +119,3 @@ def formatear_fechas(reservas):
             if "fecha_registro" in reserva:
                 reserva["fecha_registro"] = formatear_fecha(reserva["fecha_registro"])
         return reservas
-
-
-
-
-
-
-def formatear_fecha(fecha_str):
-    try:
-        fecha = datetime.strptime(fecha_str, "%a, %d %b %Y %H:%M:%S %Z")
-        return fecha.strftime("%d/%m/%Y")
-    except:
-        return fecha_str
-
-def formatear_fechas(reservas):
-    if isinstance(reservas, dict):
-        reservas["fecha_entrada"] = formatear_fecha(reservas["fecha_entrada"])
-        reservas["fecha_salida"] = formatear_fecha(reservas["fecha_salida"])
-        reservas["fecha_registro"] = formatear_fecha(reservas["fecha_registro"])
-
-        return reservas
-    else: 
-        for reserva in reservas:
-            if "fecha_entrada" in reserva:
-                reserva["fecha_entrada"] = formatear_fecha(reserva["fecha_entrada"])
-            if "fecha_salida" in reserva:
-                reserva["fecha_salida"] = formatear_fecha(reserva["fecha_salida"])
-            if "fecha_registro" in reserva:
-                reserva["fecha_registro"] = formatear_fecha(reserva["fecha_registro"])
-        return reservas
-

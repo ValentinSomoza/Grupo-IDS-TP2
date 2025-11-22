@@ -12,52 +12,46 @@ from routes.ingreso import ingreso_bp
 from routes.reservas import reservas_bp
 from routes.registro import registro_bp
 from routes.autenticacion import autenticacion_bp
+from dotenv import load_dotenv
 
+def create_app():
 
-app = Flask(__name__)
-app.secret_key = os.getenv("APP_SECRET_KEY")
+    app = Flask(__name__)
+    app.secret_key = os.getenv("APP_SECRET_KEY")
 
+    app.register_blueprint(checkin_bp, url_prefix="/checkin")
+    app.register_blueprint(cuenta_bp, url_prefix="/cuenta")
+    app.register_blueprint(ingreso_bp, url_prefix="/ingreso")
+    app.register_blueprint(reservas_bp, url_prefix="/reservas")
+    app.register_blueprint(registro_bp, url_prefix="/registro")
+    app.register_blueprint(autenticacion_bp, url_prefix="/autenticacion")
 
-app.register_blueprint(checkin_bp, url_prefix="/checkin")
-app.register_blueprint(cuenta_bp, url_prefix="/cuenta")
-app.register_blueprint(ingreso_bp, url_prefix="/ingreso")
-app.register_blueprint(reservas_bp, url_prefix="/reservas")
-app.register_blueprint(registro_bp, url_prefix="/registro")
-app.register_blueprint(autenticacion_bp, url_prefix="/autenticacion")
+    @app.route("/")
+    def index():
+        return render_template('index.html')
 
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
 
+    @app.route("/galeria")
+    def galeria():
+        imagenes = [
+            'living1.jpg', 'living2.jpg', 'salon.jpg','ejecutivo.jpg' , 'bar.jpg', 
+            'balcon.jpg', 'comedor.jpg', 'entrada.jpg', 'Baño 1.jpg', 'Baño 2.jpg',              
+            'Dormitorio1.jpg', 'Dormitorio2.jpg', 
+    ]
+        return render_template("galeria.html", imagenes=imagenes)
 
-@app.route("/")
-def index():
-    return render_template('index.html')
+    @app.route("/mapa")
+    def mapa():
+        return render_template('mapa.html')
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
+    @app.route("/eligeDatos")
+    def eligeDatos():
+        if estaLogeado() is None:
+            flash("⚠️ Debes iniciar sesión antes de hacer una reserva", "warning")
+            return redirect(url_for('ingreso.ingreso'))
+        return render_template("eligeDatos.html")
 
-@app.route("/galeria")
-def galeria():
-    imagenes = [
-        'living1.jpg', 'living2.jpg', 'salon.jpg','ejecutivo.jpg' , 'bar.jpg', 
-        'balcon.jpg', 'comedor.jpg', 'entrada.jpg', 'Baño 1.jpg', 'Baño 2.jpg',              
-        'Dormitorio1.jpg', 'Dormitorio2.jpg', 
- ]
-    return render_template("galeria.html", imagenes=imagenes)
-
-@app.route("/mapa")
-def mapa():
-    return render_template('mapa.html')
-
-
-
-@app.route("/eligeDatos")
-def eligeDatos():
-    if estaLogeado() is None:
-        flash("⚠️ Debes iniciar sesión antes de hacer una reserva", "warning")
-        return redirect(url_for('ingreso'))
-    return render_template("eligeDatos.html")
-
-
-
-if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    return app

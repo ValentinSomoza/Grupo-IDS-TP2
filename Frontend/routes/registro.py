@@ -2,10 +2,7 @@ from flask import Blueprint, jsonify, request, render_template, request, redirec
 import requests
 import os
 
-
-
 registro_bp = Blueprint("registro", __name__)
-registro_bp.secret_key = os.getenv("APP_SECRET_KEY")
 
 @registro_bp.route('/registrarse', methods=['GET', 'POST'])
 def registro():
@@ -36,5 +33,3 @@ def registro():
         return redirect(url_for('ingreso.ingreso'))
 
     return render_template('registro.html')
-
-

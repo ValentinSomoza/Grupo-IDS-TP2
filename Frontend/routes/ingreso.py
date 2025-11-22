@@ -3,12 +3,9 @@ from herramientas import estaLogeado
 import requests
 import os
 
-
 ingreso_bp = Blueprint("ingreso", __name__)
 
-
-
-@ingreso_bp.route("/ingresar", methods=['GET', 'POST'])
+@ingreso_bp.route("/ingreso", methods=['GET', 'POST'])
 def ingreso():
     if request.method == 'POST':
 
@@ -19,7 +16,7 @@ def ingreso():
 
         print("Frontend: Nuevo ingreso de usuario enviado al backend: ", usuarioIngresado)
         print(os.getenv("BACKEND_URL"))
-        respuesta = requests.post(f"{os.getenv("BACKEND_URL")}/usuarios/logearUsuario", json=usuarioIngresado)
+        respuesta = requests.post(f"{os.getenv('BACKEND_URL')}/usuarios/logearUsuario", json=usuarioIngresado)
         info = respuesta.json()
 
         if respuesta.status_code == 200:
@@ -45,5 +42,5 @@ def ingreso():
         else:
             flash("Error inesperado al iniciar sesion. Por favor intente nuevamente.", "error")
 
-        return redirect(url_for('ingreso'))
+        return redirect(url_for('ingreso.ingreso'))
     return render_template('ingreso.html')

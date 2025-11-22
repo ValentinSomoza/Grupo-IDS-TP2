@@ -3,10 +3,7 @@ from herramientas import estaLogeado
 import requests
 import os
 
-
 autenticacion_bp = Blueprint("autenticacion", __name__)
-
-
 
 @autenticacion_bp.route("/completarDatosGoogle", methods=["GET", "POST"])
 def completarDatosGoogle():
@@ -35,7 +32,7 @@ def completarDatosGoogle():
 
     return render_template("completarDatosGoogle.html")
 
-@autenticacion_bp.route("/auth/callback/google", methods=['GET', 'POST'])
+@autenticacion_bp.route("/auth/callback/google", methods=['POST'])
 def google_auth():
     token = None
 
@@ -46,7 +43,7 @@ def google_auth():
     if not token:
         return jsonify({"status": "error", "mensaje": "Token no recibido"}), 400
 
-    respuesta = requests.post(os.getenv("BACKEND_URL") + "/usuarios/authGoogle", json={"token": token})
+    respuesta = requests.post(os.getenv('BACKEND_URL') + "/usuarios/authGoogle", json={"token": token})
     info = respuesta.json()
 
     print("Frontend: Ingreso de sesion con Google enviado al backend con el nombre: ", info.get("usuario", {}).get("nombre"))
@@ -69,7 +66,7 @@ def google_auth():
             print("Frontend: El usuario se logeo con google y posee sus datos incompletos")
             return jsonify({
                 "status": "ok",
-                "redirect": url_for("completarDatosGoogle"),
+                "redirect": url_for("autenticacion.completarDatosGoogle"),
                 "mensaje": info.get("mensaje", "Ingreso con Google exitoso con datos incompletos")
             })
         
@@ -83,6 +80,6 @@ def google_auth():
         flash(info.get("error", "Error al iniciar sesion con Google"), "error")
         return jsonify({
             "status": "error",
-            "redirect": url_for("ingreso"),
+            "redirect": url_for("ingreso.ingreso"),
             "mensaje": info.get("error", "Error al iniciar sesion con Google")
         })

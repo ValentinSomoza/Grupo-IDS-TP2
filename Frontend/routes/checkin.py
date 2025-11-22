@@ -3,16 +3,14 @@ from herramientas import estaLogeado
 import requests
 import os
 
-
 checkin_bp = Blueprint("checkin", __name__)
-
 
 @checkin_bp.route("checkinPagina/<int:id_reserva>", methods=["GET", "POST"])
 def checkinPagina(id_reserva):
         
     if estaLogeado() is None:
         flash("Debes iniciar sesión antes de acceder al Check-In", "warning")
-        return redirect(url_for('ingreso'))
+        return redirect(url_for('ingreso.ingreso'))
 
     if request.method == 'POST':
         nombre = request.form["nombre"]
@@ -30,14 +28,11 @@ def checkinPagina(id_reserva):
             "id_reserva": id_reserva
         }
     else:
-        
         response = requests.get(f"{os.getenv("BACKEND_URL")}/checkin/listar_reserva/{session.get("nombre")}")
-
 
         if response.status_code != 200:
             flash("Debes tener alguna reserva hecha antes de acceder al Check-In", "warning")
             return render_template('index.html') 
-
 
         response.raise_for_status()
         dataCheckin = response.json()
@@ -55,7 +50,6 @@ def checkinPagina(id_reserva):
 
     return redirect(url_for("index"))
 
-
 @checkin_bp.route("/reserva/checkin/<int:id_reserva>", methods=["POST"])
 def redirigirCheckin(id_reserva):
 
@@ -63,7 +57,7 @@ def redirigirCheckin(id_reserva):
 
     if respuesta.status_code != 200:
         flash("No se encontró la reserva", "error")
-        return redirect(url_for("misReservas"))
+        return redirect(url_for("reservas.misReservas"))
 
     reserva = respuesta.json()
 
@@ -71,4 +65,4 @@ def redirigirCheckin(id_reserva):
         flash("Esta reserva ya tiene el Check-in realizado", "warning")
         return redirect(url_for("index"))
 
-    return redirect(url_for("checkinPagina", id_reserva=id_reserva))
+    return redirect(url_for("checkin.checkinPagina", id_reserva=id_reserva))
