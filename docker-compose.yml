@@ -34,7 +34,7 @@ services:
     environment:
       DB_HOST: mysql
       DB_USER: hoteluser
-      DB_PASSWORD: juano
+      DB_PASSWORD: 
       DB_NAME: HotelBruno
       FLASK_APP: app.py
       FLASK_RUN_HOST: 0.0.0.0
