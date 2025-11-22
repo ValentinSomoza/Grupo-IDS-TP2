@@ -85,7 +85,7 @@ def registrarUsuario():
     conexion.close()
 
     print("Backend: Nuevo usuario registrado con exito:", nuevoUsuario)
-    enviarMail(nuevoUsuario.get("email"), nuevoUsuario.get("nombre"))
+    enviarMail(nuevoUsuario.get("email"), nuevoUsuario.get("nombre"), False)
 
     return jsonify({"mensaje": "Nuevo usuario registrado con exito !"}), 200
 
@@ -141,7 +141,7 @@ def authGoogle():
         cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
         nuevoUsuario = cursor.fetchone()
 
-        enviarMail(email, nombre)
+        enviarMail(email, nombre, False)
 
         cursor.close()
         conexion.close()

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from db import obtener_conexion_con_el_servidor
-
+from herramientas import enviarMail
 
 checkin_bp = Blueprint("check-in", __name__)
 
@@ -34,6 +34,9 @@ def agregarCheckin():
 
     cursor.close()
     conn.close()
+
+    enviarMail(emailUsuario, nombre, True) ##envia el check-in
+
 
     return jsonify({"mensaje": "Check-in completado, correo enviado"}), 200
 
