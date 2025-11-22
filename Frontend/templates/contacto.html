@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto{% endblock %}
+
+{% block content %}
+
+<main class="container">
+    <h2 class="titulo">Contacto</h2>
+
+    <div class="card-perfil-card">
+        <div class="perfil-info-row">
+            <i class="fa-solid fa-envelope"></i>
+            <span>
+                <strong>Email:</strong>
+                <p>ejemplo@email.com</p>
+
+            </span>
+        </div>
+
+        <div class="perfil-info-row">
+            <i class="fa-solid fa-phone"></i>
+            <span>
+                <strong>Teléfono:</strong>
+                <p>+54 9 11 2345-6789</p>
+            </span>
+        </div>
+
+        <div class="perfil-info-row">
+            <i class="fa-solid fa-phone"></i>
+            <span class="bloque">
+                <strong>Nuestas redes sociales:</strong>
+                <div class="redes">
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+
+
+                </div>
+            </span>
+        </div>
+
+    </div>
+</main>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylecontacto.css') }}"> 
+
+{% endblock %}
