@@ -74,7 +74,7 @@ def registrarUsuario():
         return jsonify({"error": "El email ya esta registrado"}), 409
 
     try:
-        enviarMail(nuevoUsuario.get("email"), nuevoUsuario.get("nombre"))
+        enviarMail(nuevoUsuario.get("email"), nuevoUsuario.get("nombre"), False)
     except Exception as e:
          return jsonify({"error": "El email ingresado es invalido"}), 409
 
