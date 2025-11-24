@@ -11,7 +11,7 @@ services:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: HotelBruno
     ports:
-      - "3306:3306"
+      - "5002:5002"
     volumes:
       - ./Backend/db/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
     healthcheck:
@@ -34,7 +34,7 @@ services:
     environment:
       DB_HOST: mysql
       DB_USER: hoteluser
-      DB_PASSWORD: 
+      DB_PASSWORD: admin
       DB_NAME: HotelBruno
       FLASK_APP: app.py
       FLASK_RUN_HOST: 0.0.0.0

@@ -23,6 +23,12 @@
 .accion-form {
     flex: 1 1 200px;
 }
+@media (max-width: 768px){
+    .accion-form{
+        flex: 0;
+        text-align: center;
+    }
+}
 
 .btn-confirmar {
     width: 100%;
@@ -34,6 +40,7 @@
     cursor: pointer;
     transition: all 0.2s ease;
     color: white;
+    text-align: center;
 }
 
 .btn-success { background-color: #28a745; }
