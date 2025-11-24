@@ -11,12 +11,14 @@ from screens.menuPrincipal import MenuPrincipalScreen
 from screens.misReservas import MisReservasScreen
 from screens.detalleReserva import DetalleReservaScreen
 from screens.checkin import CheckinScreen
+from screens.registro import RegistroScreen
 
 Builder.load_file("kv/ingreso.kv")
 Builder.load_file("kv/menuPrincipal.kv")
 Builder.load_file("kv/misReservas.kv")
 Builder.load_file("kv/detalleReserva.kv")
 Builder.load_file("kv/checkin.kv")
+Builder.load_file("kv/registro.kv")
 
 class HotelBrunoApp(App):
     id_usuario = None
@@ -39,6 +41,7 @@ class HotelBrunoApp(App):
         manejadorDePantallas.add_widget(MisReservasScreen(name="mis_reservas"))
         manejadorDePantallas.add_widget(DetalleReservaScreen(name="detalle_reserva"))
         manejadorDePantallas.add_widget(CheckinScreen(name="checkin"))
+        manejadorDePantallas.add_widget(RegistroScreen(name="registro"))
 
         return manejadorDePantallas
 
