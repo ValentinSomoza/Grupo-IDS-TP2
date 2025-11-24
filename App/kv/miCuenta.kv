@@ -1,0 +1,113 @@
+#:kivy 2.1.0
+
+<MiCuentaScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(15)
+
+        Label:
+            text: "Mi Perfil"
+            font_size: "26sp"
+            color: 0, 0, 0, 1
+            bold: True
+            size_hint_y: None
+            height: dp(40)
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: dp(10)
+            padding: dp(10)
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                RoundedRectangle:
+                    radius: [15, 15, 15, 15]
+                    pos: self.pos
+                    size: self.size
+
+            BoxLayout:
+                spacing: dp(5)
+                Label:
+                    text: "Nombre:"
+                    color: 0, 0, 0, 1
+                    size_hint_x: .4
+                Label:
+                    id: lbl_nombre
+                    text: ""
+                    color: 0, 0, 0, 1
+
+            BoxLayout:
+                spacing: dp(5)
+                Label:
+                    text: "Apellido:"
+                    color: 0, 0, 0, 1
+                    size_hint_x: .4
+                Label:
+                    id: lbl_apellido
+                    text: ""
+                    color: 0, 0, 0, 1
+
+            BoxLayout:
+                spacing: dp(5)
+                Label:
+                    text: "Email:"
+                    color: 0, 0, 0, 1
+                    size_hint_x: .4
+                Label:
+                    id: lbl_email
+                    text: ""
+                    color: 0, 0, 0, 1
+
+            BoxLayout:
+                spacing: dp(5)
+                Label:
+                    text: "Teléfono:"
+                    color: 0, 0, 0, 1
+                    size_hint_x: .4
+                Label:
+                    id: lbl_telefono
+                    text: ""
+                    color: 0, 0, 0, 1
+
+            BoxLayout:
+                spacing: dp(5)
+                Label:
+                    text: "DNI / Pasaporte:"
+                    color: 0, 0, 0, 1
+                    size_hint_x: .4
+                Label:
+                    id: lbl_dni
+                    text: ""
+                    color: 0, 0, 0, 1
+
+            BoxLayout:
+                spacing: dp(5)
+                Label:
+                    text: "Nombre de usuario:"
+                    color: 0, 0, 0, 1
+                    size_hint_x: .4
+                Label:
+                    id: lbl_usuario
+                    text: ""
+                    color: 0, 0, 0, 1
+
+            BoxLayout:
+                spacing: dp(5)
+                Label:
+                    text: "Fecha de creación:"
+                    color: 0, 0, 0, 1
+                    size_hint_x: .4
+                Label:
+                    id: lbl_fecha_creacion
+                    text: ""
+                    color: 0, 0, 0, 1
+
+        Button:
+            text: "Volver"
+            size_hint: (0.5, None)
+            height: dp(45)
+            pos_hint: {"center_x": 0.5}
+            background_color: 0.2, 0.4, 0.8, 1
+            color: 1, 1, 1, 1
+            on_release: root.volver()

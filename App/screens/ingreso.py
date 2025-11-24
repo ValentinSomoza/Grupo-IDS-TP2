@@ -29,6 +29,7 @@ class LoginScreen(Screen):
             app.telefono = datosUsuario["telefono"]
             app.dniPasaporte = datosUsuario["dniPasaporte"]
             app.nombreUsuario = datosUsuario["nombreUsuario"]
+            app.fechaCreacion = datosUsuario["fechaCreacion"]
 
             self.ids.mensaje.color = (0, 0.6, 0, 1)
             self.ids.mensaje.text = respuesta["mensaje"]

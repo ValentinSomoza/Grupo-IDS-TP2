@@ -12,7 +12,7 @@ class MenuPrincipalScreen(BaseScreen):
         self.go_to_screen("crear_reserva", "slide")
 
     def abrir_mi_cuenta(self, instance):
-        self.go_to_screen("mi_cuenta", "fade")
+        self.go_to_screen("mi_cuenta", "slide")
 
     def cerrar_sesion(self, instance):
         self.go_to_screen("login", "slide")
