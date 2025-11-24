@@ -1,4 +1,5 @@
 from widgets.styledButton import StyledButton
+
 from baseScreen import BaseScreen
 
 class MenuPrincipalScreen(BaseScreen):

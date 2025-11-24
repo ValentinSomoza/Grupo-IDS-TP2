@@ -1,3 +1,5 @@
+#:kivy 2.1.0
+
 <LoginScreen>:
     BoxLayout:
         orientation: "vertical"
@@ -49,11 +51,6 @@
             on_press: root.realizar_login(self)
 
         StyledButton:
-            text: "Ingresar con Google"
-            on_press: root.ingresar_google()
-
-        Label:
-            id: mensaje
-            text: ""
-            size_hint_y: None
-            height: 40
+            text: "Registrarse"
+            height: 55
+            on_press: app.root.current = "registro"

@@ -7,7 +7,6 @@ import os
 
 usuarios_bp = Blueprint("usuarios", __name__)
 
-
 @usuarios_bp.route("/logearUsuario", methods=["POST"])
 def logearUsuario():
     usuarioIngresado = request.get_json() or {}
@@ -71,7 +70,7 @@ def registrarUsuario():
 
     cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
     if cursor.fetchone():
-        return jsonify({"error": "El email ya esta registrado"}), 409
+        return jsonify({"error": "El email ya esta registrado"}), 409 
 
     try:
         enviarMail(nuevoUsuario.get("email"), nuevoUsuario.get("nombre"), False)

@@ -1,0 +1,100 @@
+#:kivy 2.1.0
+
+<TextInputStyled@TextInput>:
+    size_hint_y: None
+    height: 40
+    padding: [10, 10]
+    multiline: False
+    foreground_color: 0,0,0,1
+    background_color: 1,1,1,1
+    background_normal: ""        
+    background_active: ""        
+
+<CheckinScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: "Check-In Remoto"
+            size_hint_y: None
+            height: 60
+            font_size: 28
+            bold: True
+            color: 0.1,0.1,0.3,1
+
+        ScrollView:
+            do_scroll_x: False
+            bar_width: 8
+            scroll_type: ['bars', 'content']
+
+            BoxLayout:
+                id: checkin_container
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 12
+                padding: [0,5]
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            size_hint_y: None
+            height: self.minimum_height
+
+            Label:
+                text: "Datos Personales"
+                font_size: 20
+                color: 0.1,0.1,0.3,1
+                size_hint_y: None
+                height: 30
+
+            TextInputStyled:
+                id: input_nombre
+                hint_text: "Nombre"
+            TextInputStyled:
+                id: input_apellido
+                hint_text: "Apellido"
+            TextInputStyled:
+                id: input_email
+                hint_text: "Email"
+            TextInputStyled:
+                id: input_telefono
+                hint_text: "Teléfono"
+            TextInputStyled:
+                id: input_dni
+                hint_text: "DNI / Pasaporte"
+
+            BoxLayout:
+                size_hint_y: None
+                height: 40
+                spacing: 10
+                CheckBox:
+                    id: check_aceptar
+                    size_hint: None, None
+                    size: 30, 30
+                Label:
+                    text: "Acepto los términos y condiciones"
+                    color: 0,0,0,1
+                    halign: "left"
+                    valign: "middle"
+                    text_size: self.size
+
+            BoxLayout:
+                size_hint_y: None
+                height: 50
+                spacing: 10
+
+                Button:
+                    text: "Cancelar"
+                    background_color: 0.8,0.3,0.3,1
+                    color: 1,1,1,1
+                    on_release:
+                        app.root.current = "detalle_reserva"
+
+                Button:
+                    text: "Hacer Check-In"
+                    background_color: 0.3,0.3,0.8,1
+                    color: 1,1,1,1
+                    on_release: root.enviarCheckinDesdeKV()
