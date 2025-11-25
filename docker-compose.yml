@@ -3,11 +3,11 @@ services:
   mysql:
     image: mysql:8.0
     container_name: mysql_container
-    env_file:
-      - ./Backend/.env
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: HotelBruno
+      MYSQL_USER: flaskuser
+      MYSQL_PASSWORD: 1234
     ports:
       - "3306:3306"
     volumes:
@@ -21,7 +21,7 @@ services:
     restart: always
 
   backend:
-    build: 
+    build:
       dockerfile: ./Backend/Dockerfile
       context: .
     container_name: backend_container
@@ -31,12 +31,6 @@ services:
       - ./Backend/.env
     environment:
       DB_HOST: mysql
-      DB_USER: hoteluser
-      DB_PASSWORD: admin
-      DB_NAME: HotelBruno
-      FLASK_APP: app.py
-      FLASK_RUN_HOST: 0.0.0.0
-      FLASK_RUN_PORT: 5001
     depends_on:
       mysql:
         condition: service_healthy
@@ -46,7 +40,7 @@ services:
     restart: always
 
   frontend:
-    build: 
+    build:
       dockerfile: ./Frontend/Dockerfile
       context: .
     container_name: frontend_container
