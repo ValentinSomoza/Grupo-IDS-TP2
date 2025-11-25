@@ -1,0 +1,84 @@
+#:kivy 2.3.1
+
+<ReservaDetalleItem@BoxLayout>:
+
+    size_hint_y: None
+    height: self.minimum_height
+    padding: 15
+    spacing: 10
+    orientation: "vertical"
+
+    canvas.before:
+        Color:
+            rgba: 0.95, 0.95, 1, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [12]
+
+    Label:
+        id: texto
+        text: ""
+        font_size: 16
+        color: 0.1, 0.1, 0.3, 1
+        halign: "left"
+        valign: "top"
+        text_size: self.width - 10, None
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        spacing: 10
+
+        Button:
+            id: btn_checkin
+            text: "Hacer Check-In"
+            background_color: 0.2, 0.6, 0.2, 1
+            color: 1,1,1,1
+            font_size: 16
+
+        Button:
+            id: btn_borrar
+            text: "Borrar Reserva"
+            background_color: 0.8, 0.2, 0.2, 1
+            color: 1,1,1,1
+            font_size: 16
+
+<DetalleReservaScreen>:
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: "Detalle de la Reserva"
+            size_hint_y: None
+            height: 60
+            font_size: 28
+            bold: True
+            color: 0.1,0.1,0.3,1
+
+        ScrollView:
+            do_scroll_x: False
+            bar_width: 8
+            scroll_type: ['bars', 'content']
+
+            BoxLayout:
+                id: detalle_container
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 12
+                padding: [0,5]
+
+        Button:
+            text: "Volver"
+            size_hint_y: None
+            height: 50
+            background_color: 0.3, 0.3, 0.8, 1
+            color: 1,1,1,1
+            font_size: 20
+            on_release: root.go_to_screen("mis_reservas", "slide")

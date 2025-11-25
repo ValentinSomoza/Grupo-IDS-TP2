@@ -97,7 +97,7 @@ def detalleReserva(id_reserva):
         return redirect(url_for("reservas.misReservas"))
 
 
-@reservas_bp.route("borrar_reserva/<int:id_reserva>", methods=["POST"]) # todavia falta implementar
+@reservas_bp.route("borrar_reserva/<int:id_reserva>", methods=["POST"])
 def borrarReserva(id_reserva):
     respuesta = requests.delete(f"{os.getenv('BACKEND_URL')}/reservas/borrar/{id_reserva}")
 

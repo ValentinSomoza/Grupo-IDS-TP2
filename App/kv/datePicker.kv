@@ -1,0 +1,53 @@
+#:kivy 2.3.1
+
+<PickerPopup@Popup>:
+    size_hint: 0.6, 0.7
+    auto_dismiss: True
+    title: "Seleccionar"
+
+    ScrollView:
+        do_scroll_x: False
+
+        GridLayout:
+            id: options_grid
+            cols: 1
+            spacing: dp(10)
+            size_hint_y: None
+            height: self.minimum_height
+
+<SimpleDatePicker@ModalView>:
+    size_hint: 0.9, 0.75
+    auto_dismiss: True
+    background_color: 0,0,0,0.4
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(20)
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(45)
+            spacing: dp(10)
+
+            Button:
+                text: str(root.current_year)
+                on_release: root.open_panel("year")
+
+            Button:
+                text: str(root.current_month)
+                on_release: root.open_panel("month")
+
+            Button:
+                text: str(root.current_day)
+                on_release: root.open_panel("day")
+
+        BoxLayout:
+            id: main_area
+            size_hint_y: 1
+
+        Button:
+            size_hint_y: None
+            height: dp(50)
+            text: "Confirmar fecha"
+            on_release: root.confirm_date()

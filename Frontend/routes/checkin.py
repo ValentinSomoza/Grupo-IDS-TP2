@@ -28,7 +28,7 @@ def checkinPagina(id_reserva):
         }
     else:
         
-        response = requests.get(f"{os.getenv('BACKEND_URL')}/check-in/listar_reserva/{session.get("nombre")}")
+        response = requests.get(f"{os.getenv('BACKEND_URL')}/reservas/detalle/{id_reserva}")
 
         if response.status_code != 200:
             flash("Debes tener alguna reserva hecha antes de acceder al Check-In", "warning")
@@ -38,12 +38,17 @@ def checkinPagina(id_reserva):
         dataCheckin = response.json()
 
         print("Frontend: dataCheckin tiene actualmente: ", dataCheckin)
-        return render_template('checkin.html', dataCheckin=dataCheckin[0])
+        return render_template('checkin.html', dataCheckin=dataCheckin)
 
     try: 
-        requests.post(f"{os.getenv("BACKEND_URL")}/check-in/agregarCheckin", json=datosCheckin)
+        respBanckend = requests.post(f"{os.getenv("BACKEND_URL")}/check-in/agregarCheckin", json=datosCheckin)
         print("Frontend: Checkin enviada al back: ", datosCheckin)
-        flash("Check-in completado!", "success")
+        mensajeBackend = respBanckend.json().get("mensaje", "respuesta")
+        
+        if respBanckend.status_code == 200:
+            flash(mensajeBackend, "success")
+        else:
+            flash(mensajeBackend, "warning")
 
     except Exception as e:
         return f"Error de conexion con el backend: {e}"

@@ -1,59 +1,39 @@
 from flask import Blueprint, jsonify, request
 from db import obtener_conexion_con_el_servidor
 from herramientas import enviarMail
+from .reservas import detalleReserva
 
 checkin_bp = Blueprint("check-in", __name__)
 
 @checkin_bp.route("/agregarCheckin", methods=["POST"])
 def agregarCheckin():
 
-    conn = obtener_conexion_con_el_servidor()
-    cursor = conn.cursor(dictionary=True)
-
     data = request.get_json()
-
-    print("Backend: Check-in obtenido desde el formulario: ", data)
-
     id_reserva = data.get("id_reserva")
-    nombre = data.get("nombre")
-    apellido = data.get("apellido")
-    dniPasaporte = data.get("dniPasaporte")
-    telefono = data.get("telefono")
+    nombreCheckin = data.get("nombre")
+    apellidoCheckin = data.get("apellido")
+    dniPasaporteCheckin = data.get("dniPasaporte")
     emailUsuario = data.get("email")
 
-    cursor.execute("""
-                INSERT INTO checkin (nombre, apellido, email, dniPasaporte, telefono) 
-                VALUES (%s, %s, %s, %s, %s)
-                    """, (nombre, apellido, emailUsuario, dniPasaporte, telefono))
-    
-    cursor.execute("""
-        UPDATE reservas SET checkin = TRUE WHERE id = %s
-    """, (id_reserva,))
+    print("Backend: Check-in obtenido desde el formulario: ", data)
+    response, status_code = detalleReserva(id_reserva)
 
-    conn.commit()
+    if status_code == 200:
+        dataBase = response.get_json()
+        #comparacion con la base de datos
+        if dataBase and (nombreCheckin == dataBase['nombre']) and (apellidoCheckin == dataBase['apellido']) and (dniPasaporteCheckin == dataBase['documento']):
+            conn = obtener_conexion_con_el_servidor()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("""
+                UPDATE reservas SET checkin = TRUE WHERE id = %s
+            """, (id_reserva,))
+            conn.commit()
+            cursor.close()
+            conn.close()
 
-    cursor.close()
-    conn.close()
-
-    enviarMail(emailUsuario, nombre, True) ##envia el check-in
-
-
-    return jsonify({"mensaje": "Check-in completado, correo enviado"}), 200
-
-@checkin_bp.route("/listar_reserva/<nombre>", methods=["GET"])
-def listar_reserva(nombre):
-
-    if not nombre:
-        return jsonify({"mensaje": "No tienes ninguna reserva hecha"}), 404
-
-    conn = obtener_conexion_con_el_servidor()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT nombre, apellido, documento, telefono, fecha_entrada, fecha_salida, email FROM reservas WHERE nombre = %s",(nombre,))
-
-    reserva = cursor.fetchall()
-    cursor.close()
-
-    if not reserva:
-        return jsonify({"mensaje": "No posees ninguna reserva"}), 404
-        
-    return jsonify(reserva), 200
+            enviarMail(emailUsuario, nombreCheckin, dataBase) #envia el check-in
+            return jsonify({"mensaje": "Check-in completado, correo enviado"}), 200
+        else:
+            return jsonify({"mensaje": "Los datos no coinciden con el titular!"}), 400
+    else:
+        return jsonify({"mensaje": "Reserva no encontrada"}), 404
