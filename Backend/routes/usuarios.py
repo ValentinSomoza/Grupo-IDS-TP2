@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from db import obtener_conexion_con_el_servidor
-from app import grequests, id_token
+from google.oauth2 import id_token
+from google.auth.transport import requests as grequests
 from flask_mail import Mail
 from herramientas import enviarMail
 import os
@@ -75,6 +76,7 @@ def registrarUsuario():
     try:
         enviarMail(nuevoUsuario.get("email"), nuevoUsuario.get("nombre"), False)
     except Exception as e:
+         print(e)
          return jsonify({"error": "El email ingresado es invalido"}), 409
 
     sql = """

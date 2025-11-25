@@ -8,7 +8,7 @@ def enviarMail(emailDestino, nombre, esCheckin):
         os.path.join(os.path.dirname(__file__), "..", "Frontend", "static", "images", "LOGO.png")
     )
 
-    with open(rutaLogo, "rb") as img:
+    with open("/app/static/images/LOGO.png", "rb") as img:
         imagenData = img.read()
 
     if isinstance(esCheckin, dict):
