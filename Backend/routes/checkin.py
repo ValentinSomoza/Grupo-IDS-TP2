@@ -31,9 +31,9 @@ def agregarCheckin():
             cursor.close()
             conn.close()
 
-            enviarMail(emailUsuario, nombreCheckin, dataBase) ##envia el check-in
+            enviarMail(emailUsuario, nombreCheckin, dataBase) #envia el check-in
             return jsonify({"mensaje": "Check-in completado, correo enviado"}), 200
         else:
-            return jsonify({"mensaje": "Los Datos no coinciden!"}), 400
+            return jsonify({"mensaje": "Los datos no coinciden con el titular!"}), 400
     else:
         return jsonify({"mensaje": "Reserva no encontrada"}), 404
