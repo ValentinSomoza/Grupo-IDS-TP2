@@ -20,7 +20,7 @@ def get_clientes(id_cliente):
                     """, (nombre,apellido,email,dni,fecha, telefono))
     conn.commit()
     cursor.close()
-    conn.close()
+    conn.close() 
     return ("Cliente agregado correctamente")
 
 
