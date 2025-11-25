@@ -1,53 +1,53 @@
-#:kivy 2.1.0
+#:kivy 2.3.1
+#:import StyledButton widgets.styledButton.StyledButton
 
 <ReservaItem@BoxLayout>:
     size_hint_y: None
     height: self.minimum_height
-    padding: 15
-    spacing: 10
+    padding: 20
+    spacing: 12
     orientation: "vertical"
 
     canvas.before:
         Color:
-            rgba: 0.95, 0.95, 1, 1
+            rgba: 0.96, 0.96, 0.96, 1
         RoundedRectangle:
             pos: self.pos
             size: self.size
-            radius: [12]
+            radius: [16]
 
     Label:
         id: texto
         text: ""
-        font_size: 16
-        color: 0.1, 0.1, 0.3, 1
+        font_size: 18
+        color: 0.1, 0.1, 0.1, 1
         halign: "left"
         valign: "top"
-        text_size: self.width - 10, None
+        text_size: self.width - 20, None
         size_hint_y: None
         height: self.texture_size[1]
 
-    Button:
+    StyledButton:
         id: btn_detalle
         text: "Ver Detalle"
         size_hint_y: None
-        height: 40
-        background_color: 0.3, 0.3, 0.8, 1
-        color: 1, 1, 1, 1
-        font_size: 16
+        height: 45
+        font_size: 18
+        on_release: root.parent.parent.parent.parent.mostrar_detalle(reserva_id) if hasattr(root, 'reserva_id') else None
 
 <MisReservasScreen>:
     BoxLayout:
         orientation: "vertical"
-        padding: 20
-        spacing: 15
+        padding: 40
+        spacing: 25
 
         Label:
             text: "Mis Reservas"
             size_hint_y: None
             height: 60
-            font_size: 28
+            font_size: 36
             bold: True
-            color: 0.1, 0.1, 0.3, 1
+            color: 0.1, 0.1, 0.1, 1
 
         ScrollView:
             do_scroll_x: False
@@ -59,14 +59,12 @@
                 orientation: "vertical"
                 size_hint_y: None
                 height: self.minimum_height
-                spacing: 12
-                padding: [0, 5]
+                spacing: 18
+                padding: [5, 10]
 
-        Button:
+        StyledButton:
             text: "Volver"
             size_hint_y: None
-            height: 50
-            background_color: 0.3, 0.3, 0.8, 1
-            color: 1, 1, 1, 1
+            height: 55
             font_size: 20
             on_release: root.go_to_screen("menu_principal", "slide")
