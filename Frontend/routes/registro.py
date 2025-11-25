@@ -17,7 +17,6 @@ def registro():
             'dniPasaporte':request.form['dniPasaporte'],
             'contrasenia': request.form['contrasenia']
         }
-        
         respuesta = requests.post(f"{os.getenv('BACKEND_URL')}/usuarios/registrarUsuario", json=nuevoUsuario)
         info = respuesta.json()
 

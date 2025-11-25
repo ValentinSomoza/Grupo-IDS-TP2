@@ -76,6 +76,7 @@ def registrarUsuario():
     try:
         enviarMail(nuevoUsuario.get("email"), nuevoUsuario.get("nombre"), False)
     except Exception as e:
+         print(e)
          return jsonify({"error": "El email ingresado es invalido"}), 409
 
     sql = """
