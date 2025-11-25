@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Elección de datos{% endblock %}
+
+{% block content %}
+
+<section class="pagina-reserva">
+    <div class="reserva-container elegir-datos-container">
+
+        <div class="reserva-header">
+            <h2>¿Querés usar los datos de tu cuenta?</h2>
+            <p>Usaremos tu nombre, apellido, email y demás información asociada.</p>
+        </div>
+
+        <div class="opciones-datos">
+            <form action="{{ url_for('reservas.reserva') }}" method="get">
+                <button class="btn-confirmar btn-opcion">Sí, usar mis datos guardados</button>
+            </form>
+
+            <form action="{{ url_for('cuenta.formularioDatos') }}" method="get">
+                <button class="btn-confirmar btn-opcion">Prefiero ingresar otros datos</button>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylereservas.css') }}">
+
+{% endblock %}

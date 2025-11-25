@@ -1,48 +1,39 @@
 from flask import Blueprint, jsonify, request
-from app import Message,mailCheckin
-
+from db import obtener_conexion_con_el_servidor
+from herramientas import enviarMail
+from .reservas import detalleReserva
 
 checkin_bp = Blueprint("check-in", __name__)
 
-@checkin_bp.route("/checkinFormulario", methods=["POST"])
-def checkinFormulario():
+@checkin_bp.route("/agregarCheckin", methods=["POST"])
+def agregarCheckin():
 
-    try:
-        if request.method == "POST":
+    data = request.get_json()
+    id_reserva = data.get("id_reserva")
+    nombreCheckin = data.get("nombre")
+    apellidoCheckin = data.get("apellido")
+    dniPasaporteCheckin = data.get("dniPasaporte")
+    emailUsuario = data.get("email")
 
-            nombre = request.form.get("nombre")
-            apellido = request.form.get("apellido")
-            documento = request.form.get("dniPasaporte")
-            tipoHabitacion = request.form.get("tipo-habitacion")
-            fechaEntrada = request.form.get("fecha-entrada")
-            fechaSalida = request.form.get("fecha-salida")
-            emailUsuario = request.form.get("email")
-            telefono = request.form.get("telefono")
-            print(f"El backend recibió un nuevo checkin:\n Nombre:{nombre}\n,Apellido:{apellido}") 
+    print("Backend: Check-in obtenido desde el formulario: ", data)
+    response, status_code = detalleReserva(id_reserva)
 
-            emailEstancia = "estanciabruno@gmail.com" #gmail de la Estancia
+    if status_code == 200:
+        dataBase = response.get_json()
+        #comparacion con la base de datos
+        if dataBase and (nombreCheckin == dataBase['nombre']) and (apellidoCheckin == dataBase['apellido']) and (dniPasaporteCheckin == dataBase['documento']):
+            conn = obtener_conexion_con_el_servidor()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("""
+                UPDATE reservas SET checkin = TRUE WHERE id = %s
+            """, (id_reserva,))
+            conn.commit()
+            cursor.close()
+            conn.close()
 
-            msg = Message(
-                "Check-in Estancia Bruno",
-                recipients=[emailUsuario, emailEstancia])
-            
-            msg.body = (
-                f"Estimado {nombre},\n"
-                f"Gracias por preferirnos, Estos son los detalles del checkin\n"
-                f"DATOS DEL TITULAR:\n"
-                f"Nombre: {nombre}, {apellido}\n"
-                f"Documento: {documento}\n"
-                f"Email: {emailUsuario}\n" 
-                f"Teléfono: {telefono}\n" 
-                f"ESTADIA:\n"
-                f"Habitacion: {tipoHabitacion}\n"
-                f"Fecha de entrada: {fechaEntrada}\n"
-                f"Fecha de salida: {fechaSalida}\n"
-            )
-
-            mailCheckin.send(msg)
-
-            return jsonify({"mesanje": "Check-in completado, correo enviado"}), 200
-        
-    except Exception as e:
-        return jsonify({"error": str(e), "mensaje":"No se completo el formulario"}), 400
+            enviarMail(emailUsuario, nombreCheckin, dataBase) #envia el check-in
+            return jsonify({"mensaje": "Check-in completado, correo enviado"}), 200
+        else:
+            return jsonify({"mensaje": "Los datos no coinciden con el titular!"}), 400
+    else:
+        return jsonify({"mensaje": "Reserva no encontrada"}), 404

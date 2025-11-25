@@ -11,7 +11,7 @@
             <p>Complete los detalles de la reserva en el formulario</p>
         </div>
 
-        <form action="{{ url_for('reserva') }}" method="POST" class="reserva-form">
+        <form action="{{ url_for('reservas.reserva') }}" method="POST" class="reserva-form">
             <input type="hidden" name="nombre" value="{{ datosPersonales.nombre }}">
             <input type="hidden" name="apellido" value="{{ datosPersonales.apellido }}">
             <input type="hidden" name="dniPasaporte" value="{{ datosPersonales.dniPasaporte }}">
@@ -42,14 +42,14 @@
                         <input type="number" id="adultos" name="adultos" min="1" value="1" required>
                     </div>
                     <div class="form-group">
-                        <label for="niños">Niños</label>
-                        <input type="number" id="niños" name="niños" min="0" value="0" required>
+                        <label for="ninios">Niños</label>
+                        <input type="number" id="niños" name="ninios" min="0" value="0" required>
                     </div>
 
                     <h3>Tipo de habitación</h3>
                     <div class="form-group">
                         <label for="tipo">Tipo</label>
-                        <select id="tipo" name="tipo-habitacion" required>
+                        <select id="tipo" name="tipo-habitacion" onchange="mostrarInfoHabitacion()" required>
                             <option value="" disabled selected>Seleccione el tipo</option>
                             <option value="simple">Simple</option>
                             <option value="doble">Doble</option>
@@ -57,23 +57,11 @@
                             <option value="king">King Ejecutiva</option>
                             <option value="suite">Suite</option>
                         </select>
-                    </div>
-
-                    <h3>Número de habitación</h3>
-                    <div class="form-group">
-                        <label for="habitacion">Habitación</label>
-                        <select id="habitacion" name="numero-habitacion" required>
-                            <option value="" disabled selected>Seleccione el número</option>
-                            <option value="H001">H001</option>
-                            <option value="H002">H002</option>
-                            <option value="H003">H003</option>
-                        </select>
+                        <div id="info-habitacion" class="info-habitacion"></div>
                     </div>
                 </div>
 
                 <div class="form-section precio-section">
-                    <h3>Costo en pesos</h3>
-                    <p id="precio-reserva">????? ARS</p>
                     <button type="submit" class="btn-confirmar">Confirmar Reserva</button>
                 </div>
             </div>
@@ -82,5 +70,6 @@
 </section>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/stylereservas.css') }}">
+<script src="{{ url_for('static', filename='js/reserva.js') }}"></script>
 
 {% endblock %}

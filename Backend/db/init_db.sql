@@ -1,53 +1,59 @@
-DROP DATABASE IF EXISTS HotelFAF;
-CREATE DATABASE HotelFAF;
-USE HotelFAF;
+CREATE DATABASE IF NOT EXISTS HotelBruno;
+USE HotelBruno;
 
-CREATE TABLE IF NOT EXISTS habitaciones (
-    id VARCHAR(10) PRIMARY KEY,
-    numero INT(3), 
-    precio FLOAT(6,2),
-    estado BOOLEAN,
-    capacidad INT(2),
-    descripcion VARCHAR(255)
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    nombreUsuario VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    telefono VARCHAR(50),
+    dniPasaporte VARCHAR(50),
+    contrasenia VARCHAR(255),
+    fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fechaActualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS clientes (
+CREATE TABLE IF NOT EXISTS habitaciones (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50),
-    apellido VARCHAR(50),
-    email VARCHAR(50),
-    documento INT(7),
-    fecha_registro DATE,
-    telefono INT(15)
+    numero INT UNIQUE NOT NULL,
+    tipo ENUM('simple', 'doble', 'matrimonial', 'king', 'suite') NOT NULL,
+    capacidad INT NOT NULL,
+    precio DECIMAL(10,2) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS reservas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_cliente INT,
-    id_habitacion VARCHAR(10),
+    id_usuario INT NOT NULL,
+
+    nombre VARCHAR(50),
+    apellido VARCHAR(50),
+    email VARCHAR(100),
+    telefono VARCHAR(20),
+    documento VARCHAR(20),
+
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    noches INT,
+    ninios INT,
+    adultos INT,
     fecha_entrada DATE,
     fecha_salida DATE,
-    FOREIGN KEY (id_cliente) REFERENCES clientes(id) ON DELETE CASCADE,
-    FOREIGN KEY (id_habitacion) REFERENCES habitaciones(id) ON DELETE CASCADE
+    habitacion_id INT NOT NULL,
+    checkin BOOLEAN DEFAULT FALSE,
+
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
+    FOREIGN KEY (habitacion_id) REFERENCES habitaciones(id)
 );
 
-INSERT INTO clientes (nombre, apellido, email, documento, fecha_registro, telefono) VALUES
-('Ronny', 'Mamani', 'rm@gmail.com', 123456, '2023-01-15', 9876543),
-('Maria', 'Garcia', 'mg@gmailcom', 654321, '2023-02-20', 912345),
-('Pedro', 'Lopez', 'pl@gmial.com', 112233, '2023-03-10', 998877);
-
-INSERT INTO habitaciones (id, numero, precio, estado, capacidad, descripcion) VALUES
-('H001', 101, 150.00, TRUE, 2, 'Habitacion doble con vista al mar'),
-('H002', 102, 200.00, TRUE, 4, 'Suite familiar con balcon'),
-('H003', 103, 100.00, FALSE, 1, 'Habitacion individual');
-
-INSERT INTO reservas (id_cliente, id_habitacion, fecha_entrada, fecha_salida) VALUES
-(1, 'H001', '2023-05-01', '2023-05-05'),
-(2, 'H002', '2023-06-10', '2023-06-15'),
-(3, 'H003', '2023-07-20', '2023-07-22');
-
-
-/*
-INSERT INTO reservas (nombre, apellido, email, documento, fecha_registro, telefono, noches, ninios, adultos,id_habitacion, fecha_entrada, fecha_salida) VALUES
-('Manolo','Perez','ManoloPerez@Gatorade.com',12123123,'2002-12-3',123456,3,4,1, 'H001', '2023-05-01', '2023-05-05');
-*/
+INSERT INTO habitaciones (numero, tipo, capacidad, precio)
+VALUES
+(101, 'simple', 1, 10.00),
+(102, 'simple', 1, 10.00),
+(201, 'doble', 2, 20.00),
+(202, 'doble', 2, 20.00),
+(301, 'matrimonial', 2, 30.00),
+(302, 'matrimonial', 2, 30.00),
+(401, 'suite', 4, 40.00),
+(402, 'suite', 4, 40.00),
+(501, 'king', 3, 50.00),
+(502, 'king', 3, 50.00);

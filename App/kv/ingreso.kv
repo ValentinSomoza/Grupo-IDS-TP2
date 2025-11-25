@@ -1,0 +1,63 @@
+#:kivy 2.3.1
+
+<LoginScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
+        spacing: 20
+        size_hint: 0.85, 0.75
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            RoundedRectangle:
+                radius: [25]
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "Iniciar Sesión"
+            font_size: 32
+            bold: True
+            color: 0.1, 0.1, 0.1, 1
+            size_hint_y: None
+            height: 50
+
+        TextInput:
+            id: nombreUsuario
+            hint_text: "Nombre de usuario"
+            multiline: False
+            size_hint_y: None
+            height: 50
+            padding: [15, 15]
+            background_normal: ""
+            background_color: 0.95, 0.95, 0.95, 1
+
+        TextInput:
+            id: contraseniaUsuario
+            hint_text: "Contraseña"
+            password: True
+            multiline: False
+            size_hint_y: None
+            height: 50
+            padding: [15, 15]
+            background_normal: ""
+            background_color: 0.95, 0.95, 0.95, 1
+
+        StyledButton:
+            text: "Ingresar"
+            height: 55
+            on_press: root.realizar_login(self)
+
+        StyledButton:
+            text: "Registrarse"
+            height: 55
+            on_press: app.root.current = "registro"
+
+        Label:
+            id: mensaje
+            text: ""
+            color: 0, 0, 0, 1
+            size_hint_y: None
+            height: 40

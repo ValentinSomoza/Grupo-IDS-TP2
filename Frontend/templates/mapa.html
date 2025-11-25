@@ -3,23 +3,21 @@
 {% block title %}Ubicación{% endblock %}
 
 {% block content %}
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 <section class="pagina-mapa">
     <div class="mapa-container">
         <div class="mapa-header">
             <h2>Ubicación del Hotel</h2>
             <p>Descubrí dónde estamos y cómo llegar fácilmente</p>
         </div>
-        <div class="mapa-iframe-container">
-            <iframe 
-                src="https://www.google.com/maps/d/u/0/embed?mid=1YT2WJ7-nOauak3aHG-FShfMaM2AACys&ehbc=2E312F"
-                allowfullscreen
-                loading="lazy">
-            </iframe>
+        <div id="map" style="height:500px;">
+
         </div>
+        <script src="{{ url_for('static', filename='js/mapa.js')}}" ></script>
     </div>
 </section>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mapa.css') }}">
-
 {% endblock %}

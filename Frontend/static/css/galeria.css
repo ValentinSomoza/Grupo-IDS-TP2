@@ -2,6 +2,14 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 12px;
+    padding-bottom: 25px;
+}
+.titulo{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .miniatura {
@@ -64,5 +72,7 @@
     color: #ddd;
 }
 
-.flecha.izquierda { left: 25px; }
+.flecha.izquierda { 
+    left: 25px; 
+}
 .flecha.derecha { right: 25px; }

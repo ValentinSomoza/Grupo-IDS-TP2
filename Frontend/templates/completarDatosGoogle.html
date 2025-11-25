@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Completar datos{% endblock %}
+
+{% block content %}
+
+<section class="pagina-reserva">
+    <div class="reserva-container">
+
+        <div class="reserva-header">
+            <h2>Completa tus datos</h2>
+            <p>Necesitamos tu teléfono y DNI para continuar con la reserva.</p>
+        </div>
+
+        <div class="cerrar-sesion-container">
+            <a href="{{ url_for('cuenta.cerrarSesion') }}" class="btn-cerrar-sesion">
+                Cerrar sesión
+            </a>
+        </div>
+
+        <div class="formulario-activo">
+
+            <form action="{{ url_for('autenticacion.completarDatosGoogle') }}" method="POST" class="reserva-form card-form">
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input 
+                        type="tel"
+                        id="telefono"
+                        name="telefono"
+                        placeholder="Ej: 1123456789"
+                        pattern="[0-9]{10,15}"
+                        inputmode="numeric"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="dniPasaporte">DNI / Pasaporte</label>
+                    <input 
+                        type="text"
+                        id="dniPasaporte"
+                        name="dniPasaporte"
+                        placeholder="Ej: 12345678"
+                        pattern="[0-9]+"
+                        inputmode="numeric"
+                        required
+                    >
+                </div>
+
+                <button class="btn-confirmar" type="submit">Guardar datos</button>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/completarDatosGoogle.js') }}"></script>
+
+{% endblock %}

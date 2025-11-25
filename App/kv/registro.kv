@@ -1,0 +1,129 @@
+#:kivy 2.3.1
+
+<RegistroScreen>:
+
+    nombre: nombre_input
+    apellido: apellido_input
+    nombreUsuario: usuario_input
+    email: email_input
+    telefono: telefono_input
+    dniPasaporte: dni_input
+    contrasenia: contrasenia_input
+    mensaje: mensaje_label
+
+    ScrollView:
+        size_hint: 1, 1
+        do_scroll_x: False
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: 40
+            spacing: 20
+            size_hint_y: None
+            height: self.minimum_height
+
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                RoundedRectangle:
+                    radius: [25]
+                    pos: self.pos
+                    size: self.size
+
+            Label:
+                text: "Formulario de registro para nuevo usuario"
+                font_size: 32
+                bold: True
+                color: 0.1, 0.1, 0.1, 1
+                size_hint_y: None
+                height: 60
+
+            TextInput:
+                id: nombre_input
+                hint_text: "Nombre"
+                multiline: False
+                size_hint_y: None
+                height: 50
+                padding: [15, 15]
+                background_normal: ""
+                background_color: 0.95, 0.95, 0.95, 1
+
+            TextInput:
+                id: apellido_input
+                hint_text: "Apellido"
+                multiline: False
+                size_hint_y: None
+                height: 50
+                padding: [15, 15]
+                background_normal: ""
+                background_color: 0.95, 0.95, 0.95, 1
+
+            TextInput:
+                id: usuario_input
+                hint_text: "Nombre de usuario"
+                multiline: False
+                size_hint_y: None
+                height: 50
+                padding: [15, 15]
+                background_normal: ""
+                background_color: 0.95, 0.95, 0.95, 1
+
+            TextInput:
+                id: email_input
+                hint_text: "Email"
+                multiline: False
+                size_hint_y: None
+                height: 50
+                padding: [15, 15]
+                background_normal: ""
+                background_color: 0.95, 0.95, 0.95, 1
+
+            TextInput:
+                id: telefono_input
+                hint_text: "Teléfono"
+                multiline: False
+                size_hint_y: None
+                height: 50
+                padding: [15, 15]
+                background_normal: ""
+                background_color: 0.95, 0.95, 0.95, 1
+
+            TextInput:
+                id: dni_input
+                hint_text: "DNI / Pasaporte"
+                multiline: False
+                size_hint_y: None
+                height: 50
+                padding: [15, 15]
+                background_normal: ""
+                background_color: 0.95, 0.95, 0.95, 1
+
+            TextInput:
+                id: contrasenia_input
+                hint_text: "Contraseña"
+                password: True
+                multiline: False
+                size_hint_y: None
+                height: 50
+                padding: [15, 15]
+                background_normal: ""
+                background_color: 0.95, 0.95, 0.95, 1
+
+            StyledButton:
+                text: "Registrarme"
+                height: 55
+                on_release: root.enviar_registro()
+
+            StyledButton:
+                text: "Volver"
+                size_hint_y: None
+                height: 40
+                on_release:
+                    app.root.current = "login"
+
+            Label:
+                id: mensaje_label
+                text: ""
+                color: 0, 0, 0, 1
+                size_hint_y: None
+                height: 40

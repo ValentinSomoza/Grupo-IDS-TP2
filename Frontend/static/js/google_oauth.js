@@ -1,7 +1,7 @@
 function handleCredentialResponse(response) {
     console.log("Credential Google:", response.credential);
 
-    fetch("/auth/callback/google", {
+    fetch("/autenticacion/auth/callback/google", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

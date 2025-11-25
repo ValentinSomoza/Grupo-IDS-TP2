@@ -1,44 +1,123 @@
 from flask import Blueprint, jsonify, request
-from Backend.db import get_conection
+from db import obtener_conexion_con_el_servidor
+from herramientas import obtenerHabitacionDisponible
 
 reservas_bp = Blueprint("reservas", __name__)
 
-@reservas_bp.route("/", methods=["POST"])
+@reservas_bp.route("/agregar_reserva", methods=["POST"])
 def agregar_reserva():
-    #Agrego una reserva
-    conn = get_conection()
-    cursor = conn.cursor(dictionary=True)
-    data = request.json
-    nombre = data["nombre"]
-    apellido = data["apellido"]
-    email = data["email"]
-    documento = data["dniPasaporte"]
-    fecha_registro = data["fecha_registro"]
-    telefono = data["telefono"]
-    noches = data["noches"]
-    ninios = data["niños"]
-    adultos = data["adultos"]
-    id_habitacion = data["numeroHabitacion"]
-    fecha_entrada = data["fechaEntrada"]
-    fecha_salida = data["fechaSalida"]
+    
+    conn = obtener_conexion_con_el_servidor()
+    cursor = conn.cursor(dictionary=True, buffered=True) 
+
+    data = request.get_json()
+
+    print("Backend: data que llega del front para hacer una reserva: ", data)
+
+    tipoHabitacion = data.get("tipoHabitacion")
+
+    id_usuario = data.get("id_usuario")
+    nombre = data.get("nombre")
+    apellido = data.get("apellido")
+    email = data.get("email")
+    telefono = data.get("telefono")
+    documento = data.get("dniPasaporte")
+    noches = data.get("noches")
+    ninios = data.get("niños")
+    adultos = data.get("adultos")
+    fecha_entrada = data.get("fechaEntrada")
+    fecha_salida = data.get("fechaSalida")
+    tipo_habitacion = data.get("numeroHabitacion")
+    
+
+    habitacion_id = obtenerHabitacionDisponible(tipoHabitacion, fecha_entrada, fecha_salida, adultos, ninios, cursor)
+
+    if not habitacion_id:
+        return jsonify({"error": "No hay habitaciones de ese tipo disponibles"}), 409
+
     cursor.execute("""
-                INSERT INTO reservas (nombre, apellido, email, documento, fecha_registro, telefono,noches, ninios,adultos,id_habitacion,fecha_entrada,fecha_salida) 
+                INSERT INTO reservas (id_usuario, nombre, apellido, email, telefono, documento, noches, ninios, adultos, fecha_entrada, fecha_salida, habitacion_id) 
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    """, (nombre, apellido, email, documento, fecha_registro, int(telefono), noches, ninios, adultos,id_habitacion, fecha_entrada, fecha_salida))
+                    """, (id_usuario, nombre, apellido, email, telefono, documento, noches, ninios, adultos, fecha_entrada, fecha_salida, habitacion_id))
     conn.commit()
+
     cursor.close()
     conn.close()
-    return ("Cliente agregado correctamente",200)
 
-@reservas_bp.route("/<int:dni>", methods=["GET"])
-def listar_reservas(dni):
-    """Funcion que lista reservas de un DNI"""
-    conn = get_conection()
+    print("Backend: Reserva realizada y agregada correctamente")
+    return ("Reserva agregada correctamente",200)
+
+@reservas_bp.route("/listar_reservas/<idUsuario>", methods=["GET"])
+def listar_reservas(idUsuario):
+
+    conn = obtener_conexion_con_el_servidor()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM reservas WHERE dni = %s",{dni})
+
+    cursor.execute("SELECT * FROM reservas WHERE id_usuario = %s",(idUsuario,))
+
     reserva = cursor.fetchall()
+
     cursor.close()
-    conn.commit()
+    conn.close()
+
     if not reserva:
-        return("dni sin reservas",404)
+        return jsonify({"mensaje": "No posees ninguna reserva"}), 404
     return jsonify(reserva)
+
+@reservas_bp.route("/detalle/<int:id_reserva>", methods=["GET"])
+def detalleReserva(id_reserva):
+
+    conn = obtener_conexion_con_el_servidor()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM reservas WHERE id = %s", (id_reserva,))
+    reserva = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if not reserva:
+        return jsonify({"mensaje": "Reserva no encontrada"}), 404
+
+    return jsonify(reserva), 200
+
+@reservas_bp.route("/<int:id_reserva>", methods=["GET"])
+def obtener_reserva(id_reserva):
+
+    conn = obtener_conexion_con_el_servidor()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM reservas WHERE id = %s", (id_reserva,))
+    reserva = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if not reserva:
+        return jsonify({"mensaje": "Reserva no encontrada"}), 404
+
+    return jsonify(reserva)
+
+@reservas_bp.route("/borrar/<int:id_reserva>", methods=["DELETE"])
+def borrar_reserva(id_reserva):
+
+    conn = obtener_conexion_con_el_servidor()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM reservas WHERE id = %s", (id_reserva,))
+    reserva = cursor.fetchone()
+
+    if not reserva:
+        cursor.close()
+        conn.close()
+        return jsonify({"error": "La reserva no existe"}), 404
+
+    cursor.execute("DELETE FROM reservas WHERE id = %s", (id_reserva,))
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    print(f"Backend: Reserva con ID {id_reserva} eliminada correctamente.")
+
+    return jsonify({"mensaje": "Reserva eliminada correctamente"}), 200

@@ -43,7 +43,6 @@
     border: 0;
 }
 
-/* Responsivo */
 @media (max-width: 768px) {
     .mapa-iframe-container {
         height: 400px;

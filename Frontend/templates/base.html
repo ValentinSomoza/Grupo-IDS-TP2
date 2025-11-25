@@ -12,6 +12,8 @@
         <script src="https://accounts.google.com/gsi/client" async defer></script>
         <script src="{{ url_for('static', filename='js/google_oauth.js') }}" defer></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/flash.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styleCompletarDatosGoogle.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styleDetalleReserva.css') }}">
         
         <!-- Codigo del template -->
         <meta charset="utf-8">
@@ -60,12 +62,13 @@
             <li><a href="{{ url_for('mapa') }}">Ubicacion</a></li>
             <li class="dropdown"><a href="#"><span>Reserva</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
-                <li><a href="{{ url_for('formularioDatos') }}">Hacer una reserva</a></li>
-                <li><a href="{{ url_for('checkinPagina') }}">Hacer Check-in</a></li>
-                <li><a href="{{ url_for('index') }}">Mis reservas</a></li>
+                <li><a href="{{ url_for('eligeDatos') }}">Hacer una reserva</a></li>
+                 {% if session.get('logueado') %}
+                <li><a href="{{ url_for('reservas.misReservas') }}">Mis reservas</a></li>
+                {% endif %}
                 </ul>
             </li>
-            <li><a href="{{ url_for('index') }}">Contacto</a></li>
+            <!--<li><a href="{{ url_for('contacto') }}">Contacto</a></li> -->
 
             <!-- boton de cuenta -->
 
@@ -76,16 +79,16 @@
                         <i class="bi bi-chevron-down toggle-dropdown"></i>
                     </a>
                     <ul>
-                        <li><a href="{{ url_for('miCuenta') }}">Mi cuenta</a></li>
-                        <li><a href="{{ url_for('cerrarSesion') }}">Cerrar sesión</a></li>
+                        <li><a href="{{ url_for('cuenta.miCuenta') }}">Mi cuenta</a></li>
+                        <li><a href="{{ url_for('cuenta.cerrarSesion') }}">Cerrar sesión</a></li>
                     </ul>
                 </li>
             {% else %}
                 <li class="dropdown login-bar">
                     <a href="#"><span>Cuenta</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                     <ul>
-                        <li><a href="{{ url_for('ingreso') }}">Ingresar</a></li>
-                        <li><a href="{{ url_for('registro') }}">Registrarse</a></li>
+                        <li><a href="{{ url_for('ingreso.ingreso') }}">Ingresar</a></li>
+                        <li><a href="{{ url_for('registro.registro') }}">Registrarse</a></li>
                     </ul>
                 </li>
             {% endif %}

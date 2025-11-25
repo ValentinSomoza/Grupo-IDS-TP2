@@ -22,36 +22,40 @@
 
         <div class="card p-4 shadow-lg rounded-4 mt-4" data-aos="fade-up" data-aos-delay="300">
 
-          {% for cliente in dataCheckin %}
-            <form class="reservation-form" action="{{ url_for('checkinPagina') }}" method="POST" enctype="multipart/form-data">
+          {% if dataCheckin %}
+            <form class="reservation-form" method="POST" enctype="multipart/form-data">
 
               <!-- seccion de datos personales -->
               <div class="form-section">
+                <h4>
+                  N° de reserva {{dataCheckin['id']}}<br>
+                  Desde: {{dataCheckin['fecha_entrada']}}<br> Hasta: {{dataCheckin['fecha_salida']}}<br>
+                </h4>
                 <h4>Datos Personales</h4>
                 <div class="form-grid">
 
                   <div class="form-group icon-input">
                     <label for="nombre" class="form-label">Nombre</label>
                     <i class="bi bi-person-fill icon"></i>
-                    <input type="text" id="nombre" name="nombre" value="{{ cliente.nombre }}" required>
+                    <input type="text" id="nombre" name="nombre" value="{{ dataCheckin['nombre'] }}" required>
                   </div>
 
                   <div class="form-group icon-input">
                     <label for="apellido" class="form-label">Apellido</label>
                     <i class="bi bi-person-badge-fill icon"></i>
-                    <input type="text" id="apellido" name="apellido" value="{{ cliente.apellido }}" required>
+                    <input type="text" id="apellido" name="apellido" value="{{ dataCheckin['apellido'] }}" required>
                   </div>
 
                   <div class="form-group icon-input">
                     <label for="email" class="form-label">Email</label>
                     <i class="bi bi-envelope-fill icon"></i>
-                    <input type="email" id="email" name="email" value="{{ cliente.email }}" required>
+                    <input type="email" id="email" name="email" value="{{ dataCheckin['email'] }}" required>
                   </div>
 
                   <div class="form-group icon-input">
                     <label for="telefono" class="form-label">Teléfono</label>
                     <i class="bi bi-telephone-fill icon"></i>
-                    <input type="text" id="telefono" name="telefono" value="{{ cliente.telefono }}">
+                    <input type="text" id="telefono" name="telefono" value="{{ dataCheckin['telefono']}}">
                   </div>
                 </div>
               </div>
@@ -63,7 +67,7 @@
                 <div class="form-group icon-input">
                   <label for="dniPasaporte" class="form-label">Nro. Documento</label>
                   <i class="bi bi-card-text icon"></i>
-                  <input type="text" id="dniPasaporte" name="dniPasaporte" value="{{ cliente.documento }}">
+                  <input type="text" id="dniPasaporte" name="dniPasaporte" value="{{ dataCheckin['documento'] }}">
                 </div>
 
                 <div class="form-group file-input icon-input">
@@ -78,6 +82,21 @@
                 <h4>Políticas y Condiciones</h4>
 
                 <div class="form-group checkbox-group">
+                  <div class="texto">
+                    <h1>Términos y Condiciones</h1>
+                    <h1>Estancia Bruno Relax and Flask</h1>
+                    <p>1. El huésped declara haber leído la normativa general de convivencia del hotel.</p>
+                    <p>2. El huésped confirma que la información personal brindada es correcta y verificable.</p>
+                    <p>3. El huésped debe abonar la estadía completa al finalizar su visita.</p>
+                    <p>4. Todo consumo adicional deberá ser pagado al realizar el check-out.</p>
+                    <p>5. El huésped es responsable por cualquier daño causado en las instalaciones.</p>
+                    <p>6. Está prohibido fumar en áreas no habilitadas.</p>
+                    <p>7. No se permiten conductas que generen molestias a otros huéspedes.</p>
+                    <p>8. El hotel no se hace responsable por objetos personales no resguardados.</p>
+                    <p>9. Las mascotas solo se permiten en habitaciones autorizadas y bajo responsabilidad del huésped.</p>
+                    <p>10. Al completar el check-in, el huésped acepta estos términos en su totalidad.</p>
+
+                  </div>
                   <input type="checkbox" id="acepTerminos" name="acepTerminos" required>
                   <label for="acepTerminos">
                     <i class="bi bi-shield-check icon-check"></i>
@@ -85,7 +104,7 @@
                   </label>
                 </div>
 
-                <small class="text-muted">Recibirás un correo con un código QR como llave digital</small>
+                <small class="text-muted">Recibirás un correo con la realizacion dek Check-in</small>
               </div>
 
               <div class="form-actions">
@@ -94,7 +113,14 @@
                 </button>
               </div>
             </form>
-            {% endfor %}
+
+          {% else %}
+
+                <div class="no-reservas">
+                    <p>No tenés reservas actualmente.</p>
+                </div>
+
+          {% endif %}
         </div>
       </div>
     </div>
