@@ -9,7 +9,7 @@ def enviarMail(emailDestino, nombre, esCheckin):
     )
 
     try:
-        with open("/app/static/images/LOGO.png", "rb") as img:
+        with open("../Frontend/static/images/LOGO.png", "rb") as img:
             imagenData = img.read()
 
             if not imagenData:
