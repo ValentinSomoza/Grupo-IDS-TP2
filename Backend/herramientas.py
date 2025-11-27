@@ -11,6 +11,9 @@ def enviarMail(emailDestino, nombre, esCheckin):
     try:
         with open("/app/static/images/LOGO.png", "rb") as img:
             imagenData = img.read()
+
+            if not imagenData:
+                imagenData = None
     except:
         print("Ocurrio un error al cargar el logo, pero no imposibilitamos la salida del mail")
         imagenData = None
@@ -58,12 +61,14 @@ def enviarMail(emailDestino, nombre, esCheckin):
             <p>Estamos felices de tenerte con nosotros 🤗</p>
         """
 
-    msg.attach(
-        filename="LOGO.png",
-        content_type="image/png",
-        data=imagenData,
-        headers={"Content-ID": "<logo_email>"}
-    )
+    if imagenData != None:
+        msg.attach(
+            filename="LOGO.png",
+            content_type="image/png",
+            data=imagenData,
+            headers={"Content-ID": "<logo_email>"}
+        )
+    
     mail.send(msg)
     print("Backend: Se envió un email de bienvenida a:", emailDestino)
 
