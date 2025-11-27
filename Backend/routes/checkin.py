@@ -5,8 +5,8 @@ from .reservas import detalleReserva
 
 checkin_bp = Blueprint("check-in", __name__)
 
-@checkin_bp.route("/agregarCheckin", methods=["POST"])
-def agregarCheckin():
+@checkin_bp.route("/validarCheckin", methods=["POST"])
+def validarCheckin():
 
     data = request.get_json()
     id_reserva = data.get("id_reserva")
@@ -21,7 +21,7 @@ def agregarCheckin():
     if status_code == 200:
         dataBase = response.get_json()
         #comparacion con la base de datos
-        if dataBase and (nombreCheckin == dataBase['nombre']) and (apellidoCheckin == dataBase['apellido']) and (dniPasaporteCheckin == dataBase['documento']):
+        if dataBase and (nombreCheckin == dataBase['nombre']) and (apellidoCheckin == dataBase['apellido']) and (dniPasaporteCheckin == dataBase['documento']) and (emailUsuario == dataBase['email']):
             conn = obtener_conexion_con_el_servidor()
             cursor = conn.cursor(dictionary=True)
             cursor.execute("""
