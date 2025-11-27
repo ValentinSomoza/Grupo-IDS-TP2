@@ -8,8 +8,11 @@ def enviarMail(emailDestino, nombre, esCheckin):
         os.path.join(os.path.dirname(__file__), "..", "Frontend", "static", "images", "LOGO.png")
     )
 
-    with open("/app/static/images/LOGO.png", "rb") as img:
-        imagenData = img.read()
+    try:
+        with open("/app/static/images/LOGO.png", "rb") as img:
+            imagenData = img.read()
+    except:
+        print("Ocurrio un error al cargar el logo, pero no imposibilitamos la salida del mail")
 
     if isinstance(esCheckin, dict):
         
