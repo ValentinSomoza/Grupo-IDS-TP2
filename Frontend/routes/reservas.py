@@ -46,7 +46,7 @@ def reserva():
             if respuesta.status_code != 200:
                 info = respuesta.json()
                 flash(info.get("error", "No se pudo realizar la reserva"), "error")
-                return redirect(url_for("reserva"))
+                return redirect(url_for("reservas.reserva"))
 
         except Exception as e:
             return f"Error de conexion con el backend: {e}"
