@@ -41,7 +41,7 @@ def checkinPagina(id_reserva):
         return render_template('checkin.html', dataCheckin=dataCheckin)
 
     try: 
-        respBanckend = requests.post(f"{os.getenv("BACKEND_URL")}/check-in/agregarCheckin", json=datosCheckin)
+        respBanckend = requests.post(f"{os.getenv("BACKEND_URL")}/check-in/validarCheckin", json=datosCheckin)
         print("Frontend: Checkin enviada al back: ", datosCheckin)
         mensajeBackend = respBanckend.json().get("mensaje", "respuesta")
         
