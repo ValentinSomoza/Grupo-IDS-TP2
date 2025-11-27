@@ -147,7 +147,7 @@ def authGoogle():
         cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
         nuevoUsuario = cursor.fetchone()
 
-        enviarMail(email, nombre, False)
+        #enviarMail(email, nombre, False)
 
         cursor.close()
         conexion.close()
