@@ -13,6 +13,7 @@ def enviarMail(emailDestino, nombre, esCheckin):
             imagenData = img.read()
     except:
         print("Ocurrio un error al cargar el logo, pero no imposibilitamos la salida del mail")
+        imagenData = None
 
     if isinstance(esCheckin, dict):
         
