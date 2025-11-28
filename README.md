@@ -4,15 +4,19 @@ El proyecto consta de una pagina web y una aplicacion para el celular hecha con 
 Se utilizo el framework flask para front y back, un template con bootstrap, base de datos sql y autenticacion con Google.
 
 Para correr la pagina web se puede hacer de 2 formas:
-```bash
-- Utilizar Docker --> docker compose up --build
+
+- Utilizar Docker
 - Utilizar flask
-```
-Para ejecutar con flask se debe hacer cada cosa por separado:
+
+Con Docker:
 ```bash
-- cd Directorio
-- pipenv shell
-- flask run
+docker compose up --build
+```
+Con Flask:
+```bash
+cd Directorio
+pipenv shell
+flask run
 ```
 Donde directorio es Frontend/ o Backend/
 Se recomienda primero ejecutar el Frontend/, luego iniciar el servicio de sql y por ultimo ejecutar el Backend/.
@@ -25,8 +29,8 @@ Y luego ejecutar el Backend/
 
 Para ejecutar la App Kivy se debe:
 ```bash
-- pipenv shell
-- python app.py
+pipenv shell
+python app.py
 ```
 Todo se ejecutara en modo DEBUG de forma default.
 
