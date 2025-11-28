@@ -28,7 +28,7 @@ def create_app():
 
     @app.route("/")
     def index():
-        return render_template('index.html')
+        return render_template('index.html', backend_url=os.getenv("BACKEND_URL"))
 
     @app.errorhandler(404)
     def page_not_found(e):

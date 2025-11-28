@@ -1,5 +1,5 @@
 async function cargarImagenes() {
-    const respuesta = await fetch(`${BACKEND_URL}/datosIndex/imagenes`);
+    const respuesta = await fetch(`${BACKEND_URL}/datosIndex/imagenesHotel`);
     const imagenes = await respuesta.json(); 
 
     const contenedor = document.getElementById("galeria-swiper-wrapper");
@@ -11,7 +11,7 @@ async function cargarImagenes() {
 
         slide.innerHTML = `
             <img 
-                src="${url}"
+                src="${BACKEND_URL}/${url}"
                 class="miniatura"
                 alt="Imagen ${index + 1}"
                 loading="lazy"

@@ -1,0 +1,28 @@
+.hero-swiper .slide-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-swiper .swiper-slide {
+  height: 340px !important; 
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.hero-swiper .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;
+}
+
+.hero-swiper .swiper-slide {
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

@@ -113,32 +113,41 @@ def obtenerHabitacionDisponible(tipo, fecha_entrada, fecha_salida, adultos, nini
 
 def cargarImagenesBD(app):
 
-    carpetaGaleria = "images/galeria"
-    rutaCompleta = os.path.join(app.static_folder, carpetaGaleria)
+    carpetaBase = os.path.join(app.static_folder, "images")
     extensiones = (".jpg", ".jpeg", ".png", ".webp")
 
-    if not os.path.isdir(rutaCompleta):
-        print(f"[ADVERTENCIA] No existe la carpeta de galería: {rutaCompleta}")
-        return 0
+    cantidadTotal = 0
 
     conn = obtener_conexion_con_el_servidor()
     cursor = conn.cursor()
 
-    cantidad = 0
+    for carpeta in os.listdir(carpetaBase):
+        rutaCarpeta = os.path.join(carpetaBase, carpeta)
+        if not os.path.isdir(rutaCarpeta):
+            continue
 
-    for imagen in os.listdir(rutaCompleta):
-        if imagen.lower().endswith(extensiones):
-            path = f"{carpetaGaleria}/{imagen}"
+        tipoImagen = carpeta.lower()
 
-            cursor.execute("SELECT id FROM galeria WHERE path=%s", (path,))
-            existe = cursor.fetchone()
+        archivos = sorted(os.listdir(rutaCarpeta))
+        orden = 1
 
-            if not existe:
-                cursor.execute("INSERT INTO galeria (path) VALUES (%s)", (path,))
-                cantidad += 1
+        for archivo in archivos:
+            if archivo.lower().endswith(extensiones):
+                rutaRelativa = f"/static/images/{carpeta}/{archivo}"
+
+                cursor.execute("SELECT id FROM imagenes WHERE ruta=%s", (rutaRelativa,))
+                existe = cursor.fetchone()
+
+                if not existe:
+                    cursor.execute(
+                        "INSERT INTO imagenes (tipo, nombre, ruta, orden) VALUES (%s, %s, %s, %s)",
+                        (tipoImagen, archivo, rutaRelativa, orden)
+                    )
+                    cantidadTotal += 1
+                    orden += 1
 
     conn.commit()
     cursor.close()
     conn.close()
 
-    return cantidad
+    return cantidadTotal
