@@ -5,7 +5,7 @@ async function cargarImagenesIndex() {
 
         function construirRuta(rutaBD) {
             rutaBD = rutaBD.replace(/^\/+/, '');
-            return `${BACKEND_URL}/${rutaBD}`;
+            return `${window.location.origin}/${rutaBD}`;
         }
 
         const heroWrapper = document.querySelector(".hero-swiper .swiper-wrapper");

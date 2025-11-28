@@ -16,7 +16,7 @@ from routes.datosIndex import datosIndex_bp
 
 from db import obtener_conexion, obtener_conexion_con_el_servidor
 from flask_mail import Mail
-from herramientas import enviarMail, cargarImagenesBD
+from herramientas import enviarMail
 from init_data import crearUsuarioTest
 
 load_dotenv()
@@ -83,8 +83,6 @@ def create_app():
     mailCheckin = Mail(app)
 
     crearUsuarioTest()
-    imagenesCargadas = cargarImagenesBD(app)
-    print("Backend: Se cargaron ", imagenesCargadas, " imagenes a la base de datos")
 
     @app.route("/")
     def home():

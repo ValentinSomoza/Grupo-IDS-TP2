@@ -11,7 +11,7 @@ async function cargarImagenes() {
 
         slide.innerHTML = `
             <img 
-                src="${BACKEND_URL}/${url}"
+                src="/${url}"
                 class="miniatura"
                 alt="Imagen ${index + 1}"
                 loading="lazy"
@@ -26,10 +26,13 @@ async function cargarImagenes() {
 }
 
 function inicializarCarrusel() {
-    new Swiper(".swiper", {
-        slidesPerView: "auto",
-        centeredSlides: false,
-        spaceBetween: 8,
+
+    const swiper = new Swiper(".swiper", {
+        slidesPerView: 1.2,
+        centeredSlides: true,
+        spaceBetween: 10,
+        loop: true,
+
         navigation: {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
@@ -38,6 +41,18 @@ function inicializarCarrusel() {
             el: ".swiper-pagination",
             clickable: true,
         },
+    });
+
+    const swiperContainer = document.querySelector(".swiper");
+
+    swiperContainer.addEventListener("wheel", (e) => {
+        e.preventDefault();
+
+        if (e.deltaY > 0) {
+            swiper.slideNext();
+        } else {
+            swiper.slidePrev();
+        }
     });
 }
 

@@ -1,10 +1,11 @@
 from flask import Blueprint, jsonify, request
 from db import obtener_conexion_con_el_servidor
+from herramientas import guardarImagenesDesdeFrontend
 
 datosIndex_bp = Blueprint("datosIndex", __name__)
 
 @datosIndex_bp.route("/imagenesHotel", methods=["GET"])
-def obtenerTodasLasImagenes():
+def obtenerImagenesHotel():
 
     conexion = obtener_conexion_con_el_servidor()
     cursor = conexion.cursor(dictionary=True)
@@ -12,7 +13,11 @@ def obtenerTodasLasImagenes():
     cursor.execute("SELECT ruta FROM imagenes ORDER BY tipo ASC, orden ASC")
     resultados = cursor.fetchall()
 
-    imagenes = [fila['ruta'] for fila in resultados]
+    imagenes = [
+        fila['ruta']
+        for fila in resultados
+        if "/personas/" not in fila['ruta'] and "\\personas\\" not in fila['ruta']
+    ]
 
     cursor.close()
     conexion.close()
@@ -39,3 +44,9 @@ def obtenerImagenesIndex():
     conexion.close()
 
     return jsonify(imagenesPorTipo)
+
+@datosIndex_bp.route("/cargar-imagenes", methods=["POST"])
+def cargar_imagenes():
+    data = request.get_json()
+    respuesta, status = guardarImagenesDesdeFrontend(data)
+    return jsonify(respuesta), status

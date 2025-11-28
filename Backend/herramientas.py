@@ -111,43 +111,57 @@ def obtenerHabitacionDisponible(tipo, fecha_entrada, fecha_salida, adultos, nini
 
     return None
 
-def cargarImagenesBD(app):
+def guardarImagenesDesdeFrontend(data):
 
-    carpetaBase = os.path.join(app.static_folder, "images")
-    extensiones = (".jpg", ".jpeg", ".png", ".webp")
+    rutas = data.get("imagenes", [])
 
-    cantidadTotal = 0
+    if not rutas:
+        return {"mensaje": "No se enviaron imágenes"}, 400
 
     conn = obtener_conexion_con_el_servidor()
     cursor = conn.cursor()
 
-    for carpeta in os.listdir(carpetaBase):
-        rutaCarpeta = os.path.join(carpetaBase, carpeta)
-        if not os.path.isdir(rutaCarpeta):
+    cursor.execute("SELECT tipo, MAX(orden) FROM imagenes GROUP BY tipo")
+    ordenes = {tipo: (max_orden or 0) for tipo, max_orden in cursor.fetchall()}
+
+    extensiones = (".jpg", ".jpeg", ".png", ".webp")
+    cantidadInsertadas = 0
+
+    for ruta in rutas:
+
+        if not ruta.lower().endswith(extensiones):
             continue
 
-        tipoImagen = carpeta.lower()
+        partes = ruta.split("/")
 
-        archivos = sorted(os.listdir(rutaCarpeta))
-        orden = 1
+        try:
+            tipo = partes[-2].lower()
+            nombre = partes[-1]
+        except:
+            continue
 
-        for archivo in archivos:
-            if archivo.lower().endswith(extensiones):
-                rutaRelativa = f"/static/images/{carpeta}/{archivo}"
+        cursor.execute("SELECT id FROM imagenes WHERE ruta=%s", (ruta,))
+        existe = cursor.fetchone()
 
-                cursor.execute("SELECT id FROM imagenes WHERE ruta=%s", (rutaRelativa,))
-                existe = cursor.fetchone()
+        if existe:
+            continue
 
-                if not existe:
-                    cursor.execute(
-                        "INSERT INTO imagenes (tipo, nombre, ruta, orden) VALUES (%s, %s, %s, %s)",
-                        (tipoImagen, archivo, rutaRelativa, orden)
-                    )
-                    cantidadTotal += 1
-                    orden += 1
+        orden = ordenes.get(tipo, 0) + 1
+        ordenes[tipo] = orden
+
+        cursor.execute(
+            "INSERT INTO imagenes (tipo, nombre, ruta, orden) VALUES (%s, %s, %s, %s)",
+            (tipo, nombre, ruta, orden)
+        )
+        cantidadInsertadas += 1
 
     conn.commit()
     cursor.close()
     conn.close()
 
-    return cantidadTotal
+    print("Backend: se cargaron ", cantidadInsertadas, " imagenes a la base de datos")
+
+    return {
+        "mensaje": f"Se insertaron {cantidadInsertadas} nuevas imágenes.",
+        "total_insertadas": cantidadInsertadas
+    }, 200

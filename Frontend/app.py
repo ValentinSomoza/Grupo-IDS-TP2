@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
-from herramientas import estaLogeado
+from herramientas import estaLogeado, enviarImagenesAlBackend
 import json
 import requests
 from datetime import date
@@ -18,6 +18,10 @@ def create_app():
 
     app = Flask(__name__)
     app.secret_key = os.getenv("APP_SECRET_KEY")
+
+    resultado = enviarImagenesAlBackend()
+    mensaje = resultado.get("mensaje") or resultado.get("error")
+    print("Frontend: Se enviaron imagenes al backend y la respuesta fue: ", mensaje)
 
     app.register_blueprint(checkin_bp, url_prefix="/checkin")
     app.register_blueprint(cuenta_bp, url_prefix="/cuenta")
