@@ -1,5 +1,6 @@
 from flask_mail import Mail, Message
 from email.mime.image import MIMEImage
+from db import obtener_conexion_con_el_servidor
 import os
 
 def enviarMail(emailDestino, nombre, esCheckin):
@@ -48,6 +49,7 @@ def enviarMail(emailDestino, nombre, esCheckin):
             <p><em>Hotel Bruno Relax and Flask</em></p>
             """
         print(f"correo enviado checkin a, {emailDestino}")
+
     else:
         msg = Message(
             subject="Bienvenido!",
@@ -108,3 +110,35 @@ def obtenerHabitacionDisponible(tipo, fecha_entrada, fecha_salida, adultos, nini
             return habitacion_id
 
     return None
+
+def cargarImagenesBD(app):
+
+    carpetaGaleria = "images/galeria"
+    rutaCompleta = os.path.join(app.static_folder, carpetaGaleria)
+    extensiones = (".jpg", ".jpeg", ".png", ".webp")
+
+    if not os.path.isdir(rutaCompleta):
+        print(f"[ADVERTENCIA] No existe la carpeta de galería: {rutaCompleta}")
+        return 0
+
+    conn = obtener_conexion_con_el_servidor()
+    cursor = conn.cursor()
+
+    cantidad = 0
+
+    for imagen in os.listdir(rutaCompleta):
+        if imagen.lower().endswith(extensiones):
+            path = f"{carpetaGaleria}/{imagen}"
+
+            cursor.execute("SELECT id FROM galeria WHERE path=%s", (path,))
+            existe = cursor.fetchone()
+
+            if not existe:
+                cursor.execute("INSERT INTO galeria (path) VALUES (%s)", (path,))
+                cantidad += 1
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return cantidad

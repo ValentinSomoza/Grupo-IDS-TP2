@@ -45,6 +45,11 @@ CREATE TABLE IF NOT EXISTS reservas (
     FOREIGN KEY (habitacion_id) REFERENCES habitaciones(id)
 );
 
+CREATE TABLE IF NOT EXISTS galeria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    path VARCHAR(255) NOT NULL
+);
+
 INSERT INTO habitaciones (numero, tipo, capacidad, precio)
 VALUES
 (101, 'simple', 1, 10.00),

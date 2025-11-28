@@ -13,18 +13,8 @@
 
 <section class="galeria-carrusel">
     <div class="swiper galeria-swiper">
-        <div class="swiper-wrapper">
-            {% for imagen in imagenes %}
-            <div class="swiper-slide">
-                <img 
-                    src="{{ url_for('static', filename=imagen) }}"
-                    class="miniatura"
-                    alt="Imagen del hotel {{ loop.index }}"
-                    loading="lazy"
-                    data-index="{{ loop.index0 }}"
-                >
-            </div>
-            {% endfor %}
+        <div class="swiper-wrapper" id="galeria-swiper-wrapper">
+            <!-- esta es la posicion de las imagenes -->
         </div>
 
         <div class="swiper-button-prev"></div>
@@ -44,7 +34,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="{{ url_for('static', filename='js/carrusel.js') }}"></script>
+<script>const BACKEND_URL = "{{ backend_url }}";</script>
 <script src="{{ url_for('static', filename='js/galeria.js') }}"></script>
 
 {% endblock %}

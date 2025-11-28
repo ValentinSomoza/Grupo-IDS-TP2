@@ -36,19 +36,7 @@ def create_app():
 
     @app.route("/galeria")
     def galeria():
-        carpeta = "images/galeria"
-        rutaCompleta = os.path.join(app.static_folder, carpeta)
-
-        extensiones = (".jpg", ".jpeg", ".png", ".webp")
-
-        imagenes = [
-            f"{carpeta}/{img}"
-            for img in os.listdir(rutaCompleta)
-            if img.lower().endswith(extensiones)
-        ]
-
-        imagenes.sort()
-        return render_template("galeria.html", imagenes=imagenes)
+        return render_template("galeria.html", backend_url=os.getenv("BACKEND_URL"))
 
     @app.route("/mapa")
     def mapa():

@@ -14,5 +14,3 @@ COPY ./Backend /app
 EXPOSE 5001
 
 CMD [ "flask", "run"]
-#CMD ["python3", "app.py"]
-#CMD ["python", "app.py"]
