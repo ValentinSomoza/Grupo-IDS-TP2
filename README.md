@@ -22,10 +22,15 @@ Donde directorio es Frontend/ o Backend/
 Se recomienda primero ejecutar el Frontend/, luego iniciar el servicio de sql y por ultimo ejecutar el Backend/.
 Para iniciar el servicio de sql en Linux se debe hacer:
 ```bash
-- sudo systemctl start mariadb
+sudo systemctl start mariadb
 ```
-Y luego ejecutar el Backend/
 
+Para detener el servicio de mysql:
+```bash
+sudo systemctl stop mariadb
+```
+
+Y luego ejecutar el Backend/
 
 Para ejecutar la App Kivy se debe:
 ```bash

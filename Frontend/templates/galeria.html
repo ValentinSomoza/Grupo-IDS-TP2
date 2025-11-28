@@ -4,24 +4,47 @@
 
 {% block content %}
 
-<h2 class="titulo">Galería de imágenes</h2>
+<section class="galeria-encabezado">
+    <h2 class="titulo">Galería de Imágenes</h2>
+    <p class="subtitulo">
+        Descubre cada rincón de nuestras instalaciones a través de una selección de fotografías cuidadosamente capturadas.
+    </p>
+</section>
 
-<div class="galeria">
-    {% for imagen in imagenes %}
-        <img src="{{ url_for('static', filename='images/' ~ imagen) }}" 
-             class="miniatura" alt="Foto" data-index="{{ loop.index0 }}">
-    {% endfor %}
-</div>
+<section class="galeria-carrusel">
+    <div class="swiper galeria-swiper">
+        <div class="swiper-wrapper">
+            {% for imagen in imagenes %}
+            <div class="swiper-slide">
+                <img 
+                    src="{{ url_for('static', filename=imagen) }}"
+                    class="miniatura"
+                    alt="Imagen del hotel {{ loop.index }}"
+                    loading="lazy"
+                    data-index="{{ loop.index0 }}"
+                >
+            </div>
+            {% endfor %}
+        </div>
 
-<!-- Modal -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<div class="separador-galeria"></div>
+
 <div id="modal" class="modal">
     <span id="cerrar" class="cerrar">&times;</span>
     <span id="flecha-izq" class="flecha izquierda">&#10094;</span>
     <span id="flecha-der" class="flecha derecha">&#10095;</span>
 
-    <img id="modal-img" class="modal-contenido">
+    <img id="modal-img" class="modal-contenido" alt="Vista ampliada">
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/carrusel.js') }}"></script>
 <script src="{{ url_for('static', filename='js/galeria.js') }}"></script>
 
 {% endblock %}
