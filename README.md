@@ -7,6 +7,7 @@ Para correr la pagina web se puede hacer de 2 formas:
 ```bash
 - Utilizar Docker --> docker compose up --build
 - Utilizar flask
+```
 Para ejecutar con flask se debe hacer cada cosa por separado:
 ```bash
 - cd Directorio
