@@ -6,8 +6,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: HotelBruno
-      MYSQL_USER: flaskuser
-      MYSQL_PASSWORD: 1234
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
     ports:
       - "3306:3306"
     volumes:
@@ -30,7 +30,7 @@ services:
     env_file:
       - ./Backend/.env
     environment:
-      DB_HOST: mysql
+      DB_HOST: mysql  
     depends_on:
       mysql:
         condition: service_healthy
