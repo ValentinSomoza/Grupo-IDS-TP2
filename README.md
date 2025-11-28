@@ -42,7 +42,7 @@ Todo se ejecutara en modo DEBUG de forma default.
 Para poder correr el programa se debe completar 2 archivos .env que utilizan la libreria de python-dotenv
 El primero debe estar dentro del Frontend:
 ```bash
-CLIENT_ID=826779228169-rpf8cnbbu9vue0gtfd2phi78tvn6sj0s.apps.googleusercontent.com
+CLIENT_ID="Credencial brindada por la api de Google, se lo tramita aqui: https://console.cloud.google.com/apis/credentials"
 BACKEND_URL="URL elegido, por default es http://127.0.0.1:5000 o http://localhost:5000"
 APP_SECRET_KEY="random"
 CLIENT_SECRET="Credencial brindada por la api de Google, se lo tramita aqui: https://console.cloud.google.com/apis/credentials"
