@@ -1,71 +1,107 @@
-.galeria {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 12px;
-    padding-bottom: 25px;
-}
-.titulo{
-    align-items: center;
-    justify-content: center;
+.galeria-encabezado {
     text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 20px 0 25px 0;
 }
 
-.miniatura {
+.galeria-encabezado .titulo {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1f1f1f;
+}
+
+.galeria-encabezado .subtitulo {
+    font-size: 1.05rem;
+    color: #555;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.galeria-carrusel {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.galeria-swiper {
     width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform .2s ease-in-out;
+    height: 480px;
+    padding-bottom: 35px;
 }
 
-.miniatura:hover {
-    transform: scale(1.05);
+.swiper-wrapper {
+    display: flex;
+}
+
+.swiper-slide {
+    width: 70% !important;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+    transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+.swiper-slide img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+.separador-galeria {
+    height: 60px;
 }
 
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
     inset: 0;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.75);
+    z-index: 1000;
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(5px);
 }
 
 .modal-contenido {
     max-width: 85%;
     max-height: 85%;
-    border-radius: 10px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.45);
 }
 
 .cerrar {
     position: fixed;
-    top: 20px;
-    right: 30px;
-    font-size: 40px;
+    top: 25px;
+    right: 35px;
+    font-size: 45px;
     color: white;
     cursor: pointer;
-    font-weight: bold;
+    transition: 0.2s;
 }
 
 .cerrar:hover {
-    color: #ccc;
+    color: #d3d3d3;
 }
 
 .flecha {
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 45px;
+    font-size: 50px;
     color: white;
     cursor: pointer;
     padding: 10px;
     user-select: none;
     font-weight: bold;
-    transition: .2s ease-in-out;
+    transition: 0.2s;
 }
 
 .flecha:hover {
@@ -73,6 +109,9 @@
 }
 
 .flecha.izquierda { 
-    left: 25px; 
+    left: 35px; 
 }
-.flecha.derecha { right: 25px; }
+
+.flecha.derecha { 
+    right: 35px; 
+}

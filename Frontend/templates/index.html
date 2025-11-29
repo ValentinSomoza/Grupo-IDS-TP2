@@ -6,72 +6,43 @@
 
 <main class="main">
 
-  <!-- Hotel Hero Section -->
   <section id="hotel-hero" class="hotel-hero section">
-
     <div class="container" data-aos="fade-up" data-aos-delay="100">
-
       <div class="row gy-4 align-items-center">
 
         <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
           <div class="hero-content">
-            <h1>Estancia Relax and Flax</h1>
-            <p class="lead">Nos encontramos ubicados al lado del rio en el 
-              distrito de Puerto Madero, un área de muelles renovada con restaurantes y un parque 
-              con cabaña y vida silvestre. Es una magnífica elección para viajeros que vayan a 
-              Buenos Aires, ya que ofrece un ambiente de lujo además de numerosos servicios diseñados
-              para mejorar su estancia.</p>
+            <h1>{{ titulo_index }}</h1>
+            <p class="lead">{{ descripcion_index }}</p>
             <div class="hero-features">
-              <div class="feature-item">
-                <i class="bi bi-wifi"></i>
-                <span>WiFi</span>
-              </div>
-              <div class="feature-item">
-                <i class="bi bi-car-front"></i>
-                <span>Parking</span>
-              </div>
-              <div class="feature-item">
-                <i class="bi bi-cup-hot"></i>
-                <span>24/7 al servicio</span>
-              </div>
+              <div class="feature-item"><i class="bi bi-wifi"></i><span>WiFi</span></div>
+              <div class="feature-item"><i class="bi bi-car-front"></i><span>Parking</span></div>
+              <div class="feature-item"><i class="bi bi-cup-hot"></i><span>24/7 al servicio</span></div>
             </div>
             <div class="hero-buttons">
-                {% if session.get('nombreUsuario') %}
-                    <a href="{{ url_for('cuenta.miCuenta') }}" class="btn btn-secondary">Mi Cuenta</a>
-                    <a href="{{ url_for('cuenta.cerrarSesion') }}" class="btn btn-outline">Cerrar sesión</a>
-                {% else %}
-                    <a href="{{ url_for('ingreso.ingreso') }}" class="btn btn-primary">Login</a>
-                {% endif %}
-                
-                <a href="{{ url_for('galeria') }}" class="btn btn-outline">Habitaciones</a>
+              {% if session.get('nombreUsuario') %}
+                <a href="{{ url_for('cuenta.miCuenta') }}" class="btn btn-secondary">Mi Cuenta</a>
+                <a href="{{ url_for('cuenta.cerrarSesion') }}" class="btn btn-outline">Cerrar sesión</a>
+              {% else %}
+                <a href="{{ url_for('ingreso.ingreso') }}" class="btn btn-primary">Login</a>
+              {% endif %}
+              <a href="{{ url_for('galeria') }}" class="btn btn-outline">Habitaciones</a>
             </div>
           </div>
         </div>
 
         <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
-          <div class="hero-images">
-            <div class="main-image">
-              <img src="{{ url_for('static', filename='img/hotel/showcase-3.webp')}}"
-                alt="" class="img-fluid">
+          <div class="swiper hero-swiper">
+            <div class="swiper-wrapper">
 
             </div>
-            <div class="floating-card" data-aos="zoom-in" data-aos-delay="400">
-              <div class="card-content">
-                <div class="rating">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                </div>
-                <h6>El mejor lugar para hospedarse</h6>
-                <p>"Las habitaciones amplias, la cama súper cómoda y el baño con una presión 
-                      de agua increíble hicieron que mi estancia fuera muy relajante".</p>
-                <div class="guest-info">
-                  <img src="{{ url_for('static', filename='img/person/person-f-3.webp') }} " alt="Guest" class="guest-avatar">
-                  <span>Ana María</span>
-                </div>
-              </div>
-            </div>
+            <div class="swiper-button-prev hero-button-prev"></div>
+            <div class="swiper-button-next hero-button-next"></div>
+            <div class="swiper-pagination hero-pagination"></div>
+          </div>
+
+          <div class="floating-card" data-aos="zoom-in" data-aos-delay="400">
+              <!-- aca -->
           </div>
         </div>
 
@@ -79,62 +50,58 @@
 
       <div class="hero-stats" data-aos="fade-up">
         <div class="row text-center">
+          
           <div class="col-md-3 col-6">
             <div class="stat-item">
-              <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1">150</span>
+              <span id="num-habitaciones" class="stat-number">0</span>
               <span class="stat-label">Habitaciones</span>
             </div>
           </div>
+
           <div class="col-md-3 col-6">
-            <div class="stat-item">
-              <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="5" data-purecounter-duration="1">5</span>
-              <span class="stat-label">Estrellas<span>
-            </div>
+              <div class="stat-item">
+                  <span id="num-habitaciones-disponibles" class="stat-number">0</span>
+                  <span class="stat-label">Habitaciones disponibles</span>
+              </div>
           </div>
+
           <div class="col-md-3 col-6">
             <div class="stat-item">
-              <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="24" data-purecounter-duration="1">24</span>
+              <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="24">24</span>
               <span class="stat-label">Horas de Servicio</span>
             </div>
           </div>
+
           <div class="col-md-3 col-6">
             <div class="stat-item">
-              <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="1">98</span>
-              <span class="stat-label">Personas satisfechas</span>
+              <span id="num-personas" class="stat-number">0</span>
+              <span class="stat-label">Personas <Slot></Slot>atisfechas</span>
             </div>
           </div>
+
         </div>
       </div>
 
     </div>
+  </section>
 
-  </section><!-- /Hotel Hero Section -->
-
-  <!-- Rooms Showcase Section -->
-  <section id="rooms-showcase" class="rooms-showcase section">
-
-    <!-- Section Title -->
+  <section id="amenities-cards" class="amenities-cards section">
     <div class="container section-title" data-aos="fade-up">
       <span class="description-title">Habitaciones</span>
       <h2>Habitaciones</h2>
-    </div><!-- End Section Title -->
+    </div>
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-      <div class="row mt-6">
-        <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="400">
-          <div class="minimal-room-card">
-            <div class="room-image">
-              <img src="{{ url_for('static', filename='img/hotel/room-1.webp') }} " alt="Classic Room" class="img-fluid">
-              <div class="hover-overlay">
-                <a href="{{ url_for('index') }}" class="view-room">
-                  <i class="bi bi-eye"></i>
-                </a>
-              </div>
+      <div class="row g-5">
+        {% for habitacion in range(1,9) %}
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ 100 + habitacion*50 }}">
+          <div class="facility-card">
+            <div class="facility-image">
+              <img id="habitacion-{{ habitacion }}" src="" alt="Habitación {{ habitacion }}" class="img-fluid room-static-image">
             </div>
-            <div class="room-summary">
-              <h5>Habitación de lujo 2 camas dobles</h5>
-              <div class="price-tag">$150000<span>/noche</span></div>
+            <div class="facility-info">
+              <h4>Habitación {{ habitacion }}</h4>
+              <div class="price-tag">Cargando...</div>
               <div class="basic-amenities">
                 <i class="bi bi-wifi"></i>
                 <i class="bi bi-tv"></i>
@@ -142,713 +109,70 @@
               </div>
             </div>
           </div>
-        </div><!-- End Minimal Room -->
-
-        <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="450">
-          <div class="minimal-room-card">
-            <div class="room-image">
-              <img src="{{ url_for('static', filename='img/hotel/room-5.webp') }} " alt="Superior Room" class="img-fluid">
-              <div class="hover-overlay">
-                <a href="{{ url_for('index') }}" class="view-room">
-                  <i class="bi bi-eye"></i>
-                </a>
-              </div>
-            </div>
-            <div class="room-summary">
-              <h5>Habitación de lujo con una cama King</h5>
-              <div class="price-tag">$249000<span>/noche</span></div>
-              <div class="basic-amenities">
-                <i class="bi bi-wifi"></i>
-                <i class="bi bi-cup-hot"></i>
-                <i class="bi bi-snow"></i>
-              </div>
-            </div>
-          </div>
-        </div><!-- End Minimal Room -->
-
-        <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="500">
-          <div class="minimal-room-card">
-            <div class="room-image">
-              <img src="{{ url_for('static', filename='img/hotel/room-8.webp') }} " alt="Premium Room" class="img-fluid">
-              <div class="hover-overlay">
-                <a href="{{ url_for('index') }}" class="view-room">
-                  <i class="bi bi-eye"></i>
-                </a>
-              </div>
-            </div>
-            <div class="room-summary">
-              <h5>Habitación Deluxe accesible para personas con discapacidades motrices</h5>
-              <div class="price-tag">$359000<span>/noche</span></div>
-              <div class="basic-amenities">
-                <i class="bi bi-water"></i>
-                <i class="bi bi-door-open"></i>
-                <i class="bi bi-award"></i>
-              </div>
-            </div>
-          </div>
-        </div><!-- End Minimal Room -->
-
-        <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="550">
-          <div class="minimal-room-card">
-            <div class="room-image">
-              <img src="{{ url_for('static', filename='img/hotel/room-17.webp') }} " alt="Luxury Suite" class="img-fluid">
-              <div class="hover-overlay">
-                <a href="room-details.html" class="view-room">
-                  <i class="bi bi-eye"></i>
-                </a>
-              </div>
-            </div>
-            <div class="room-summary">
-              <h5>habitacion Penthouse</h5>
-              <div class="price-tag">$1199000<span>/noche</span></div>
-              <div class="basic-amenities">
-                <i class="bi bi-star"></i>
-                <i class="bi bi-house"></i>
-                <i class="bi bi-gem"></i>
-              </div>
-            </div>
-          </div>
-        </div><!-- End Minimal Room -->
-
+        </div>
+        {% endfor %}
       </div>
-
-      <div class="text-center" data-aos="fade-up" data-aos-delay="600">
-        <a href="rooms.html" class="explore-all-link">
-          <span>Galeria de las habitaciones</span>
-          <i class="bi bi-arrow-right"></i>
-        </a>
-      </div>
-
     </div>
+  </section>
 
-  </section><!-- /Rooms Showcase Section -->
-
-  <!-- Amenities Cards Section -->
   <section id="amenities-cards" class="amenities-cards section">
-
-    <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
       <span class="description-title">Amenities</span>
       <h2>Servicios</h2>
       <p>En nuestro hotel vas a poder disfrutar de los diversos servicios que ofrecemos </p>
-    </div><!-- End Section Title -->
-
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-      <div class="row g-5">
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-          <div class="facility-card">
-            <div class="facility-image">
-              <img src="{{ url_for('static', filename='img/hotel/amenities-1.jpg') }} " alt="Wireless Internet" class="img-fluid">
-            </div>
-            <div class="facility-info">
-              <h4>Piscina al aire libre</h4>
-              <p>Ubicada en la terraza superior, esta piscina ofrece una experiencia 
-                única durante todo el año. La temperatura del agua se mantiene ideal para 
-                el relax, mientras que el entorno abierto regala una vista panorámica 
-                incomparable. La piscina se integra con el estilo elegante y moderno del hotel, 
-                rodeada de áreas de descanso y servicio exclusivo, lo que convierte cada momento 
-                en una experiencia inolvidable</p>
-              <div class="facility-features">
-                <span><i class="bi bi-check-circle"></i> Disponible 24/7 </span>
-                <span><i class="bi bi-check-circle"></i> Agua climatizada</span>
-              </div>
-            </div>
-          </div>
-        </div><!-- End Facility Card -->
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="150">
-          <div class="facility-card">
-            <div class="facility-image">
-              <img src="{{ url_for('static', filename='img/hotel/amenities-3.jpg') }} " alt="Swimming Pool" class="img-fluid">
-              </div>
-            <div class="facility-info">
-              <h4>Baños spa</h4>
-              <p>Relájate en baños modernos con aromatizantes y diseño elegante La 
-                atmósfera cálida y relajante invita a desconectarse del ritmo de la ciudad 
-                y sumergirse en un ritual de confort. Los baños cuentan con áreas de vapor y 
-                relajación, aromas naturales y un diseño pensado para maximizar la sensación 
-                de tranquilidad.</p>
-              <div class="facility-features">
-                <span><i class="bi bi-check-circle"></i> Servicio completo</span>
-                <span><i class="bi bi-check-circle"></i> programa de bienestar</span>
-              </div>
-            </div>
-          </div>
-        </div><!-- End Facility Card -->
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-          <div class="facility-card">
-            <div class="facility-image">
-              <img src="{{ url_for('static', filename='img/hotel/amenities-5.avif') }} " alt="Valet Parking" class="img-fluid">
-            </div>
-            <div class="facility-info">
-              <h4>Gimnasio</h4>
-              <p>Nuestro gimnasio ofrece el espacio ideal para mantener tu rutina 
-                de entrenamiento sin renunciar al confort y la exclusividad. Equipado 
-                con tecnología de última generación. Desde máquinas de cardio y pesas hasta 
-                áreas dedicadas al estiramiento y la relajación, el gimnasio está pensado para 
-                adaptarse a todas las necesidades, ya sea un entrenamiento intenso o un momento 
-                de bienestar personal.</p>
-              <div class="facility-features">
-                <span><i class="bi bi-check-circle"></i> Disponible 24/7</span>
-                <span><i class="bi bi-check-circle"></i> Entrenamiento personal</span>
-              </div>
-            </div>
-          </div>
-        </div><!-- End Facility Card -->
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="250">
-          <div class="facility-card">
-            <div class="facility-image">
-              <img src="{{ url_for('static', filename='img/hotel/amenities-2.jpg') }} " alt="Fitness Center" class="img-fluid">
-            </div>
-            <div class="facility-info">
-              <h4>Restaurante gourmet</h4>
-              <p>El restaurante está construido alrededor de nuestra bodega de vinos 
-                en una de las zonas más exclusivas de la ciudad, ofrece a los amantes de 
-                la buena cocina una oferta gastronómica donde abundan los cortes y los platos 
-                más tradicionales de la cocina criolla, además de una selección de riquísimas 
-                pastas caseras, en un espacio decorado con objetos típicos de riguroso estilo 
-                autóctono.</p>
-              <div class="facility-features">
-                <span><i class="bi bi-check-circle"></i> Restaurante de alta cocina</span>
-                <span><i class="bi bi-check-circle"></i> Selección de vinos</span>
-              </div>
-            </div>
-          </div>
-        </div><!-- End Facility Card -->
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-          <div class="facility-card">
-            <div class="facility-image">
-              <img src="{{ url_for('static', filename='img/hotel/dining-2.jpg') }} " alt="Fine Dining" class="img-fluid">
-            </div>
-            <div class="facility-info">
-              <h4>Living social</h4>
-              <p>Se presenta como un espacio amplio y luminoso, diseñado para compartir
-                momentos únicos en un ambiente de distinción. Con una arquitectura moderna 
-                y detalles elegantes, este salón invita tanto a la conversación como al 
-                descanso, convirtiéndose en el punto de encuentro ideal para huéspedes 
-                y visitantes</p>
-              <div class="facility-features">
-                <span><i class="bi bi-check-circle"></i> Espacio amplio </span>
-                <span><i class="bi bi-check-circle"></i> Disponible 24/7</span>
-              </div>
-            </div>
-          </div>
-        </div><!-- End Facility Card -->
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="350">
-          <div class="facility-card">
-            <div class="facility-image">
-              <img src="{{ url_for('static', filename='img/hotel/amenities-4.webp') }} " alt="Spa Services" class="img-fluid">
-            </div>
-            <div class="facility-info">
-              <h4>Jardín y patio</h4>
-              <p>Los amplios sectores ajardinados invitan a relajarse bajo la sombra, 
-                meditar en un entorno sereno o simplemente disfrutar del aire libre con vistas 
-                privilegiadas. El patio, con su estilo elegante y acogedor, se convierte en el 
-                lugar ideal para compartir una charla, leer un libro o contemplar el atardecer 
-                porteño.</p>
-              <div class="facility-features">
-                <span><i class="bi bi-check-circle"></i> Seguro</span>
-                <span><i class="bi bi-check-circle"></i> Vista a la ciudad </span>
-              </div>
-            </div>
-          </div>
-        </div><!-- End Facility Card -->
-
-      </div>
-
     </div>
 
-  </section><!-- /Amenities Cards Section -->
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="row g-5">
+        {% for servicio in range(1,7) %}
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ 100 + servicio*50 }}">
+          <div class="facility-card">
+            <div class="facility-image">
+              <img id="amenity-{{ servicio }}" src="" alt="Amenity {{ servicio }}" class="img-fluid">
+            </div>
+            <div class="facility-info">
+              <h4>Servicio {{ servicio }}</h4>
+              <p>Descripción del servicio {{ servicio }}.</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 
-  <!-- Testimonials Section -->
   <section id="testimonials" class="testimonials section light-background">
-
-    <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
       <span class="description-title">Reseñas</span>
       <h2>Reseñas</h2>
-    </div><!-- End Section Title -->
+    </div>
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
-
       <div class="testimonials-wrapper">
-
         <div class="row g-4">
-
-          <!-- Testimonial Item 1 -->
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+          {% for testimonio in range(1,5) %}
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="{{ 150 + testimonio*50 }}">
             <div class="testimonial-card">
-              <div class="quote-mark">
-                <i class="bi bi-quote"></i>
-              </div>
               <div class="testimonial-content">
-                <p>El Hotel en sí ya es una garantía por las instalaciones, 
-                  la ubicación y la garantía de la marca Hilton. Además de eso, a 
-                  nosotros nos funcionó de maravilla estar en Puerto Madero por lo bonito 
-                  y seguro de la zona. Las opciones para comer, pasear y hacer compras que 
-                  hay cerca son de lo mejor que puedes encontrar en Buenos Aires. El servicio de
-                  todo el personal es muy bueno también.</p>
+                <p>Testimonio {{ testimonio }}</p>
               </div>
               <div class="testimonial-author">
-                <img src="{{ url_for('static', filename='img/person/person-m-5.webp') }} " alt="Client" class="img-fluid rounded-circle" loading="lazy">
-                <div class="author-info">
-                  <h4>Juan Pablo</h4>
-                </div>
+                <img id="person-{{ testimonio }}" src="" alt="Client {{ testimonio }}" class="img-fluid rounded-circle">
+                <div class="author-info"><h4>Cliente {{ testimonio }}</h4></div>
               </div>
             </div>
-          </div><!-- End Testimonial Item -->
-
-          <!-- Testimonial Item 2 -->
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="testimonial-card">
-              <div class="quote-mark">
-                <i class="bi bi-quote"></i>
-              </div>
-              <div class="testimonial-content">
-                <p>Uno de los mejores y más grandes hoteles de Buenos Aires. 
-                  Su ubicación es ideal para moverse a todos lados. El desayuno es lo mejor y 
-                  más completo que conozco. La atención del personal fue excelente. El lugar de 
-                  la piscina es ideal para relajarse y tomar sol. Caminar por Puerto Madero es 
-                  un placer. ¡Muy recomendable!!</p>
-              </div>
-              <div class="testimonial-author">
-                <img src="{{ url_for('static', filename='img/person/person-f-7.webp') }} " alt="Client" class="img-fluid rounded-circle" loading="lazy">
-                <div class="author-info">
-                  <h4>Maria Sol</h4>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Testimonial Item -->
-
-          <!-- Testimonial Item 3 -->
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="testimonial-card">
-              <div class="quote-mark">
-                <i class="bi bi-quote"></i>
-              </div>
-              <div class="testimonial-content">
-                <p>Muy lindo hotel y servicio. El desayuno muy variado y también la carta de 
-                  tragos del Bar. En general, todo el el personal fue muy amable, viaje con dos 
-                  niños.</p>
-              </div>
-              <div class="testimonial-author">
-                <img src="{{ url_for('static', filename='img/person/person-m-9.webp') }} " alt="Client" class="img-fluid rounded-circle" loading="lazy">
-                <div class="author-info">
-                  <h4>Jose ignacio</h4>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Testimonial Item -->
-
-          <!-- Testimonial Item 4 -->
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="testimonial-card">
-              <div class="quote-mark">
-                <i class="bi bi-quote"></i>
-              </div>
-              <div class="testimonial-content">
-                <p>Excelente atención de todo el personal. Las instalaciones están muy bien 
-                  y los cuartos están de 10. La ubicación que tiene en Puerto Madero 
-                  es buenísima. Cuando regrese a Buenos Aires es mi elección. ¡¡La mejor!! 
-                  Súper recomiendo este hotel sobre cualquiera.</p>
-              </div>
-              <div class="testimonial-author">
-                <img src="{{ url_for('static', filename='img/person/person-f-3.webp') }} " alt="Client" class="img-fluid rounded-circle" loading="lazy">
-                <div class="author-info">
-                  <h4>Ana María</h4>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Testimonial Item -->
-
+          </div>
+          {% endfor %}
         </div>
-
       </div>
-
     </div>
+  </section>
 
-  </section><!-- /Testimonials Section -->
-
-  <!-- Offer Cards Section -->
-  <section id="offer-cards" class="offer-cards section">
-
-
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-
-
-      
-      <!-- Check-in -->
-      
-
-      <div class="row mt-5">
-        <div class="col-12">
-          <div class="offer-banner" data-aos="fade-up" data-aos-delay="500">
-            <div class="row align-items-center">
-              <div class="col-lg-8">
-                <div class="banner-content">
-                  <h2>Check-in</h2>
-                  <p> adaptar tu check-in.html</p>
-                </div>
-              </div>
-              <div class="col-lg-4 text-lg-end">
-                <div class="banner-action">
-                  <div class="countdown" data-count="2025/12/15">
-                    <div>
-                      <span class="count-days"></span>
-                      <label>Dias</label>
-                    </div>
-                    <div>
-                      <span class="count-hours"></span>
-                      <label>Horas</label>
-                    </div>
-                    <div>
-                      <span class="count-minutes"></span>
-                      <label>Minutos</label>
-                    </div>
-                  </div>
-                  <a href="#" class="btn-cta">Hacer Check-in</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </section><!-- /Offer Cards Section -->
-
-  <!-- Call To Action Section -->
-  <section id="call-to-action" class="call-to-action section light-background">
-
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-      <div class="row align-items-center">
-        <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-          <div class="content">
-            <h2>Disfruta de una estupenda experiencia </h2>
-            <p> En nuestra estancia usted podrá acceder a </p>
-            <ul class="features-list">
-              <li><i class="bi bi-check-circle"></i> Wi-Fi 5G </li>
-              <li><i class="bi bi-check-circle"></i> 24/7 servicio a la habitacion</li>
-              <li><i class="bi bi-check-circle"></i> Baños spa y gymnasio incluido</li>
-              <li><i class="bi bi-check-circle"></i> Visitas por la ciudad</li>
-            </ul>
-            <div class="cta-buttons">
-              <a href="#" class="btn-primary">Reservar</a>
-              <a href="#" class="btn-secondary">Ver habitaciones</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
-          <div class="image-wrapper">
-            <img src="{{ url_for('static', filename='img/hotel/showcase-9.webp') }} " alt="Luxury Hotel Experience" class="img-fluid">
-            <div class="overlay-content">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </section><!-- /Call To Action Section -->
-
-
-  <!-- Location Cards Section -->
-  <section id="location-cards" class="location-cards section">
-
-    <!-- Section Title -->
-    <div class="container section-title" data-aos="fade-up">
-      <span class="description-title">Locaciones y Actividades  </span>   
-      <h2>Lugares y Actividades</h2>
-      <p>En nuestra estancia vas a poder disfrutar de estas actividades y paseos</p>
-    </div><!-- End Section Title -->
-
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-      <div class="row gy-5 align-items-center">
-        <div class="col-lg-8">
-          <div class="row gy-4">
-            <div class="col-md-6" data-aos="zoom-in" data-aos-delay="200">
-              <div class="area-highlight">
-                <div class="area-image-wrapper">
-                  <img src="{{ url_for('static', filename='img/hotel/fragatasarmiento.jpg') }}" alt="Entertainment District" class="img-fluid">
-                    <div class="area-badge">
-                    <i class="bi bi-music-note-beamed"></i>
-                    <span>2 Minutos caminando</span>
-                  </div>
-                </div>
-                <div class="area-info">
-                  <h5>Buque Museo Fragata Sarmiento</h5>
-                  <p>El buque Fragata Sarmiento es un museo flotante en Puerto Madero, ideal 
-                    para visitantes interesados en la historia naval argentina. Los visitantes 
-                    pueden recorrer sus espacios, como camarotes y comedor, para aprender sobre 
-                    los viajes de formación de cadetes, sus rutas alrededor del mundo y la vida 
-                    a bordo. .</p>
-                  <div class="quick-stats">
-                    <span><i class="bi bi-clock"></i> Abierto 20 Horas </span>
-                    <span><i class="bi bi-star-fill"></i> 4.8 clasificación</span>
-                  </div>
-                </div>
-              </div>
-            </div><!-- End Area Highlight -->
-
-            <div class="col-md-6" data-aos="zoom-in" data-aos-delay="300">
-              <div class="area-highlight">
-                <div class="area-image-wrapper">
-                  <img src="{{ url_for('static', filename='img/hotel/museofortabat.jpg') }}" alt="Entertainment District" class="img-fluid">
-                  <div class="area-badge">
-                    <i class="bi bi-water"></i>
-                    <span>5 minutos en auto</span>
-                  </div>
-                </div>
-                <div class="area-info">
-                  <h5>Museo Fortabat</h5>
-                  <p>El museo Fortabat es una colección privada en Puerto Madero, Buenos Aires 
-                    que exhibe obras de arte argentino e internacional, desde el siglo XIX hasta
-                      la actualidad, Los visitantes pueden disfrutar de una variedad de estilos, 
-                      desde el arte clásico hasta el moderno.</p>
-                  <div class="quick-stats">
-                    <span><i class="bi bi-brightness-high"></i> Vistas panorámicas</span>
-                    <span><i class="bi bi-camera"></i> Lugar para tomar fotos</span>
-                  </div>
-                </div>
-              </div>
-            </div><!-- End Area Highlight -->
-
-            <div class="col-md-6" data-aos="zoom-in" data-aos-delay="400">
-              <div class="area-highlight">
-                <div class="area-image-wrapper">
-                  <img src="{{ url_for('static', filename='img/hotel/Paseodelagloria.jpg') }}" alt="Entertainment District" class="img-fluid">
-                  <div class="area-badge">
-                    <i class="bi bi-bank"></i>
-                    <span>10 minutos caminando</span>
-                  </div>
-                </div>
-                <div class="area-info">
-                  <h5>Paseo de la Gloria</h5>
-                  <p>El Paseo de la Gloria en Buenos Aires es un recorrido de esculturas que 
-                      rinde homenaje a los grandes deportistas argentinos. Los visitantes pueden
-                      pasear por el recorrido, admirando las esculturas y la vista de la 
-                      Reserva Ecológica.</p>
-                  <div class="quick-stats">
-                    <span><i class="bi bi-book"></i> Guia turistica</span>
-                    <span><i class="bi bi-bicycle"></i> Reserva ecologica</span>
-                  </div>
-                </div>
-              </div>
-            </div><!-- End Area Highlight -->
-
-            <div class="col-md-6" data-aos="zoom-in" data-aos-delay="500">
-              <div class="area-highlight">
-                <div class="area-image-wrapper">
-                  <img src="{{ url_for('static', filename='img/hotel/saladejuegos.jpg') }}" alt="Entertainment District" class="img-fluid">
-                  <div class="area-badge">
-                    <i class="bi bi-shop"></i>
-                    <span>3 minutos caminando</span>
-                  </div>
-                </div>
-                <div class="area-info">
-                  <h5>Sala de entretenimiento</h5>
-                  <p>Este espacio está pensado para complementar la estadía de los 
-                    huéspedes, ofreciendo opciones de entretenimiento como una mesa de 
-                    billar, una mesa para jugar ping-pong y sala de estar para relajarse 
-                    y hablar con personas.</p>
-                  <div class="quick-stats">
-                    <span><i class="bi bi-credit-card"></i> Juegos Gratis</span>
-                    <span><i class="bi bi-cup-hot"></i> Lugar de comida</span>
-                  </div>
-                </div>
-              </div>
-            </div><!-- End Area Highlight -->
-          </div>
-        </div>
-
-        <div class="col-lg-4" data-aos="fade-left" data-aos-delay="200">
-          <div class="location-overview">
-            <div class="overview-header">
-              <div class="location-marker">
-                <i class="bi bi-geo-alt-fill"></i>
-              </div>
-              <h3>Beneficios de la ubicación privilegiada</h3>
-              <p class="overview-subtitle">Alrededor de nuestra estancia usted podrá contar con 
-                los siguientes accesos </p>
-            </div>
-
-            <div class="benefits-list">
-              <div class="benefit-item">
-                <div class="benefit-icon">
-                  <i class="bi bi-train-front"></i>
-                </div>
-                <div class="benefit-content">
-                  <h6>Centro de transporte público</h6>
-                  <span>Estación de metro a 200 m</span>
-                </div>
-              </div>
-
-              <div class="benefit-item">
-                <div class="benefit-icon">
-                  <i class="bi bi-airplane"></i>
-                </div>
-                <div class="benefit-content">
-                  <h6>Conexión al aeropuerto</h6>
-                  <span>Transporte directo cada 30 min</span>
-                </div>
-              </div>
-
-              <div class="benefit-item">
-                <div class="benefit-icon">
-                  <i class="bi bi-car-front"></i>
-                </div>
-                <div class="benefit-content">
-                  <h6>Servicio de aparcamiento</h6>
-                  <span>Gratis para invitados</span>
-                </div>
-              </div>
-
-              <div class="benefit-item">
-                <div class="benefit-icon">
-                  <i class="bi bi-compass"></i>
-                </div>
-                <div class="benefit-content">
-                  <h6>Acceso al centro de la ciudad</h6>
-                  <span>A poca distancia de las principales atracciones</span>
-                </div>
-              </div>
-            </div>
-
-           
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section><!-- /Location Cards Section -->
-
-  <!-- Gallery Showcase Section -->
-  <section id="gallery-showcase" class="gallery-showcase section">
-
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-      <div class="gallery-carousel swiper init-swiper" data-aos="fade-up" data-aos-delay="200">
-        <script type="application/json" class="swiper-config">
-          {
-            "loop": true,
-            "speed": 600,
-            "autoplay": {
-              "delay": 3000
-            },
-            "slidesPerView": 1,
-            "spaceBetween": 20,
-            "centeredSlides": true,
-            "breakpoints": {
-              "576": {
-                "slidesPerView": 2,
-                "centeredSlides": false
-              },
-              "768": {
-                "slidesPerView": 3,
-                "centeredSlides": false
-              },
-              "992": {
-                "slidesPerView": 4,
-                "centeredSlides": false
-              },
-              "1200": {
-                "slidesPerView": 5,
-                "centeredSlides": false
-              }
-            }
-          }
-        </script>
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="gallery-item">
-              <img src="{{ url_for('static', filename='img/hotel/gallery-1.jpg') }} " alt="Luxurious Suite" class="img-fluid" loading="lazy">
-              <a href="{{ url_for('static', filename='/hotel/gallery-1.jpg') }} " class="gallery-overlay glightbox">
-                <i class="bi bi-eye"></i>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="gallery-item">
-              <img src="{{ url_for('static', filename='img/hotel/gallery-5.jpg') }} " alt="Modern Lobby" class="img-fluid" loading="lazy">
-              <a href="{{ url_for('static', filename='/hotel/gallery-5.jpg') }} " class="gallery-overlay glightbox">
-                <i class="bi bi-eye"></i>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="gallery-item">
-              <img src="{{ url_for('static', filename='img/hotel/gallery-12.jpg') }} " alt="Elegant Dining Area" class="img-fluid" loading="lazy">
-              <a href="{{ url_for('static', filename='hotel/gallery-12.jpg') }} " class="gallery-overlay glightbox">
-                <i class="bi bi-eye"></i>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="gallery-item">
-              <img src="{{ url_for('static', filename='img/hotel/gallery-8.jpg') }} " alt="Grand Ballroom Setup" class="img-fluid" loading="lazy">
-              <a href="{{ url_for('static', filename='hotel/gallery-8.jpg') }} " class="gallery-overlay glightbox">
-                <i class="bi bi-eye"></i>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="gallery-item">
-              <img src="{{ url_for('static', filename='img/hotel/gallery-15.jpg') }} " alt="Relaxing Poolside" class="img-fluid" loading="lazy">
-              <a href="{{ url_for('static', filename='hotel/gallery-15.jpg') }} " class="gallery-overlay glightbox">
-                <i class="bi bi-eye"></i>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="gallery-item">
-              <img src="{{ url_for('static', filename='img/hotel/gallery-3.jpg') }} " alt="Cozy Guest Room" class="img-fluid" loading="lazy">
-              <a href="{{ url_for('static', filename='hotel/gallery-3.jpg') }} " class="gallery-overlay glightbox">
-                <i class="bi bi-eye"></i>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="gallery-item">
-              <img src="{{ url_for('static', filename='img/hotel/gallery-18.jpg') }} " alt="Spa and Wellness Center" class="img-fluid" loading="lazy">
-              <a href="{{ url_for('static', filename='hotel/gallery-18.jpg') }} " class="gallery-overlay glightbox">
-                <i class="bi bi-eye"></i>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="gallery-item">
-              <img src="{{ url_for('static', filename='img/hotel/gallery-7.jpg') }} " alt="Conference Facilities" class="img-fluid" loading="lazy">
-              <a href="{{ url_for('static', filename='hotel/gallery-7.jpg') }} " class="gallery-overlay glightbox">
-                <i class="bi bi-eye"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="300">
-        <a href="{{ url_for('galeria') }}" class="btn btn-gallery">
-          <i class="bi bi-collection me-2"></i>ver galeria
-        </a>
-      </div>
-
-    </div>
-
-  </section><!-- /Gallery Showcase Section -->
 </main>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script> const BACKEND_URL = "{{ backend_url }}"; </script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 
 {% endblock %}

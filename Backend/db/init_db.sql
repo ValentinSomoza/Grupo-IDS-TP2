@@ -17,7 +17,16 @@ CREATE TABLE IF NOT EXISTS usuarios (
 CREATE TABLE IF NOT EXISTS habitaciones (
     id INT AUTO_INCREMENT PRIMARY KEY,
     numero INT UNIQUE NOT NULL,
-    tipo ENUM('simple', 'doble', 'matrimonial', 'king', 'suite') NOT NULL,
+    tipo ENUM(
+        'simple',
+        'doble',
+        'matrimonial',
+        'ejecutivo',
+        'familiar',
+        'deluxe',
+        'panoramica',
+        'presidencial'
+    ) NOT NULL,
     capacidad INT NOT NULL,
     precio DECIMAL(10,2) NOT NULL
 );
@@ -33,7 +42,6 @@ CREATE TABLE IF NOT EXISTS reservas (
     documento VARCHAR(20),
 
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    noches INT,
     ninios INT,
     adultos INT,
     fecha_entrada DATE,
@@ -45,15 +53,37 @@ CREATE TABLE IF NOT EXISTS reservas (
     FOREIGN KEY (habitacion_id) REFERENCES habitaciones(id)
 );
 
+CREATE TABLE IF NOT EXISTS imagenes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo VARCHAR(50) NOT NULL,
+    nombre VARCHAR(100),
+    ruta VARCHAR(255) NOT NULL,
+    orden INT NOT NULL
+);
+ 
+CREATE TABLE IF NOT EXISTS textos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo VARCHAR(50) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    descripcion TEXT NOT NULL,
+    orden INT NOT NULL DEFAULT 0
+);
+
 INSERT INTO habitaciones (numero, tipo, capacidad, precio)
 VALUES
-(101, 'simple', 1, 10.00),
-(102, 'simple', 1, 10.00),
-(201, 'doble', 2, 20.00),
-(202, 'doble', 2, 20.00),
-(301, 'matrimonial', 2, 30.00),
-(302, 'matrimonial', 2, 30.00),
-(401, 'suite', 4, 40.00),
-(402, 'suite', 4, 40.00),
-(501, 'king', 3, 50.00),
-(502, 'king', 3, 50.00);
+(101, 'simple',       1, 100000.00),
+(102, 'simple',       1, 100000.00),
+(201, 'doble',        2, 200000.00),
+(202, 'doble',        2, 200000.00),
+(301, 'matrimonial',  2, 300000.00),
+(302, 'matrimonial',  2, 300000.00),
+(401, 'ejecutivo',    4, 400000.00),
+(402, 'ejecutivo',    4, 400000.00),
+(501, 'familiar',     5, 500000.00),
+(502, 'familiar',     5, 500000.00),
+(601, 'deluxe',       6, 600000.00),
+(602, 'deluxe',       6, 600000.00),
+(701, 'panoramica',   7, 700000.00),
+(702, 'panoramica',   7, 700000.00),
+(801, 'presidencial', 8, 800000.00),
+(802, 'presidencial', 8, 800000.00);

@@ -12,6 +12,7 @@ from routes.clientes import clientes_bp
 from routes.habitaciones import habitaciones_bp
 from routes.reservas import reservas_bp
 from routes.usuarios import usuarios_bp
+from routes.datosIndex import datosIndex_bp
 
 from db import obtener_conexion, obtener_conexion_con_el_servidor
 from flask_mail import Mail
@@ -69,6 +70,7 @@ def create_app():
     app.register_blueprint(reservas_bp, url_prefix="/reservas")
     app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
     app.register_blueprint(checkin_bp, url_prefix="/check-in")
+    app.register_blueprint(datosIndex_bp, url_prefix="/datosIndex")
 
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
@@ -84,6 +86,6 @@ def create_app():
 
     @app.route("/")
     def home():
-        return "Flask se conectó a SQL correctamente!"
+        return "Backend iniciado correctamente"
 
     return app

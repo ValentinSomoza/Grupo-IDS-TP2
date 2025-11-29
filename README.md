@@ -1,124 +1,67 @@
 # Sitio Web de Hopedajes
 
-El proyecto consiste en la creación de una plataforma web que sirva para ver reseñas y solicitar reservas en un hotel. 
+El proyecto consta de una pagina web y una aplicacion para el celular hecha con Kivy UI. La pagina web se conforma de un fronted y un backend.
+Se utilizo el framework flask para front y back, un template con bootstrap, base de datos sql y autenticacion con Google.
 
-- La plataforma contará con una galería con fotos de las distintas habitaciones, un apartado de reseñas y opiniones. un apartado de contacto por temas de consultas.
+Para correr la pagina web se puede hacer de 2 formas:
 
-- Una interfaz para hacer reservas indicando fechas y cantidad de personas.
+- Utilizar Docker
+- Utilizar flask
 
-- Ademas se contará con funcionalidades que permiten enviar toda la información por algún medio mail-whatsapp al usuario con los datos de la reserva (checkIN, checkOUT, importe a pagar, cant pax, y toda información extra de la reserva).
+Con Docker:
+```bash
+docker compose up --build
+```
+Con Flask:
+```bash
+cd Directorio
+pipenv shell
+flask run
+```
+Donde directorio es Frontend/ o Backend/.
+Se recomienda primero inciar el servicio de sql, luego iniciar el Backend/ y por ultimo iniciar el /Frontend.
+Para iniciar el servicio de sql en Linux se debe hacer:
+```bash
+sudo systemctl start mariadb
+```
+Para ejecutar la App Kivy se debe:
+```bash
+pipenv shell
+python app.py
+```
+Para detener el servicio de mysql:
+```bash
+sudo systemctl stop mariadb
+```
+Para detener la ejecucion del Docker:
+```bash
+docker compose down
+```
+Todo se ejecutara en modo DEBUG de forma default.
 
+Para poder correr el programa se debe completar 2 archivos .env que utilizan la libreria de python-dotenv
+El primero debe estar dentro del Frontend:
+```bash
+CLIENT_ID="Credencial brindada por la api de Google, se lo tramita aqui: https://console.cloud.google.com/apis/credentials"
+BACKEND_URL="URL elegido, por default es http://127.0.0.1:5000 o http://localhost:5000"
+APP_SECRET_KEY="random"
+CLIENT_SECRET="Credencial brindada por la api de Google, se lo tramita aqui: https://console.cloud.google.com/apis/credentials"
+FRONTEND_URL="URL elegido arbitrariamente"
+```
+y el .env del Backend:
+```bash
+DB_HOST="por default es: localhost"
+DB_USER="Usuario de mysql"
+DB_PASS="contrasenia de mysql"
+DB_NAME=HotelBruno
+MAIL_USERNAME="Credencial de servicio de gmail se la tramita aqui: https://myaccount.google.com/security"
+MAIL_PASSWORD="Credencial de gmail"
+MAIL_DEFAULT_SENDER="Credencial de gmail"
+CLIENT_ID="Credencial brindada por la api de Google, se lo tramita aqui: https://console.cloud.google.com/apis/credentials"
+```
 ## Integrantes del grupo
 
 - [Valentín Gabriel Somoza 109188](https://github.com/ValentinSomoza)
 - [Juan Ignacio Sleiman Bonavia 114442](https://github.com/Juano1973)
 - [Ronny Mamani Torrez 114779](https://github.com/MTRony)
 - [Alvaro Ricardo Avalos Aguilar 114565](https://github.com/Alvaro17-max)
-
-## Guia para el Proyecto Hospedaje (FLASK)
-
-Para disponer del sitio web es necesario seguir con los siguientes pasos:
-
-### 1. Crear la estructura de directorios y archivos
-
-Se puede crear de forma manual o automática:
-
-- **(Automática)** descargar y ejecutar el script [entornos.sh](/entornos.sh):
-
-```bash
-bash entornos.sh
-```
-
-- **(Manual)**
-
-
-    - Para la descargar del contenido ubícate en el directorio, abre la **Terminal** y ejecuta el siguiente comando:
-
-        ```bash
-        git clone https://github.com/ValentinSomoza/Grupo-IDS-TP2.git 
-        ```
-
-    - Crear los siguientes directorios *.evenv* en la estrutura para el entorno virtual:
-
-        - `/Grupo-IDS-TP2`
-
-            - `/Backend`
-
-                - [X] `/.evenv`
-                - `/db`
-                - `app.py`
-
-            - `/Frontend`
-
-                - [X] `/.evenv`
-                - `/static`
-                - `/templates`
-                - `app.py`
-
-    - Instalar flask en el entorno virtual (Backend y Frontend):
-
-         ```bash
-        pipenv install flask
-        ```
-
-### 2. Activación del entorno virtual
-
-Esta acción se debe realizar tanto para el Backend y Fronted (**en diferentes terminales**)
-
-```bash
-pipenv shell
-```
-
-### 3. Instalación de dependecias
-
-- **(Automática)** instalar todas las [dependencias](/dependencias.txt):
-
-    ```bash
-    pip install -r requerimientos.txt
-    ```
-
-- **(Manual)**
-
-    - Backend
-    
-        ```bash
-        apt sudo install Flask
-        pip install Flask-Mail
-        pip install python-dotenv
-        ```
-
-    - Frontend
-        
-        ```bash
-        apt sudo install Flask
-        pip install Flask-Mail
-        pip install python-dotenv
-        ```
-
-### 4. Iniciar el servidor
-
-Se dispone de dos opciones para utilizar (Backend y Frontend se inican de forma individual):
-
-```bash
-python3 app.py
-```
-
-```bash
-export FLASK_APP=app.py
-export FLASK_DEBUG=1
-flask run
-```
-
-## Desactivar entorno virtual
-
-```bash
-deactivate
-```
-
-
-
-
-
-
-
-

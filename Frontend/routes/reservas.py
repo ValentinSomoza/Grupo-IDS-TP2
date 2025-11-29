@@ -17,7 +17,6 @@ def reserva():
         email = request.form["email"]
         id_usuario = session.get("id")
 
-        noches = request.form["noches"]
         adultos = request.form["adultos"]
         ninios = request.form["ninios"]
         tipoHabitacion = request.form["tipo-habitacion"]
@@ -30,7 +29,6 @@ def reserva():
             "dniPasaporte": dniPasaporte,
             "telefono": telefono,
             "email": email,
-            "noches": noches,
             "adultos": adultos,
             "ninios": ninios,
             "tipoHabitacion": tipoHabitacion,

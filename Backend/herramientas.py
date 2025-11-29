@@ -1,5 +1,6 @@
 from flask_mail import Mail, Message
 from email.mime.image import MIMEImage
+from db import obtener_conexion_con_el_servidor
 import os
 
 def enviarMail(emailDestino, nombre, esCheckin):
@@ -48,6 +49,7 @@ def enviarMail(emailDestino, nombre, esCheckin):
             <p><em>Hotel Bruno Relax and Flask</em></p>
             """
         print(f"correo enviado checkin a, {emailDestino}")
+
     else:
         msg = Message(
             subject="Bienvenido!",
@@ -108,3 +110,74 @@ def obtenerHabitacionDisponible(tipo, fecha_entrada, fecha_salida, adultos, nini
             return habitacion_id
 
     return None
+
+def guardarImagenesDesdeFrontend(data):
+
+    rutas = data.get("imagenes", [])
+
+    if not rutas:
+        return {"mensaje": "No se enviaron imágenes"}, 400
+
+    conn = obtener_conexion_con_el_servidor()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT tipo, MAX(orden) FROM imagenes GROUP BY tipo")
+    ordenes = {tipo: (max_orden or 0) for tipo, max_orden in cursor.fetchall()}
+
+    extensiones = (".jpg", ".jpeg", ".png", ".webp")
+    cantidadInsertadas = 0
+
+    for ruta in rutas:
+
+        if not ruta.lower().endswith(extensiones):
+            continue
+
+        partes = ruta.split("/")
+
+        try:
+            tipo = partes[-2].lower()
+            nombre = partes[-1]
+        except:
+            continue
+
+        cursor.execute("SELECT id FROM imagenes WHERE ruta=%s", (ruta,))
+        existe = cursor.fetchone()
+
+        if existe:
+            continue
+
+        orden = ordenes.get(tipo, 0) + 1
+        ordenes[tipo] = orden
+
+        cursor.execute(
+            "INSERT INTO imagenes (tipo, nombre, ruta, orden) VALUES (%s, %s, %s, %s)",
+            (tipo, nombre, ruta, orden)
+        )
+        cantidadInsertadas += 1
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    print("Backend: se cargaron ", cantidadInsertadas, " imagenes a la base de datos")
+
+    return {
+        "mensaje": f"Se insertaron {cantidadInsertadas} nuevas imágenes.",
+        "total_insertadas": cantidadInsertadas
+    }, 200
+
+def textoExiste(cursor, tipo, nombre, descripcion):
+    cursor.execute(
+        "SELECT COUNT(*) FROM textos WHERE tipo = %s AND nombre = %s AND descripcion = %s",
+        (tipo, nombre, descripcion)
+    )
+    return cursor.fetchone()[0] > 0
+
+def insertarTexto(cursor, tipo, nombre, descripcion):
+    if not textoExiste(cursor, tipo, nombre, descripcion):
+        cursor.execute(
+            "INSERT INTO textos (tipo, nombre, descripcion) VALUES (%s, %s, %s)",
+            (tipo, nombre, descripcion)
+        )
+        return True
+    return False
