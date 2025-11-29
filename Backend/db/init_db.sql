@@ -53,6 +53,15 @@ CREATE TABLE IF NOT EXISTS imagenes (
     orden INT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS textos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo VARCHAR(50) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    descripcion TEXT NOT NULL,
+    orden INT NOT NULL DEFAULT 0,
+);
+
+
 INSERT INTO habitaciones (numero, tipo, capacidad, precio)
 VALUES
 (101, 'simple', 1, 10.00),

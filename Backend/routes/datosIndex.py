@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from db import obtener_conexion_con_el_servidor
-from herramientas import guardarImagenesDesdeFrontend
+from herramientas import guardarImagenesDesdeFrontend, textoExiste, insertarTexto
 
 datosIndex_bp = Blueprint("datosIndex", __name__)
 
@@ -46,7 +46,58 @@ def obtenerImagenesIndex():
     return jsonify(imagenesPorTipo)
 
 @datosIndex_bp.route("/cargar-imagenes", methods=["POST"])
-def cargar_imagenes():
+def cargarImagenes():
     data = request.get_json()
     respuesta, status = guardarImagenesDesdeFrontend(data)
     return jsonify(respuesta), status
+
+@datosIndex_bp.route("/cargar-textos", methods=["POST"])
+def cargarTextos():
+    dataDelFrontend = request.get_json()
+
+    habitaciones = dataDelFrontend.get("habitaciones", [])
+    servicios = dataDelFrontend.get("servicios", [])
+    resenias = dataDelFrontend.get("resenias", [])
+
+    conexion = obtener_conexion_con_el_servidor()
+    cursor = conexion.cursor()
+
+    totalHabitaciones = 0
+    totalServicios = 0
+    totalResenias = 0
+
+    for habitacion in habitaciones:
+        nombre = habitacion["nombre"]
+        descripcion = habitacion["comentario"]
+
+        if insertarTexto(cursor, "habitacion", nombre, descripcion):
+            totalHabitaciones += 1
+
+    for servicio in servicios:
+        nombre = servicio["nombre"]
+        descripcion = servicio["comentario"]
+
+        if insertarTexto(cursor, "servicio", nombre, descripcion):
+            totalServicios += 1
+
+    for resenia in resenias:
+        nombre = resenia["nombre"]
+        descripcion = resenia["comentario"]
+
+        if insertarTexto(cursor, "resenia", nombre, descripcion):
+            totalResenias += 1
+
+    conexion.commit()
+    cursor.close()
+    conexion.close()
+
+    totalNombres = totalHabitaciones + totalServicios + totalResenias
+    totalComentarios = totalNombres
+
+    print("Backend: Se insertaron: ", totalNombres + totalComentarios, " textos a la base de datos")
+
+    return jsonify({
+        "mensaje": "Textos cargados correctamente a la base de datos",
+        "total_nombres": totalNombres,
+        "total_comentarios": totalComentarios
+    })

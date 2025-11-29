@@ -2,6 +2,8 @@ from flask import request, session
 import requests
 import os
 
+from static.data.nombresYcomentarios import habitaciones, servicios, resenias
+
 def estaLogeado():
     nombreUsuario = request.args.get("nombreUsuario") or session.get("nombreUsuario")
     if not nombreUsuario:
@@ -9,7 +11,6 @@ def estaLogeado():
     return nombreUsuario
 
 def enviarImagenesAlBackend():
-
     rutaBase = os.path.join(os.path.dirname(__file__), "static", "images")
     rutaBase = os.path.abspath(rutaBase)
 
@@ -46,4 +47,19 @@ def enviarImagenesAlBackend():
         return respuesta.json()
 
     except Exception as e:
-        return {"error": f"No se pudo enviar imágenes: {str(e)}"}
+        return {"error": f"No se pudo enviar imágenes desde el front: {str(e)}"}
+
+def enviarComentariosYNombresBackend():
+    url = f"{os.getenv('BACKEND_URL')}/datosIndex/cargar-textos"
+
+    datosTextos = {
+        "habitaciones": habitaciones,
+        "servicios": servicios,
+        "resenias": resenias
+    }
+
+    try:
+        respuesta = requests.post(url, json=datosTextos, timeout=3)
+        return respuesta.json()
+    except Exception as e:
+        return {"error": f"No se pudo enviar textos desde el front: {str(e)}"}

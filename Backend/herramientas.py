@@ -165,3 +165,19 @@ def guardarImagenesDesdeFrontend(data):
         "mensaje": f"Se insertaron {cantidadInsertadas} nuevas imágenes.",
         "total_insertadas": cantidadInsertadas
     }, 200
+
+def textoExiste(cursor, tipo, nombre, descripcion):
+    cursor.execute(
+        "SELECT COUNT(*) FROM textos WHERE tipo = %s AND nombre = %s AND descripcion = %s",
+        (tipo, nombre, descripcion)
+    )
+    return cursor.fetchone()[0] > 0
+
+def insertarTexto(cursor, tipo, nombre, descripcion):
+    if not textoExiste(cursor, tipo, nombre, descripcion):
+        cursor.execute(
+            "INSERT INTO textos (tipo, nombre, descripcion) VALUES (%s, %s, %s)",
+            (tipo, nombre, descripcion)
+        )
+        return True
+    return False
