@@ -1,6 +1,6 @@
 # Sitio Web de Hopedajes
 
-El proyecto consta de una pagina web y una aplicacion para el celular hecha con Kivy UI. La pagina web se conforma de una fronted y un backend.
+El proyecto consta de una pagina web y una aplicacion para el celular hecha con Kivy UI. La pagina web se conforma de un fronted y un backend.
 Se utilizo el framework flask para front y back, un template con bootstrap, base de datos sql y autenticacion con Google.
 
 Para correr la pagina web se puede hacer de 2 formas:
@@ -18,24 +18,24 @@ cd Directorio
 pipenv shell
 flask run
 ```
-Donde directorio es Frontend/ o Backend/
-Se recomienda primero ejecutar el Frontend/, luego iniciar el servicio de sql y por ultimo ejecutar el Backend/.
+Donde directorio es Frontend/ o Backend/.
+Se recomienda primero inciar el servicio de sql, luego iniciar el Backend/ y por ultimo iniciar el /Frontend.
 Para iniciar el servicio de sql en Linux se debe hacer:
 ```bash
 sudo systemctl start mariadb
 ```
-
-Para detener el servicio de mysql:
-```bash
-sudo systemctl stop mariadb
-```
-
-Y luego ejecutar el Backend/
-
 Para ejecutar la App Kivy se debe:
 ```bash
 pipenv shell
 python app.py
+```
+Para detener el servicio de mysql:
+```bash
+sudo systemctl stop mariadb
+```
+Para detener la ejecucion del Docker:
+```bash
+docker compose down
 ```
 Todo se ejecutara en modo DEBUG de forma default.
 

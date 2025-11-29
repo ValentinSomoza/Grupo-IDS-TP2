@@ -22,13 +22,10 @@ def agregar_reserva():
     email = data.get("email")
     telefono = data.get("telefono")
     documento = data.get("dniPasaporte")
-    noches = data.get("noches")
-    ninios = data.get("niños")
+    ninios = data.get("ninios")
     adultos = data.get("adultos")
     fecha_entrada = data.get("fechaEntrada")
     fecha_salida = data.get("fechaSalida")
-    tipo_habitacion = data.get("numeroHabitacion")
-    
 
     habitacion_id = obtenerHabitacionDisponible(tipoHabitacion, fecha_entrada, fecha_salida, adultos, ninios, cursor)
 
@@ -36,9 +33,9 @@ def agregar_reserva():
         return jsonify({"error": "No hay habitaciones de ese tipo disponibles"}), 409
 
     cursor.execute("""
-                INSERT INTO reservas (id_usuario, nombre, apellido, email, telefono, documento, noches, ninios, adultos, fecha_entrada, fecha_salida, habitacion_id) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    """, (id_usuario, nombre, apellido, email, telefono, documento, noches, ninios, adultos, fecha_entrada, fecha_salida, habitacion_id))
+                INSERT INTO reservas (id_usuario, nombre, apellido, email, telefono, documento, ninios, adultos, fecha_entrada, fecha_salida, habitacion_id) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    """, (id_usuario, nombre, apellido, email, telefono, documento, ninios, adultos, fecha_entrada, fecha_salida, habitacion_id))
     conn.commit()
 
     cursor.close()

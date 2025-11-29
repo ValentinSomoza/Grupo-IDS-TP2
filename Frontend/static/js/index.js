@@ -111,4 +111,156 @@ async function cargarImagenesIndex() {
     }
 }
 
+async function cargarTextosIndex() {
+    try {
+        const respuesta = await fetch(`${BACKEND_URL}/datosIndex/textos`);
+        const textos = await respuesta.json();
+
+        const { habitacion = [], servicio = [], resenia = [] } = textos;
+
+        habitacion.forEach((item, index) => {
+            const numero = index + 1;
+
+            const titulo = document.querySelector(`#amenities-cards h2`);
+            const cardTitulo = document.querySelector(`#habitacion-${numero}`)?.closest(".facility-card")?.querySelector("h4");
+            const precio = document.querySelector(`#habitacion-${numero}`)?.closest(".facility-card")?.querySelector(".price-tag");
+
+            if (cardTitulo) cardTitulo.textContent = item.nombre;
+            if (precio) precio.insertAdjacentHTML("afterend", `<p>${item.descripcion}</p>`);
+        });
+
+        servicio.forEach((item, index) => {
+            const numero = index + 1;
+
+            const card = document.getElementById(`amenity-${numero}`)?.closest(".facility-card");
+            if (!card) return;
+
+            const titulo = card.querySelector("h4");
+            const descripcion = card.querySelector("p");
+
+            if (titulo) titulo.textContent = item.nombre;
+            if (descripcion) descripcion.textContent = item.descripcion;
+        });
+
+        resenia.forEach((item, index) => {
+            const numero = index + 1;
+
+            const testimonialCard = document.querySelector(`#person-${numero}`)?.closest(".testimonial-card");
+            if (!testimonialCard) return;
+
+            const contenido = testimonialCard.querySelector(".testimonial-content p");
+            const autor = testimonialCard.querySelector(".author-info h4");
+
+            if (contenido) contenido.textContent = `"${item.descripcion}"`;
+            if (autor) autor.textContent = item.nombre;
+        });
+
+        console.log("[INFO] Textos del index cargados correctamente.");
+
+    } catch (error) {
+        console.error("Error cargando textos del index:", error);
+    }
+}
+
+async function cargarHabitacionesIndex() {
+    try {
+        const respuesta = await fetch(`${BACKEND_URL}/datosIndex/habitaciones`);
+        const habitaciones = await respuesta.json();
+
+        habitaciones.forEach((hab, index) => {
+            const card = document.getElementById(`habitacion-${index + 1}`)?.closest(".facility-card");
+            if (!card) return;
+
+            const titulo = card.querySelector("h4");
+            const precio = card.querySelector(".price-tag");
+
+            const precioFormateado = new Intl.NumberFormat('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
+                minimumFractionDigits: 0
+            }).format(hab.precio);
+
+            if (titulo) {
+                titulo.textContent = `Habitación ${hab.tipo.charAt(0).toUpperCase() + hab.tipo.slice(1)}`;
+            }
+
+            if (precio) {
+                precio.innerHTML = `${precioFormateado}<span>/noche</span>`;
+            }
+        });
+
+        console.log("[INFO] Habitaciones del index cargadas correctamente.");
+    } catch (error) {
+        console.error("Error cargando información de habitaciones:", error);
+    }
+}
+
+function formatearPrecio(precio) {
+    return new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency: "ARS",
+        minimumFractionDigits: 0,
+    }).format(precio);
+}
+
+async function cargarHeroIndex() {
+    try {
+        const respuesta = await fetch(`${BACKEND_URL}/datosIndex/textos`);
+        const textos = await respuesta.json();
+
+        const heroTitulo = document.querySelector(".hero-content h1");
+        const heroDescripcion = document.querySelector(".hero-content .lead");
+
+        const indexTextos = textos.index || []; // <--- ahora sí accedemos al tipo "index"
+        let titulo = "";
+        let descripcion = "";
+
+        indexTextos.forEach(t => {
+            if (t.nombre === "titulo_index") titulo = t.descripcion;
+            if (t.nombre === "descripcion_index") descripcion = t.descripcion;
+        });
+
+        if (heroTitulo && titulo) heroTitulo.textContent = titulo;
+        if (heroDescripcion && descripcion) heroDescripcion.textContent = descripcion;
+
+        console.log("[INFO] Hero del index cargado correctamente.");
+
+    } catch (error) {
+        console.error("Error cargando hero del index:", error);
+    }
+}
+
+async function cargarStatsIndex() {
+    try {
+        const respuesta = await fetch(`${BACKEND_URL}/datosIndex/stats`);
+        const stats = await respuesta.json();
+
+        document.getElementById("num-habitaciones").textContent = stats.habitaciones;
+        document.getElementById("num-personas").textContent = stats.personas_satisfechas;
+
+    } catch (error) {
+        console.error("Error cargando estadísticas del index:", error);
+    }
+}
+
+async function cargarHabitacionesDisponiblesHoy() {
+    try {
+        const respuesta = await fetch(`${BACKEND_URL}/datosIndex/habitaciones-disponibles`);
+        const data = await respuesta.json();
+
+        const spanHabitacionesDisponibles = document.querySelector("#num-habitaciones-disponibles");
+        if (spanHabitacionesDisponibles) {
+            spanHabitacionesDisponibles.textContent = data.habitacionesDisponibles;
+        }
+
+    } catch (error) {
+        console.error("Error cargando habitaciones disponibles:", error);
+    }
+}
+
 cargarImagenesIndex();
+cargarTextosIndex();
+cargarHabitacionesIndex();
+cargarHeroIndex();
+cargarStatsIndex();
+cargarHabitacionesDisponiblesHoy();

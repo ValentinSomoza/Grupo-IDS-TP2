@@ -2,7 +2,7 @@ from flask import request, session
 import requests
 import os
 
-from static.data.nombresYcomentarios import habitaciones, servicios, resenias
+from static.data.nombresYcomentarios import habitaciones, servicios, resenias, index_textos
 
 def estaLogeado():
     nombreUsuario = request.args.get("nombreUsuario") or session.get("nombreUsuario")
@@ -55,7 +55,8 @@ def enviarComentariosYNombresBackend():
     datosTextos = {
         "habitaciones": habitaciones,
         "servicios": servicios,
-        "resenias": resenias
+        "resenias": resenias,
+        "index": index_textos
     }
 
     try:

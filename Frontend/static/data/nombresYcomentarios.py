@@ -35,7 +35,7 @@ habitaciones = [
 
 servicios = [
     {
-        "nombre": "Desayuno Continental",
+        "nombre": "Desayuno Continental a la Habitacion",
         "comentario": "Incluye variedad de panes, frutas frescas, fiambres, cereales y bebidas calientes. Disponible todas las mañanas en el salón comedor."
     },
     {
@@ -43,7 +43,7 @@ servicios = [
         "comentario": "Piscina cubierta y climatizada durante todo el año, con sectores de hidromasaje y reposeras confortables."
     },
     {
-        "nombre": "Gimnasio",
+        "nombre": "Gimnasio + Piscina",
         "comentario": "Espacio equipado con cintas, bicicletas, pesas y máquinas multifunción. Disponible las 24 horas."
     },
     {
@@ -51,30 +51,41 @@ servicios = [
         "comentario": "Conexión estable en todas las áreas del hotel, ideal para videollamadas y trabajo remoto."
     },
     {
-        "nombre": "Estacionamiento",
+        "nombre": "Estacionamiento integrado",
         "comentario": "Estacionamiento privado cubierto con seguridad las 24 horas."
     },
     {
-        "nombre": "Servicio de Habitaciones",
+        "nombre": "Servicio de Habitaciones Excepcional",
         "comentario": "Atención personalizada disponible desde las 7:00 hasta las 23:00. Incluye menú completo y bebidas."
     }
 ]
 
 resenias = [
     {
-        "nombre": "Mariana R.",
+        "nombre": "Lucas O.",
         "comentario": "La habitación estaba impecable y el desayuno riquísimo. El personal súper amable."
     },
     {
-        "nombre": "Lucas O.",
+        "nombre": "Mariana R.",
         "comentario": "Muy buena ubicación y la piscina climatizada es un plus. Volvería sin dudarlo."
     },
     {
-        "nombre": "Sofía D.",
+        "nombre": "Javier P.",
         "comentario": "La suite panorámica fue increíble, la vista es algo que no voy a olvidar."
     },
     {
-        "nombre": "Javier P.",
+        "nombre": "Sofía D.",
         "comentario": "Atención excelente, cuidan cada detalle. Ideal para descansar."
+    }
+]
+
+index_textos = [
+    {
+        "nombre": "titulo_index",
+        "comentario": "Estancia Relax and Flax"
+    },
+    {
+        "nombre": "descripcion_index",
+        "comentario": "Nos encontramos ubicados al lado del rio en el distrito de Puerto Madero, un área de muelles renovada con restaurantes y un parque con cabaña y vida silvestre..."
     }
 ]

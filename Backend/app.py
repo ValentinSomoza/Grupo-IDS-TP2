@@ -86,6 +86,6 @@ def create_app():
 
     @app.route("/")
     def home():
-        return "Flask se conectó a SQL correctamente!"
+        return "Backend iniciado correctamente"
 
     return app

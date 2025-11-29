@@ -12,8 +12,8 @@
 
         <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
           <div class="hero-content">
-            <h1>Estancia Relax and Flax</h1>
-            <p class="lead">Nos encontramos ubicados al lado del rio en el distrito de Puerto Madero, un área de muelles renovada con restaurantes y un parque con cabaña y vida silvestre...</p>
+            <h1>{{ titulo_index }}</h1>
+            <p class="lead">{{ descripcion_index }}</p>
             <div class="hero-features">
               <div class="feature-item"><i class="bi bi-wifi"></i><span>WiFi</span></div>
               <div class="feature-item"><i class="bi bi-car-front"></i><span>Parking</span></div>
@@ -42,20 +42,7 @@
           </div>
 
           <div class="floating-card" data-aos="zoom-in" data-aos-delay="400">
-            <div class="card-content">
-              <div class="rating">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-              </div>
-              <h6>El mejor lugar para hospedarse</h6>
-              <p>"Las habitaciones amplias, la cama súper cómoda y el baño con una presión de agua increíble hicieron que mi estancia fuera muy relajante".</p>
-              <div class="guest-info">
-                <img id="guest-avatar" src="" alt="Guest" class="guest-avatar">
-                <span id="guest-name">Ana María</span>
-              </div>
-            </div>
+              <!-- aca -->
           </div>
         </div>
 
@@ -63,30 +50,35 @@
 
       <div class="hero-stats" data-aos="fade-up">
         <div class="row text-center">
+          
           <div class="col-md-3 col-6">
             <div class="stat-item">
-              <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="10">10</span>
+              <span id="num-habitaciones" class="stat-number">0</span>
               <span class="stat-label">Habitaciones</span>
             </div>
           </div>
+
           <div class="col-md-3 col-6">
-            <div class="stat-item">
-              <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="5">5</span>
-              <span class="stat-label">Estrellas</span>
-            </div>
+              <div class="stat-item">
+                  <span id="num-habitaciones-disponibles" class="stat-number">0</span>
+                  <span class="stat-label">Habitaciones disponibles</span>
+              </div>
           </div>
+
           <div class="col-md-3 col-6">
             <div class="stat-item">
               <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="24">24</span>
               <span class="stat-label">Horas de Servicio</span>
             </div>
           </div>
+
           <div class="col-md-3 col-6">
             <div class="stat-item">
-              <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="98">98</span>
-              <span class="stat-label">Personas satisfechas</span>
+              <span id="num-personas" class="stat-number">0</span>
+              <span class="stat-label">Personas <Slot></Slot>atisfechas</span>
             </div>
           </div>
+
         </div>
       </div>
 
@@ -109,7 +101,7 @@
             </div>
             <div class="facility-info">
               <h4>Habitación {{ habitacion }}</h4>
-              <div class="price-tag">$ {{ 150000 + habitacion*10000 }}<span>/noche</span></div>
+              <div class="price-tag">Cargando...</div>
               <div class="basic-amenities">
                 <i class="bi bi-wifi"></i>
                 <i class="bi bi-tv"></i>
