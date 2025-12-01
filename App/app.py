@@ -1,3 +1,7 @@
+import kivy
+kivy.require("2.3.1")
+kivy.config.Config.set('graphics', 'dpi', '120')
+
 from kivymd.app import MDApp
 from kivy.logger import Logger
 from kivy.core.window import Window
@@ -38,6 +42,8 @@ class HotelBrunoApp(MDApp):
     fechaCreacion = None
 
     def build(self):
+        Window.size = (420, 750)
+        
         Logger.setLevel("DEBUG")
         load_dotenv()
 

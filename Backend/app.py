@@ -27,7 +27,7 @@ def iniciarBaseDeDatos():
     cursor = conn.cursor()
 
     cursor.execute("CREATE DATABASE IF NOT EXISTS HotelBruno")
-
+    
     cursor.close()
     conn.close()
 

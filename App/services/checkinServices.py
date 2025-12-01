@@ -2,7 +2,7 @@ import os
 import requests
 
 def realizarCheckin(idReserva, nombre, apellido, dniPasaporte, email, telefono):
-    url = f"{os.getenv('BACKEND_URL')}/check-in/agregarCheckin"
+    url = f"{os.getenv('BACKEND_URL')}/check-in/validarCheckin"
     datosReserva = {
         "id_reserva": idReserva,
         "nombre": nombre,
