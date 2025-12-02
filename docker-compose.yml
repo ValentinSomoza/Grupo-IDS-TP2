@@ -6,8 +6,9 @@ services:
     env_file:
       - ./Backend/.env
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
+      - db_data:/var/lib/mysql  
       - ./Backend/db/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
@@ -23,7 +24,7 @@ services:
       context: .
     container_name: backend_container
     ports:
-      - "5002:5001"
+      - "5001:5001"
     env_file:
       - ./Backend/.env
     environment:
@@ -41,7 +42,7 @@ services:
       context: .
     container_name: frontend_container
     ports:
-      - "5003:5000"
+      - "5000:5000"
     env_file:
       - ./Frontend/.env
     environment:

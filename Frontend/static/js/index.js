@@ -3,17 +3,17 @@ async function cargarImagenesIndex() {
         const respuesta = await fetch(`${BACKEND_URL}/datosIndex/imagenesIndex`);
         const imagenesPorTipo = await respuesta.json();
 
-        function construirRuta(rutaBD) {
-            if (!rutaBD.startsWith("/")) {
-                rutaBD = "/" + rutaBD;
-            }
-            return rutaBD;
-        }
-
         // function construirRuta(rutaBD) {
-        //     rutaBD = rutaBD.replace(/^\/+/, '');
-        //     return `${window.location.origin}/${rutaBD}`;
+        //     if (!rutaBD.startsWith("/")) {
+        //         rutaBD = "/" + rutaBD;
+        //     }
+        //     return rutaBD;
         // }
+
+        function construirRuta(rutaBD) {
+            rutaBD = rutaBD.replace(/^\/+/, '');
+            return `${window.location.origin}/${rutaBD}`;
+        }
 
         const heroWrapper = document.querySelector(".hero-swiper .swiper-wrapper");
         const showcase = imagenesPorTipo.showcase || [];
