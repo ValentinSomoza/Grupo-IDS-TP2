@@ -3,13 +3,10 @@ services:
   mysql:
     image: mysql:8.0
     container_name: mysql_container
-    environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: HotelBruno
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
+    env_file:
+      - ./Backend/.env
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - ./Backend/db/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
     healthcheck:
@@ -26,17 +23,16 @@ services:
       context: .
     container_name: backend_container
     ports:
-      - "5001:5001"
+      - "5002:5001"
     env_file:
       - ./Backend/.env
     environment:
-      DB_HOST: mysql  
+      DB_HOST: mysql
     depends_on:
       mysql:
         condition: service_healthy
     volumes:
       - ./Backend:/app/Backend
-      - ./Frontend/static/images:/app/static/images
     restart: always
 
   frontend:
@@ -45,7 +41,7 @@ services:
       context: .
     container_name: frontend_container
     ports:
-      - "5000:5000"
+      - "5003:5000"
     env_file:
       - ./Frontend/.env
     environment:

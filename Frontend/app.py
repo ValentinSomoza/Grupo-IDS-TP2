@@ -36,7 +36,8 @@ app.register_blueprint(autenticacion_bp, url_prefix="/autenticacion")
 
 @app.route("/")
 def index():
-    return render_template('index.html', backend_url=os.getenv("BACKEND_URL"))
+    backendUrl = os.getenv("BACKEND_URL")
+    return render_template("index.html", backend_url=backendUrl)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -49,7 +50,6 @@ def galeria():
 @app.route("/mapa")
 def mapa():
     return render_template('mapa.html')
-
 
 @app.route("/contacto")
 def contacto():

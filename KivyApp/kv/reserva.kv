@@ -1,0 +1,181 @@
+#:kivy 2.3.1
+
+<CustomSpinnerOption@SpinnerOption>:
+    background_normal: ""
+    background_down: ""
+    background_color: 1, 1, 1, 1
+    color: 0, 0, 0, 1
+    height: "40dp"
+
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Line:
+            width: 1.2
+            rectangle: (self.x, self.y, self.width, self.height)
+
+<ReservaScreen>:
+    nombre: "reserva"
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
+        spacing: 25
+
+        Label:
+            text: "Realizar Reserva"
+            font_size: 40
+            bold: True
+            color: 0.1, 0.1, 0.1, 1
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        ScrollView:
+            size_hint_y: 1
+            do_scroll_x: False
+
+            GridLayout:
+                cols: 1
+                spacing: 20
+                padding: 10, 20
+                size_hint_y: None
+                height: self.minimum_height
+
+                Label:
+                    text: "Datos personales"
+                    color: 0.1, 0.1, 0.1, 1
+                    font_size: 24
+                    bold: True
+                    size_hint_y: None
+                    height: "35dp"
+
+                TextInput:
+                    id: ti_in_nombre
+                    hint_text: "Nombre"
+                    size_hint_y: None
+                    height: "45dp"
+
+                TextInput:
+                    id: ti_in_apellido
+                    hint_text: "Apellido"
+                    size_hint_y: None
+                    height: "45dp"
+
+                TextInput:
+                    id: ti_in_dni
+                    hint_text: "DNI / Pasaporte"
+                    size_hint_y: None
+                    height: "45dp"
+
+                TextInput:
+                    id: ti_in_telefono
+                    hint_text: "Teléfono"
+                    size_hint_y: None
+                    height: "45dp"
+
+                TextInput:
+                    id: ti_in_email
+                    hint_text: "Email"
+                    size_hint_y: None
+                    height: "45dp"
+
+                Label:
+                    text: "Detalles de la reserva"
+                    color: 0.1, 0.1, 0.1, 1
+                    font_size: 24
+                    bold: True
+                    size_hint_y: None
+                    height: "35dp"
+
+                TextInput:
+                    id: ti_in_adultos
+                    hint_text: "Adultos"
+                    input_filter: "int"
+                    size_hint_y: None
+                    height: "45dp"
+
+                TextInput:
+                    id: ti_in_ninios
+                    hint_text: "Niños"
+                    input_filter: "int"
+                    size_hint_y: None
+                    height: "45dp"
+
+                TextInput:
+                    id: ti_in_noches
+                    hint_text: "Noches"
+                    input_filter: "int"
+                    size_hint_y: None
+                    height: "45dp"
+
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 5
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                    Label:
+                        text: "Seleccione el tipo de habitación"
+                        color: 0.1, 0.1, 0.1, 1
+                        size_hint_y: None
+                        height: "30dp"
+
+                    Spinner:
+                        id: ti_in_tipo
+                        text: "Seleccionar"
+                        values: ["simple", "doble", "matrimonial", "ejecutivo", "familiar", "deluxe", "panoramica", "presidencial"]
+                        option_cls: "CustomSpinnerOption"
+                        size_hint_y: None
+                        height: "45dp"
+
+                        background_normal: ""
+                        background_down: ""
+                        background_color: 1, 1, 1, 1
+                        color: 0, 0, 0, 1
+
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 0, 1
+                            Line:
+                                width: 1.2
+                                rectangle: (self.x, self.y, self.width, self.height)
+
+                TextInput:
+                    id: ti_in_fecha_in
+                    hint_text: "Fecha Entrada"
+                    readonly: True
+                    size_hint_y: None
+                    height: "45dp"
+                    on_focus:
+                        if self.focus: root.abrir_fecha_entrada()
+
+                TextInput:
+                    id: ti_in_fecha_out
+                    hint_text: "Fecha Salida"
+                    readonly: True
+                    size_hint_y: None
+                    height: "45dp"
+                    on_focus:
+                        if self.focus: root.abrir_fecha_salida()
+
+                Label:
+                    id: lbl_mensaje
+                    text: root.mensaje
+                    markup: True
+                    font_size: 18
+                    halign: "center"
+                    color: 0, 0, 0, 1
+                    size_hint_y: None
+                    height: "30dp"
+
+                StyledButton:
+                    text: "Enviar Reserva"
+                    size_hint_y: None
+                    height: "50dp"
+                    on_press: root.enviar_reserva()
+
+                StyledButton:
+                    text: "Volver"
+                    size_hint_y: None
+                    height: "50dp"
+                    on_press: root.go_to_screen("menu_principal", "slide")
