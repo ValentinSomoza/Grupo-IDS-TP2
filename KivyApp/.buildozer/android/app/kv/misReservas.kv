@@ -1,0 +1,70 @@
+#:kivy 2.3.1
+#:import StyledButton widgets.styledButton.StyledButton
+
+<ReservaItem@BoxLayout>:
+    size_hint_y: None
+    height: self.minimum_height
+    padding: 20
+    spacing: 12
+    orientation: "vertical"
+
+    canvas.before:
+        Color:
+            rgba: 0.96, 0.96, 0.96, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [16]
+
+    Label:
+        id: texto
+        text: ""
+        font_size: 18
+        color: 0.1, 0.1, 0.1, 1
+        halign: "left"
+        valign: "top"
+        text_size: self.width - 20, None
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    StyledButton:
+        id: btn_detalle
+        text: "Ver Detalle"
+        size_hint_y: None
+        height: 45
+        font_size: 18
+        on_release: root.parent.parent.parent.parent.mostrar_detalle(reserva_id) if hasattr(root, 'reserva_id') else None
+
+<MisReservasScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
+        spacing: 25
+
+        Label:
+            text: "Mis Reservas"
+            size_hint_y: None
+            height: 60
+            font_size: 36
+            bold: True
+            color: 0.1, 0.1, 0.1, 1
+
+        ScrollView:
+            do_scroll_x: False
+            bar_width: 8
+            scroll_type: ['bars', 'content']
+
+            BoxLayout:
+                id: lista_reservas
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 18
+                padding: [5, 10]
+
+        StyledButton:
+            text: "Volver"
+            size_hint_y: None
+            height: 55
+            font_size: 20
+            on_release: root.go_to_screen("menu_principal", "slide")
