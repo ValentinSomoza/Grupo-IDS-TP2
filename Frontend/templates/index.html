@@ -173,6 +173,19 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script> const BACKEND_URL = "{{ backend_url }}"; </script>
+
+<!-- <script>
+  let backendUrl;
+  
+  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      backendUrl = "http://127.0.0.1:5002";
+  } else {
+      backendUrl = "http://backend_container:5001";
+  }
+  
+  const BACKEND_URL = backendUrl;
+  console.log("Usando BACKEND_URL:", BACKEND_URL);
+  </script> -->
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 
 {% endblock %}

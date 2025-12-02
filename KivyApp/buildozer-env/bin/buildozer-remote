@@ -1,4 +1,4 @@
-#!/home/valentin/Escritorio/TrabajoFinalIDS/Grupo-IDS-TP2/KivyApp/buildozer-env/bin/python
+#!/Users/valentinsomoza/Desktop/TpFinalIDS/Grupo-IDS-TP2/KivyApp/buildozer-env/bin/python3.10
 import sys
 from buildozer.scripts.remote import main
 if __name__ == '__main__':

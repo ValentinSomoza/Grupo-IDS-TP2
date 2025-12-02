@@ -38,11 +38,11 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/valentin/Escritorio/TrabajoFinalIDS/Grupo-IDS-TP2/KivyApp/buildozer-env"
+VIRTUAL_ENV=/Users/valentinsomoza/Desktop/TpFinalIDS/Grupo-IDS-TP2/KivyApp/buildozer-env
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
-PATH="$VIRTUAL_ENV/bin:$PATH"
+PATH="$VIRTUAL_ENV/"bin":$PATH"
 export PATH
 
 # unset PYTHONHOME if set
@@ -55,9 +55,9 @@ fi
 
 if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
     _OLD_VIRTUAL_PS1="${PS1:-}"
-    PS1="(buildozer-env) ${PS1:-}"
+    PS1='(buildozer-env) '"${PS1:-}"
     export PS1
-    VIRTUAL_ENV_PROMPT="(buildozer-env) "
+    VIRTUAL_ENV_PROMPT='(buildozer-env) '
     export VIRTUAL_ENV_PROMPT
 fi
 
